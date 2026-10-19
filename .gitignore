@@ -1,0 +1,43 @@
+/.idea
+/.docker/mysql/data/*
+/.docker/.env
+/config/secrets/prod/prod.decrypt.private.php
+/public/assets/
+/public/bundles/
+/public/uploaded/*
+#/tests/_https/*
+/tests/_output/*
+/tests/Support/_generated/*
+/var/cache/dev
+/var/cache/prod
+/var/cache/test
+/var/cache/storage/*
+/var/cache/translations/*
+/var/log/*
+/var/storage/*
+/vendor/
+/src/Command/TestCommand.php
+/src/Command/Test/*
+/.env.local
+/.env.local.php
+/.env.*.local
+/.php-cs-fixer.cache
+!.htaccess
+!.gitkeep
+/docker-compose.override.yaml
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
