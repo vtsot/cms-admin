@@ -6,12 +6,12 @@ $finder = PhpCsFixer\Finder::create()
     ->in(
         [
             __DIR__ . '/src',
-            __DIR__ . '/tests/Suite/Acceptance',
-            __DIR__ . '/tests/Suite/Api',
-            __DIR__ . '/tests/Suite/Unit',
-            __DIR__ . '/tests/Suite/Web',
-            //__DIR__ . '/tests/Factory',
-            __DIR__ . '/tests/Support/Helper',
+//            __DIR__ . '/tests/Suite/Acceptance',
+//            __DIR__ . '/tests/Suite/Api',
+//            __DIR__ . '/tests/Suite/Unit',
+//            __DIR__ . '/tests/Suite/Web',
+//            //__DIR__ . '/tests/Factory',
+//            __DIR__ . '/tests/Support/Helper',
         ]
     );
 

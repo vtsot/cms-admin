@@ -1,4 +1,16 @@
 services:
+    redis:
+        image: redis
+        command: --appendonly yes
+        restart: unless-stopped
+        volumes:
+            - ./.docker/redis/data:/data
+        networks:
+            - reverse-proxy
+            - vacancy-grabber-cms
+#        ports:
+#            - "6379:6379"
+
     php-fpm:
         build:
             context: ./.docker/php-fpm
@@ -14,8 +26,8 @@ services:
         networks:
             - vacancy-grabber-cms
             - shared-smtp
-#        depends_on:
-#            - redis
+        depends_on:
+            - redis
 
     nodejs:
         build: ./.docker/nodejs
@@ -60,8 +72,8 @@ services:
             - ./.docker/mysql/data:/var/lib/mysql
         networks:
             - vacancy-grabber-cms
-        ports:
-            - "3306:3306"
+#        ports:
+#            - "3306:3306"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -124,3 +136,8 @@ networks:
 #    rabbitmq:
 #    redis:
 #    elastic:
+
+#volumes:
+####> doctrine/doctrine-bundle ###
+#  database_data:
+####< doctrine/doctrine-bundle ###

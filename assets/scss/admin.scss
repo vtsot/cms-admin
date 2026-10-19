@@ -1,0 +1,61 @@
+
+//*admin*//
+th.sonata-ba-list-field-header-actions {
+    text-align: center;
+}
+
+.sonata-ba-list-field-header-batch, .sonata-ba-list-field-batch {
+    width: 50px;
+    text-align: center;
+}
+
+.sonata-ba-list-field-actions {
+    width: 150px;
+    text-align: center;
+}
+
+.exit-btn {
+    float: right;
+    margin-top: 20px;
+    margin-right: 45px;
+}
+
+.btn-sm {
+    margin: 5px;
+}
+
+.btn-group .delete_link {
+    background: #da6868;
+    color: #fff;
+
+    &:active {
+        &:hover {
+            background: #ca5a5a;
+            color: #fff;
+        }
+    }
+}
+
+.cke_widget_element {
+    max-width: 1360px;
+    text-align: center;
+}
+
+.cke_combo_text {
+    min-width: 50px;
+    width: auto !important;
+}
+
+.cke_combopanel {
+    width: 250px !important;
+    min-height: 300px;
+}
+
+.cke_dialog_ui_input_select {
+    width: 100% !important;
+}
+
+.alert-dismissable .close,
+.alert-dismissible .close {
+    right: 0;
+}

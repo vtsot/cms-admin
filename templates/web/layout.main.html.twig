@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% import '@general_templates/web/macros/navigation-drawer.html.twig' as functions %}
+
+{%- block body -%}
+
+    <div id="app">
+
+        <v-progress-linear indeterminate v-if="globalStore.isLoading()"></v-progress-linear>
+        <v-app v-else>
+
+            <app-header>
+                <template #header-title>
+                    {% block header_title %}
+                        {{ header_title ?? null }}
+                    {% endblock %}
+                </template>
+
+                <template #header-navigation>
+                    {% block header_navigation %}
+
+                        {% set items = getHeaderNavigationItems() %}
+                        {% set opened = getHeaderNavigationOpened() %}
+                        {% if items %}
+                            {{ functions.navigation_drawer(items, opened) }}
+                        {% endif %}
+
+                    {% endblock %}
+                </template>
+
+                <template #user-navigation>
+                    {% block user_navigation %}
+
+                        {% set items = getUserNavigationItems() %}
+                        {% set opened = getUserNavigationOpened() %}
+                        {% if items %}
+                            {{ functions.navigation_drawer(items, opened) }}
+                        {% endif %}
+
+                    {% endblock %}
+                </template>
+            </app-header>
+
+            <v-main>
+                <app-alert></app-alert>
+                <app-flash></app-flash>
+                <v-card-text>
+                    {% block content %}
+                    {% endblock %}
+                </v-card-text>
+            </v-main>
+            <v-divider class="my-2"/>
+
+        </v-app>
+
+    </div>
+
+{%- endblock -%}

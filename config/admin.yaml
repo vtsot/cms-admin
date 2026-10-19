@@ -1,0 +1,3 @@
+imports:
+#    - { resource: admin/navigation.yaml }
+    - { resource: admin/content.yaml }

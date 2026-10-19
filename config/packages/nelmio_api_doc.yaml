@@ -1,0 +1,194 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: App
+            version: null
+
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
+            responses:
+                invalid_credentials:
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: integer
+                                        default: 401
+                                    message:
+                                        type: string
+                                        default: 'Invalid credentials'
+                unauthorized:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: integer
+                                        default: 401
+                                    message:
+                                        type: string
+                                        default: 'Unauthorized'
+                forbidden:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: integer
+                                        default: 403
+                                    message:
+                                        type: string
+                                        default: 'Forbidden'
+                invalid_json:
+                    description: Invalid JSON request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: integer
+                                        default: 400
+                                    message:
+                                        type: string
+                                        default: 'Invalid JSON request'
+                not_found:
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: string
+                                    message:
+                                        type: string
+                                required:
+                                    - code
+                                    - message
+                error:
+                    description: Unprocessable entity
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: string
+                                    message:
+                                        type: string
+                                    errors:
+                                        type: object
+                                        properties:
+                                            global:
+                                                type: array
+                                                items:
+                                                    type: string
+                                                nullable: true
+                                            fields:
+                                                type: object
+                                                properties:
+                                                    field_name:
+                                                        type: array
+                                                        items:
+                                                            type: string
+                                required:
+                                    - code
+                                    - message
+                no_content:
+                    description: No content
+            #                    content:
+            #                        application/json:
+            #                            schema:
+            #                                type: object
+            #                                properties:
+            #                                    code:
+            #                                        type: integer
+            #                                        default: 204
+            #                                    message:
+            #                                        type: string
+            #                                        default: 'Unauthorized'
+            parameters:
+                accept_language:
+                    in: header
+                    name: Accept-Language
+                    schema:
+                        type: string
+                        default: en_GB
+                page:
+                    name: page
+                    in: query
+                    required: false
+                    description: Page
+                    schema:
+                        type: integer
+                        example: 1
+                per_page:
+                    name: per_page
+                    in: query
+                    required: false
+                    description: Items per page
+                    schema:
+                        type: integer
+                        example: 10
+                query:
+                    name: query
+                    in: query
+                    required: false
+                    description: Filter by query
+                    schema:
+                        type: string
+                sort:
+                    name: sort
+                    in: query
+                    required: false
+                    description: Sort by field
+                    schema:
+                        type: string
+                        example: created_at ASC
+                active:
+                    name: active
+                    in: query
+                    required: false
+                    description: Filter by active
+                    schema:
+                        type: bool
+                        example: null
+                start_day:
+                    name: start_day
+                    in: query
+                    required: false
+                    description: 'Filter by start day: yyyy-mm-dd'
+                    schema:
+                        type: string
+                        format: date
+                end_day:
+                    name: end_day
+                    in: query
+                    required: false
+                    description: 'Filter by end day: yyyy-mm-dd'
+                    schema:
+                        type: string
+                        format: date
+
+        security:
+            - Bearer: []
+
+    models:
+        use_jms: false
+
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)

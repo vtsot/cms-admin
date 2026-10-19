@@ -1,0 +1,40 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('css/admin') }}
+{% endblock %}
+
+{% block html_attributes %}
+    {{ parent() }}
+    lang="{{ app.request.locale }}"
+    data-default-locale="{{ app.request.locale }}"
+{% endblock %}
+
+{%- block sonata_top_nav_menu -%}
+{#    <a href="{{ path('admin.logout') }}"#}
+{#       class="exit-btn fa fa-sign-out"#}
+{#    >#}
+{#        {{ 'ADMIN.LOGOUT'|trans({}, 'admin-messages') }}#}
+{#    </a>#}
+{%- endblock -%}
+
+{#{% block side_bar_after_nav %}#}
+{#{% endblock %}#}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(() => {
+            // submit filter form when filter removed
+            $('form.sonata-filter-form a.sonata-ba-action').on('click', function () {
+                const form = $(this).closest('form');
+
+                if (form.length === 1) {
+                    form.find('button[type=submit]').click();
+                }
+            });
+        });
+    </script>
+{% endblock %}

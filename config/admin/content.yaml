@@ -1,0 +1,47 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    # show_in_dashboard = false
+    # do not display, it used as link entity
+    admin.page:
+        class: App\Admin\Page\AllPageAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.page' ] ]
+            - [ setBaseRoutePattern,    [ 'pages' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Page\AbstractPage'
+                manager_type: orm
+                group: MENU_GROUP.CONTENT
+                label: MENU.CONTENT.ALL_PAGE
+#                translation_domain: '%admin_translation_domain%'
+                show_in_dashboard: true
+#
+#    admin.system_page:
+#        class: App\Admin\Content\SystemPageAdmin
+#        calls:
+#            - [ setBaseRouteName,       ['admin.system-page'] ]
+#            - [ setBaseRoutePattern,    ['system-pages'] ]
+#        tags:
+#            - name: sonata.admin
+#              model_class: 'App\Entity\Page\SystemPage'
+#              manager_type: orm
+#              group: MENU_GROUP.CONTENT
+#              label: MENU.CONTENT.SYSTEM_PAGE
+#              translation_domain: '%admin_translation_domain%'
+#
+#    admin.common_page:
+#        class: App\Admin\Content\CommonPageAdmin
+#        calls:
+#            - [ setBaseRouteName,       [ 'admin.common-page' ] ]
+#            - [ setBaseRoutePattern,    [ 'common-pages' ] ]
+#        tags:
+#            -   name: sonata.admin
+#                model_class: 'App\Entity\Page\CommonPage'
+#                manager_type: orm
+#                group: MENU_GROUP.CONTENT
+#                label: MENU.CONTENT.COMMON_PAGE
+#                translation_domain: '%admin_translation_domain%'
