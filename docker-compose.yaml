@@ -3,16 +3,16 @@ services:
         build:
             context: ./.docker/php-fpm
             args:
-                PHP_VERSION: ${PHP_VERSION:-8.4}
-                USER_ID: ${USER_ID:-1000}
-                GROUP_ID: ${GROUP_ID:-1000}
+                PHP_VERSION: ${COMPOSE_PHP_VERSION:-8.4}
+                USER_ID: ${COMPOSE_USER_ID:-1000}
+                GROUP_ID: ${COMPOSE_GROUP_ID:-1000}
         restart: unless-stopped
         extra_hosts:
-            - "cms.vacancy-grabber.local:host-gateway"
+            - "cms-admin.local:host-gateway"
         volumes:
             - ./:/var/www/html:rw
         networks:
-            - vacancy-grabber-cms
+            - cms-admin_app
             - shared-smtp
 
     nodejs:
@@ -32,16 +32,16 @@ services:
             - php-fpm
         networks:
             reverse-proxy:
-            vacancy-grabber-cms:
+            cms-admin_app:
                 aliases:
-                    - cms.vacancy-grabber.local
+                    - cms-admin.local
         expose:
             - "80"
         environment:
             - VIRTUAL_PORT=80
-            - VIRTUAL_HOST=cms.vacancy-grabber.local
+            - VIRTUAL_HOST=cms-admin.local
             - HTTPS_METHOD=redirect
-            - SELF_SIGNED_HOST=vacancy-grabber.local
+            - SELF_SIGNED_HOST=cms-admin.local
         depends_on:
             - php-fpm
 
@@ -51,13 +51,13 @@ services:
         environment:
             - MYSQL_USER=user
             - MYSQL_PASSWORD=password
-            - MYSQL_DATABASE=vacancy_grabber_cms
+            - MYSQL_DATABASE=cms_admin
             - MYSQL_ROOT_PASSWORD=password
             - MYSQL_ALLOW_EMPTY_PASSWORD=true
         volumes:
             - ./.docker/mysql/data:/var/lib/mysql
         networks:
-            - vacancy-grabber-cms
+            - cms-admin_app
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -66,29 +66,29 @@ services:
             - ./.docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
         networks:
             - reverse-proxy
-            - vacancy-grabber-cms
+            - cms-admin_app
         expose:
             - "80"
         environment:
             - UPLOAD_LIMIT=300M
             - VIRTUAL_PORT=80
-            - VIRTUAL_HOST=webmysql.cms.vacancy-grabber.local
+            - VIRTUAL_HOST=webmysql.cms-admin.local
             - HTTPS_METHOD=redirect
-            - SELF_SIGNED_HOST=vacancy-grabber.local
+            - SELF_SIGNED_HOST=cms-admin.local
 
     adminer:
         image: adminer
         restart: unless-stopped
         networks:
             - reverse-proxy
-            - vacancy-grabber-cms
+            - cms-admin_app
         expose:
             - "8080"
         environment:
             - VIRTUAL_PORT=8080
-            - VIRTUAL_HOST=adminer.cms.vacancy-grabber.local
+            - VIRTUAL_HOST=adminer.cms-admin.local
             - HTTPS_METHOD=redirect
-            - SELF_SIGNED_HOST=vacancy-grabber.local
+            - SELF_SIGNED_HOST=cms-admin.local
 
 networks:
     reverse-proxy:
@@ -97,5 +97,5 @@ networks:
     shared-smtp:
         name: shared-smtp
         external: true
-    vacancy-grabber-cms:
+    cms-admin_app:
         driver: bridge
