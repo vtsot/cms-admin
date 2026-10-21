@@ -22,8 +22,6 @@ class Page extends AbstractPage
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->relatedArticles = new ArrayCollection();
     }
 

@@ -13,8 +13,6 @@ class MedicationTimeReviewQuestionItem extends AbstractReviewQuestionItem
 {
     public function __construct()
     {
-        parent::__construct();
-
         $this->setType(ReviewQuestionType::MedicationTime);
     }
 }

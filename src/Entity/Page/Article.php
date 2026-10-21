@@ -14,7 +14,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 use function array_filter;
 use function implode;
@@ -38,7 +38,6 @@ class Article extends AbstractPage
 
     public function __construct()
     {
-        parent::__construct();
         $this->relatedArticles = new ArrayCollection();
     }
 

@@ -16,7 +16,7 @@ abstract class AbstractController extends BaseAbstractController
     protected function handleFileResponse(
         Request $request,
         ?SplFileInfo $file,
-        int $status = 200,
+        int $status = Response::HTTP_OK,
         array $headers = [],
     ): Response {
         if ($file === null) {
@@ -31,6 +31,6 @@ abstract class AbstractController extends BaseAbstractController
             return new Response(null, Response::HTTP_NOT_MODIFIED);
         }
 
-        return (new BinaryFileResponse($file, $status, $headers))->setLastModified($lastModifiedDate)->setAutoEtag();
+        return new BinaryFileResponse($file, $status, $headers)->setLastModified($lastModifiedDate)->setAutoEtag();
     }
 }

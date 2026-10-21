@@ -15,6 +15,7 @@
 /var/cache/storage/*
 /var/cache/translations/*
 /var/log/*
+/var/session/*
 /var/storage/*
 /vendor/
 /src/Command/TestCommand.php

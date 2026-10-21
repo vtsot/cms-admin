@@ -108,8 +108,8 @@ security:
     access_control:
         # allow unauthenticated users to access the login form
         - { path: '^/admin/login', roles: PUBLIC_ACCESS }
-        - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
-        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
+        # - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
+        #- { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
         - { path: '^/api/doc', roles: ROLE_API_DOC }
         - { path: '^/api/sites', roles: ROLE_API_SITE }
         - { path: '^/', roles: PUBLIC_ACCESS }

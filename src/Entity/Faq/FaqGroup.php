@@ -31,8 +31,6 @@ class FaqGroup extends AbstractEntity
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->faqs = new ArrayCollection();
     }
 

@@ -55,7 +55,6 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
 
     public function __construct()
     {
-        parent::__construct();
         $this->children = new ArrayCollection();
     }
 

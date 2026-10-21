@@ -60,8 +60,6 @@ class User extends AbstractEntity implements UserInterface
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->roles     = [UserRole::SiteManager->value];
         $this->createdAt = new CarbonImmutable();
         $this->sites     = new ArrayCollection();

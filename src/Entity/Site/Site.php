@@ -103,8 +103,6 @@ class Site extends AbstractEntity
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->pages          = new ArrayCollection();
         $this->users          = new ArrayCollection();
         $this->reviews        = new ArrayCollection();

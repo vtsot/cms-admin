@@ -25,10 +25,10 @@ use function strtoupper;
  */
 abstract class AbstractAdmin extends BaseAbstractAdmin
 {
-    protected const CK_EDITOR_BASE_CONFIG        = 'base-config';
-    protected const CK_EDITOR_CMS_CONFIG         = 'cms-config';
-    protected const CK_EDITOR_FAQ_CONFIG         = 'faq-config';
-    protected const CK_EDITOR_DESCRIPTION_CONFIG = 'description';
+    protected const string CK_EDITOR_BASE_CONFIG = 'base-config';
+    protected const string CK_EDITOR_CMS_CONFIG  = 'cms-config';
+    protected const string CK_EDITOR_FAQ_CONFIG         = 'faq-config';
+    protected const string CK_EDITOR_DESCRIPTION_CONFIG = 'description';
 
     protected TokenStorageInterface $tokenStorage;
     protected ParameterBagInterface $parameterBag;
@@ -53,17 +53,17 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
         $this->setTranslationDomain($this->parameterBag->get('admin_translation_domain'));
     }
 
-    protected function configure(): void
-    {
-        // resolve breadcrumb translation key
-        $this->classnameLabel = strtoupper(
-            sprintf(
-                'BREADCRUMB.%s.%s',
-                str_replace('.', '_', $this->getLabel()),
-                $this->classnameLabel
-            )
-        );
-    }
+//    protected function configure(): void
+//    {
+//        // resolve breadcrumb translation key
+//        $this->classnameLabel = strtoupper(
+//            sprintf(
+//                'BREADCRUMB.%s.%s',
+//                str_replace('.', '_', $this->getLabel()),
+//                $this->classnameLabel
+//            )
+//        );
+//    }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {

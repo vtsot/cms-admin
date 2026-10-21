@@ -13,8 +13,6 @@ class AgeReviewQuestionItem extends AbstractReviewQuestionItem
 {
     public function __construct()
     {
-        parent::__construct();
-
         $this->setType(ReviewQuestionType::Age);
     }
 }

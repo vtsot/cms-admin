@@ -29,7 +29,6 @@ class Brand extends AbstractEntity
 
     public function __construct()
     {
-        parent::__construct();
         $this->sites = new ArrayCollection();
     }
 

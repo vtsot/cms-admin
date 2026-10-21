@@ -12,7 +12,7 @@ class DefaultController extends AbstractController
 {
     #[Route(
         path: '',
-        name: 'homepage',
+        name: 'web.homepage',
         options: ['expose' => true],
         methods: ['GET'],
     )]

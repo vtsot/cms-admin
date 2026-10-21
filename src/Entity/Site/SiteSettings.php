@@ -16,7 +16,7 @@ use App\Entity\Traits\Site\SiteSettingsSenderEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsThemeColorsEntityTrait;
 use App\Repository\Site\SiteSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 use function array_filter;
 use function implode;

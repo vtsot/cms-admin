@@ -9,7 +9,7 @@ vich_uploader:
         gallery:
             upload_destination: gallery.image.storage
             directory_namer:
-                service: vich_uploader.directory_namer_subdir
+                service: Vich\UploaderBundle\Naming\SubdirDirectoryNamer
                 options: { property: 'id', chars_per_dir: 2, dirs: 2 }
             namer:
                 service: vich_uploader.namer_property
@@ -21,7 +21,7 @@ vich_uploader:
         banner:
             upload_destination: banner.image.storage
             directory_namer:
-                service: vich_uploader.directory_namer_subdir
+                service: Vich\UploaderBundle\Naming\SubdirDirectoryNamer
                 options: { property: 'id', chars_per_dir: 2, dirs: 2 }
             namer:
                 service: App\Service\UploaderUuidNamer
@@ -33,7 +33,7 @@ vich_uploader:
         article:
             upload_destination: article.image.storage
             directory_namer:
-                service: vich_uploader.directory_namer_subdir
+                service: Vich\UploaderBundle\Naming\SubdirDirectoryNamer
                 options: { property: 'id', chars_per_dir: 2, dirs: 2 }
             namer:
                 service: vich_uploader.namer_property
@@ -45,7 +45,7 @@ vich_uploader:
         site:
             upload_destination: site.image.storage
             directory_namer:
-                service: vich_uploader.directory_namer_subdir
+                service: Vich\UploaderBundle\Naming\SubdirDirectoryNamer
                 options: { property: 'id', chars_per_dir: 2, dirs: 2 }
             namer:
                 service: App\Service\UploaderUuidNamer
