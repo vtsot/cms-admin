@@ -1,0 +1,106 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Entity\Site\Site object #}
+
+{% block field %}
+
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.ID'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.id }}
+    </div>
+    <div>&nbsp;</div>
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.TOKEN'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.token ?? 'SITE_ENTITY.LABEL.NO_TOKEN'|trans({}, 'admin-messages') }}
+    </div>
+    <p></p>
+
+    {% if admin.hasAccess('token-reset', object) and admin.hasRoute('token-reset') %}
+        <div>
+            {% set button_content = sonata_config.getOption('list_action_button_content') %}
+            <a
+                    href="{{ admin.generateObjectUrl('token-reset', object, actions.link_parameters|default([])) }}"
+                    class="btn btn-sm btn-success edit_link"
+                    title="{{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}"
+            >
+                {% if button_content == 'icon' or button_content == 'all' %}
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                {% endif %}
+                {% if button_content == 'text' or button_content == 'all' %}
+                    {{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}
+                {% else %}
+                    <span class="sr-only">
+                        {{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}
+                    </span>
+                {% endif %}
+            </a>
+        </div>
+        <p></p>
+    {% endif %}
+
+    {% if admin.hasAccess('settings', object) and admin.hasRoute('settings') %}
+        <hr>
+        {% set button_content = sonata_config.getOption('list_action_button_content') %}
+        <a
+                href="{{ admin.generateObjectUrl('settings', object, actions.link_parameters|default([])) }}"
+                class="btn btn-sm btn-default edit_link"
+                title="{{ 'SITE_ENTITY.BUTTON.SETTINGS'|trans({}, 'admin-messages') }}"
+        >
+            {% if button_content == 'icon' or button_content == 'all' %}
+                <i class="fas fa-edit" aria-hidden="true"></i>
+            {% endif %}
+            {% if button_content == 'text' or button_content == 'all' %}
+                {{ 'SITE_ENTITY.BUTTON.SETTINGS'|trans({}, 'admin-messages') }}
+            {% else %}
+                <span class="sr-only">
+                        {{ 'SITE_ENTITY.BUTTON.SETTINGS'|trans({}, 'admin-messages') }}
+                    </span>
+            {% endif %}
+        </a>
+    {% endif %}
+
+    {% if admin.hasAccess('cache-clear', object) and admin.hasRoute('cache-clear') %}
+        {% set button_content = sonata_config.getOption('list_action_button_content') %}
+        <a
+                href="{{ admin.generateObjectUrl('cache-clear', object, actions.link_parameters|default([])) }}"
+                class="btn btn-sm btn-default edit_link"
+                title="{{ 'SITE_ENTITY.BUTTON.CACHE_CLEAR'|trans({}, 'admin-messages') }}"
+        >
+            {% if button_content == 'icon' or button_content == 'all' %}
+                <i class="fas fa-times" aria-hidden="true"></i>
+            {% endif %}
+            {% if button_content == 'text' or button_content == 'all' %}
+                {{ 'SITE_ENTITY.BUTTON.CACHE_CLEAR'|trans({}, 'admin-messages') }}
+            {% else %}
+                <span class="sr-only">
+                        {{ 'SITE_ENTITY.BUTTON.CACHE_CLEAR'|trans({}, 'admin-messages') }}
+                    </span>
+            {% endif %}
+        </a>
+    {% endif %}
+
+    {# @var \App\Admin\Site\SiteEmailTemplateAdmin siteEmailTemplateAdmin #}
+    {% set siteEmailTemplateAdmin = admin.hasChild('admin.site.email_template') ? admin.getChild('admin.site.email_template') : null %}
+    {% if siteEmailTemplateAdmin and siteEmailTemplateAdmin.hasRoute('list') %}
+        <div>
+            {% set button_content = sonata_config.getOption('list_action_button_content') %}
+            <a
+                    href="{{ admin.generateChildListUrl(siteEmailTemplateAdmin, object) }}?filters=reset"
+                    class="btn btn-sm btn-default edit_link"
+                    title="{{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}"
+            >
+                {% if button_content == 'icon' or button_content == 'all' %}
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                {% endif %}
+                {% if button_content == 'text' or button_content == 'all' %}
+                    {{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}
+                {% else %}
+                    <span class="sr-only">
+                        {{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}
+                    </span>
+                {% endif %}
+            </a>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  # show_in_dashboard = false
+  # do not display, it used as link entity
+  admin.gallery_image:
+    class: App\Admin\GalleryImageAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.gallery_image' ] ]
+      - [ setBaseRoutePattern,    [ 'gallery-image' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\GalleryImage'
+        manager_type: orm
+        group: MENU_GROUP.GALLERY_IMAGE
+        label: MENU.GALLERY_IMAGE.LIST
+        translation_domain: '%admin_translation_domain%'
+        show_in_dashboard: false
+

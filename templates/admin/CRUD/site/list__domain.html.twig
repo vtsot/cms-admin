@@ -1,0 +1,27 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Entity\Site\Site object #}
+
+{% block field %}
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.DOMAIN'|trans({}, 'admin-messages') }}:</strong>
+
+        {% if object.domain %}
+            {%- include '@SonataAdmin/CRUD/display_url.html.twig' with {
+                value: object.domain,
+                attributes: {target:'_blank'},
+            } only -%}
+        {% endif %}
+    </div>
+
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.TITLE'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.title ?? 'N/A' }}
+    </div>
+
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.THEME'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.siteTheme ?? 'N/A' }}
+    </div>
+
+{% endblock %}

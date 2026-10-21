@@ -1,0 +1,120 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Entity\Site\Site object #}
+
+{% block field %}
+    {% block SiteDomainRegistration %}
+
+        <div>
+            {{ 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL'|trans({}, 'admin-messages') }}:
+            {% if object.registrarEmail %}
+                <a href="mailto:{{ object.registrarEmail }}">{{ object.registrarEmail }}</a>
+            {% else %}
+                N/A
+            {% endif %}
+        </div>
+
+        <div>
+            {{ 'SITE_ENTITY.LABEL.REGISTRAR_NAME'|trans({}, 'admin-messages') }}:
+            {{ object.registrarName ?? 'N/A' }}
+        </div>
+        <p></p>
+
+        {% set tdValueStyles = 'style="text-align: right; width: 90px;"' %}
+        <table style="width: 255px;">
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.REGISTERED_AT'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.registeredAt ? object.registeredAt.format('F j, Y') :  'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.EXPIRE_AT'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.expireAt ? object.expireAt.format('F j, Y') : 'N/A' }}</td>
+            </tr>
+        </table>
+        <p></p>
+    {% endblock %}
+
+    {% block SiteDomainDetails %}
+
+        {% set tdValueStyles = 'style="text-align: right; width: 90px;"' %}
+        <table style="width: 255px;">
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.ARCHIVE_BIRTH_YEAR'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.archiveBirthYear ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.GLOBAL_SEARCH_VOLUME'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.globalSearchVolume }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.US_SEARCH_VOLUME'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.usSearchVolume }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.MOZ_SPAM'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.mozSpam }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.AHREFS_DOMAIN_RATING'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.ahrefsDomainRating }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.AHREFS_BACK_LINKS'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.ahrefsBackLinks }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.AHREFS_REF_DOMAINS'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.ahrefsRefDomains }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.SEMRUSH_AUTHORITY_SCORE'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.semrushAuthorityScore }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.SEMRUSH_BACK_LINKS'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.semrushBackLinks }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.SEMRUSH_REF_DOMAINS'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>{{ object.semrushRefDomains }}</td>
+            </tr>
+
+            {% if object.wikipediaLink %}
+                <tr>
+                    <td colspan="2">
+
+                        {%- include '@SonataAdmin/CRUD/display_url.html.twig' with {
+                            value: 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK'|trans({}, 'admin-messages'),
+                            url: object.wikipediaLink,
+                            attributes: {target:'_blank'},
+                        } only -%}
+
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK'|trans({}, 'admin-messages') }}</td>
+                    <td {{ tdValueStyles | raw }}>N/A</td>
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td>{{ 'SITE_ENTITY.LABEL.IS_PENALTY'|trans({}, 'admin-messages') }}</td>
+                <td {{ tdValueStyles | raw }}>
+                    {% include '@SonataAdmin/CRUD/display_boolean.html.twig' with {value: object.isPenalty} %}
+                </td>
+            </tr>
+
+        </table>
+
+    {% endblock %}
+
+{% endblock %}

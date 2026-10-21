@@ -8,10 +8,24 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     default_locale: 'en_GB'
+    # todo: remove admin_translation_domain
+    admin_translation_domain: 'admin-messages'
+    storage_dir: '%kernel.project_dir%/var/storage'
+    storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
+    translation_cache_dir: '%kernel.project_dir%/var/cache/translations'
 
 
 imports:
-    - { resource: ./admin.yaml}
+    - { resource: admin/content.yaml }
+    - { resource: admin/navigation.yaml }
+    - { resource: admin/user.yaml }
+    - { resource: admin/sites.yaml }
+    - { resource: admin/brand.yaml }
+    - { resource: admin/generic_name.yaml }
+    - { resource: admin/review.yaml }
+    - { resource: admin/gallery_image.yaml }
+    - { resource: admin/faq_group.yaml }
+    - { resource: admin/system.yaml }
 
 services:
     # default configuration for services in *this* file
@@ -19,10 +33,56 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    _instanceof:
+        App\Contract\Entity\EntityListenerInterface:
+            tags:
+                - { name: doctrine.orm.entity_listener, lazy: true }
+
+        App\Contract\MessageHandler\CommandHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        App\Contract\MessageHandler\QueryHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+
+        App\Contract\MessageHandler\EventHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        exclude:
+            - '../src/ApiRequest/'
+            - '../src/Contract/'
+            - '../src/DTO/'
+            - '../src/Entity/'
+            - '../src/Exception/'
+            - '../src/CQ/**/*Query.php'
+            - '../src/CQ/**/*Command.php'
+            - '../src/CQ/**/*Event.php'
+            - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    Sonata\GoogleAuthenticator\GoogleAuthenticator:
+        class: Sonata\GoogleAuthenticator\GoogleAuthenticator
+
+#    html_sanitizer.config.cms_embed_sanitizer:
+#        class: App\Service\CmsEmbed\Helper\CmsEmbedHtmlSanitizerConfig
+#        calls:
+#            - allowStaticElements: !returns_clone [ ]
+#            - withMaxInputLength: !returns_clone [ 65535 ]
+#            - allowCmsEmbedItems: !returns_clone [ !tagged_iterator 'app.cms_embed' ]
+
+    mailer.messenger.message_handler:
+        class: App\CQ\Command\Mailer\SendEmailMessageHandler
+        tags:
+            - { name: messenger.message_handler, bus: command.bus }
+
+    App\Service\UploaderUuidNamer:
+        public: true

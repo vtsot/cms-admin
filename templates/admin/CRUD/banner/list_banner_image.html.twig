@@ -1,0 +1,50 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\BannerAdmin admin #}
+{# @var \App\Entity\Banner object #}
+{# @var array{width: int, height: int} desktopSize #}
+{# @var array{width: int, height: int} mobileSize #}
+
+{% block field %}
+    {% set imageRouteName = field_description.options.data.imageRouteName ?? null %}
+    {% set imageType = field_description.options.data.imageType ?? null %}
+
+    {% set theme = object.site.siteTheme.code ?? null %}
+    {% set desktopSizes = constant('App\\DTOFactory\\Entity\\BannerDTOFactory::DESKTOP_SIZE') ?? null %}
+    {% set desktopSize = desktopSizes[theme] ?? desktopSizes['default'] %}
+    {% set mobileSizes = constant('App\\DTOFactory\\Entity\\BannerDTOFactory::MOBILE_SIZE') ?? null %}
+    {% set mobileSize = mobileSizes[theme] ?? mobileSizes['default'] %}
+
+    {% if attribute(object, 'desktopImage') is defined and object.desktopImage is not null and imageRouteName %}
+        <div>
+            <div><strong>{{ 'BANNER_ENTITY.LABEL.DESKTOP_IMAGE'|trans({}, 'admin-messages') }}</strong></div>
+            {% set previewWidth = desktopSize.width ?? 200 %}
+            {% set previewHeight = desktopSize.height ?? 200 %}
+            {% set downloadWidth = field_description.options.data.downloadWidth ?? 9999 %}
+            {% set downloadHeight = field_description.options.data.downloadHeight ?? 9999 %}
+
+            {% set imageUrlThumbnail = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': previewWidth, 'height': previewHeight, 'image' : object.desktopImage }) %}
+            {% set imageUrlDownload = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.desktopImage }) %}
+
+            <a href="{{ imageUrlDownload }}" target="_blank">
+                <img src="{{ imageUrlThumbnail }}" alt="{{ object.alt ?? object.name }}">
+            </a>
+        </div>
+    {% endif %}
+
+    {% if attribute(object, 'mobileImage') is defined and object.mobileImage is not null and imageRouteName %}
+        <div>
+            <div><strong>{{ 'BANNER_ENTITY.LABEL.MOBILE_IMAGE'|trans({}, 'admin-messages') }}</strong></div>
+            {% set previewWidth = mobileSize.width ?? 200 %}
+            {% set previewHeight = mobileSize.height ?? 200 %}
+            {% set downloadWidth = field_description.options.data.downloadWidth ?? 9999 %}
+            {% set downloadHeight = field_description.options.data.downloadHeight ?? 9999 %}
+
+            {% set imageUrlThumbnail = url(imageRouteName, {'type': imageType,'crop' : 'resize', 'width': previewWidth, 'height': previewHeight, 'image' : object.mobileImage }) %}
+            {% set imageUrlDownload = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.mobileImage }) %}
+
+            <a href="{{ imageUrlDownload }}" target="_blank">
+                <img src="{{ imageUrlThumbnail }}" alt="{{ object.alt ?? object.name }}">
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

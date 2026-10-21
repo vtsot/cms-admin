@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\CQ\Command\Site;
+
+use App\Contract\MessageHandler\CommandHandlerInterface;
+use App\Entity\Page\Page;
+use App\Exception\Validation\EntityNotFoundException;
+use App\Repository\Site\SiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+readonly class CreateDefaultSiteHomepageHandler implements CommandHandlerInterface
+{
+    public function __construct(
+        private EntityManagerInterface $em,
+        private TranslatorInterface $translator,
+        private SiteRepository $siteRepository,
+    ) {
+    }
+
+    public function __invoke(CreateDefaultSiteHomepageCommand $command): void
+    {
+        $site = $this->siteRepository->findOneById($command->siteId);
+
+        if ($site === null) {
+            throw new EntityNotFoundException($this->translator->trans('SITE.NOT_FOUND'));
+        }
+
+        $page = (new Page())
+            ->setHomepage(true)
+            ->setTitle('Welcome')
+            ->setSlug('homepage')
+            ->setSite($site);
+
+        $this->em->persist($page);
+        $this->em->flush();
+    }
+}

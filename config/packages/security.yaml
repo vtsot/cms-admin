@@ -1,37 +1,127 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    role_hierarchy:
+        ROLE_USER:
+            - IS_AUTHENTICATED_FULLY
+            - IS_AUTHENTICATED_REMEMBERED
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+        ROLE_ADMIN_USER_ALL:
+            - ROLE_USER
+            - ROLE_ADMIN_USER_ADMIN_ALL
+            - ROLE_ADMIN_USER_REGULAR_ALL
+
+        ROLE_SITE_MANAGER:
+            - ROLE_USER
+            - ROLE_ADMIN_SITE_LIST
+            - ROLE_ADMIN_SITE_PAGE_ALL
+            - ROLE_ADMIN_SITE_PAGE_RELATED_ARTICLE_ALL
+            - ROLE_ADMIN_SITE_NAVIGATION_TOP_ALL
+            - ROLE_ADMIN_SITE_NAVIGATION_TOP_CHILDREN_ALL
+            - ROLE_ADMIN_SITE_NAVIGATION_BOTTOM_ALL
+            - ROLE_ADMIN_SITE_NAVIGATION_BOTTOM_CHILDREN_ALL
+            - ROLE_ADMIN_REVIEW_SITE_ALL
+            - ROLE_ADMIN_REVIEW_SITE_REVIEW_ALL
+            - ROLE_ADMIN_REVIEW_SITE_QUESTION_REASON_ALL
+            - ROLE_ADMIN_REVIEW_SITE_QUESTION_AGE_ALL
+            - ROLE_ADMIN_REVIEW_SITE_QUESTION_MEDICATION_TIME_ALL
+            - ROLE_ADMIN_SITE_GALLERY_IMAGE_ALL
+            - ROLE_ADMIN_SITE_FAQ_GROUP_ALL
+            - ROLE_ADMIN_SITE_FAQ_ALL
+            - ROLE_ADMIN_SITE_CONTACT_LIST
+            - ROLE_ADMIN_SITE_CONTACT_VIEW
+            - ROLE_ADMIN_SITE_SETTINGS
+            - ROLE_ADMIN_SITE_SETTINGS_ALL
+            - ROLE_ADMIN_SITE_CACHE_CLEAR
+            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_ALL
+            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_SHOW_HTML
+            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_SHOW_TEXT
+
+        ROLE_SUPERVISOR:
+            - ROLE_SITE_MANAGER
+            - ROLE_ALLOWED_TO_SWITCH
+            - ROLE_ADMIN_SYSTEM_MAIL_LOG_ALL
+
     providers:
-        users_in_memory: { memory: null }
+        api_doc_users:
+            memory:
+                users:
+                    apidoc_user: { password: 'fd35e0f86e', roles: [ ROLE_API_DOC ] }
+
+        api_site_users:
+            id: App\Security\UserProvider\ApiSiteUserProvider
+
+        regular_user_provider:
+            id: App\Security\UserProvider\RegularUserProvider
+
+    password_hashers:
+        Symfony\Component\Security\Core\User\InMemoryUser:
+            algorithm: 'plaintext'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: 'auto'
 
     firewalls:
         dev:
-            # Ensure dev tools and static assets are always allowed
-            pattern: ^/(_profiler|_wdt|assets|build)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+
+        api_doc:
+            pattern: ^/api/doc
+            http_basic:
+                provider: api_doc_users
+                realm: Basic
+
+        api_site:
+            pattern: ^/api/sites
+            access_token:
+                token_handler: App\Security\ApiSite\AccessTokenHandler
+                token_extractors: App\Security\ApiSite\AccessTokenExtractor
+                provider: api_site_users
+
+        admin:
+            pattern: ^/admin|^/api/admin
             lazy: true
-            provider: users_in_memory
+            provider: regular_user_provider
 
-            # Activate different ways to authenticate:
-            # https://symfony.com/doc/current/security.html#the-firewall
+            form_login:
+                login_path: admin.login
+                check_path: admin.login_check
+                default_target_path: sonata_admin_dashboard
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            logout:
+                path: admin.logout
+                target: admin.login
 
-    # Note: Only the *first* matching rule is applied
+            entry_point: form_login
+
+        main:
+            pattern: ^/
+            lazy: true
+            provider: regular_user_provider
+            user_checker: App\Security\UserChecker
+
+            logout:
+                path: admin.logout
+                target: web.homepage
+
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # allow unauthenticated users to access the login form
+        - { path: '^/admin/login', roles: PUBLIC_ACCESS }
+        - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
+        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
+        - { path: '^/api/doc', roles: ROLE_API_DOC }
+        - { path: '^/api/sites', roles: ROLE_API_SITE }
+        - { path: '^/', roles: PUBLIC_ACCESS }
+
 
 when@test:
     security:
         password_hashers:
-            # Password hashers are resource-intensive by design to ensure security.
-            # In tests, it's safe to reduce their cost to improve performance.
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
                 cost: 4 # Lowest possible value for bcrypt

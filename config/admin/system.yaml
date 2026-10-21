@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  admin.system.mail_log:
+    class: App\Admin\MailLogAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.mail_log' ] ]
+      - [ setBaseRoutePattern,    [ 'mail-log' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\MailLog'
+        controller: 'App\Controller\Admin\MailLogCrudController'
+        manager_type: orm
+        group: MENU_GROUP.SYSTEM
+        label: MENU.SYSTEM.MAIL_LOG
+        translation_domain: '%admin_translation_domain%'

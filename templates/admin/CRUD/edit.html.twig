@@ -1,0 +1,5 @@
+{# @var \App\Admin\AbstractAdmin admin #}
+
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+
+{% block sonata_form_action_url %}{{ admin.generateUrl(admin.currentRouteName, {(admin.idParameter): objectId, 'uniqid': admin.uniqid, 'subclass': app.request.get('subclass')}) }}{% endblock %}

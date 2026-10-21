@@ -28,7 +28,7 @@ trait SitemapEntityTrait
         return $this->indexed;
     }
 
-    public function setIndexed(bool $indexed): static
+    public function setIndexed(bool $indexed): self
     {
         $this->indexed = $indexed;
 
@@ -40,7 +40,7 @@ trait SitemapEntityTrait
         return $this->sitemapChangeFrequency;
     }
 
-    public function setSitemapChangeFrequency(string $sitemapChangeFrequency): static
+    public function setSitemapChangeFrequency(string $sitemapChangeFrequency): self
     {
         $this->sitemapChangeFrequency = $sitemapChangeFrequency;
 
@@ -52,7 +52,7 @@ trait SitemapEntityTrait
         return $this->sitemapPriority;
     }
 
-    public function setSitemapPriority(float $sitemapPriority): static
+    public function setSitemapPriority(float $sitemapPriority): self
     {
         $this->sitemapPriority = $sitemapPriority;
 

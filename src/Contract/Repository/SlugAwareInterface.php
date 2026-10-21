@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Contract\Repository;
 
 use App\Contract\Entity\SluggableInterface;
-use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Uid\Uuid;
+
 
 interface SlugAwareInterface
 {
-    public function findOneBySlug(?string $slug, ?UuidInterface $exceptId = null): ?SluggableInterface;
+    public function findOneBySlug(?string $slug, ?Uuid $exceptId = null): ?SluggableInterface;
 }

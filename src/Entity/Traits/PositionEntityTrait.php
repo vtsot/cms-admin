@@ -17,7 +17,7 @@ trait PositionEntityTrait
         return $this->position;
     }
 
-    public function setPosition(int $position): static
+    public function setPosition(int $position): self
     {
         $this->position = $position;
 

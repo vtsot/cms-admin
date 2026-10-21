@@ -1,0 +1,13 @@
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Admin\AbstractAdmin child #}
+
+{% if admin.hasRoute('list') and admin.hasChildren() %}
+    {% for child in admin.children %}
+        {% if child is not null %}
+            <a href="{{ admin.generateChildListUrl(child, object) }}?filters=reset"
+               class="btn btn-sm btn-default child-link">
+                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endif %}

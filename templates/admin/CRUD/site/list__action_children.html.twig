@@ -1,0 +1,16 @@
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Admin\Site\SiteAdmin child #}
+
+{% if admin.hasRoute('list') and admin.hasChildren() %}
+    {% for child in admin.children %}
+        {% if child is not null
+            and child.code != 'admin.site.settings'
+            and child.code != 'admin.site.email_template'
+        %}
+            <a href="{{ admin.generateChildListUrl(child, object) }}?filters=reset"
+               class="btn btn-sm btn-default child-link">
+                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endif %}

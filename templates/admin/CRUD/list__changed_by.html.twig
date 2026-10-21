@@ -1,0 +1,22 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Entity\Traits\BlameableEntityTrait object  #}
+
+{% block field %}
+
+    {% if object.createdBy %}
+        <div>
+            <strong>{{ 'FIELD.CREATED_BY'|trans({}, 'admin-messages') }}:</strong>
+            {{ object.updatedBy.fullName }} <br>
+            ({{ object.updatedBy.email }})
+        </div>
+    {% endif %}
+
+    {% if object.updatedBy %}
+        <div>
+            <strong>{{ 'FIELD.UPDATED_BY'|trans({}, 'admin-messages') }}:</strong>
+            {{ object.updatedBy.fullName }}  <br>
+            ({{ object.updatedBy.email }})
+        </div>
+    {% endif %}
+{% endblock %}

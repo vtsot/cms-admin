@@ -1,0 +1,34 @@
+{% extends base_template %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Entity\Site\Site object #}
+
+{% block content %}
+    <div class="sonata-ba-delete">
+
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">{{ 'SITE_ENTITY.TOKEN_RESET.TITLE'|trans({}, 'admin-messages') }}</h3>
+            </div>
+            <div class="box-body">
+                {{ 'SITE_ENTITY.TOKEN_RESET.MESSAGE_CONFIRM'|trans({'%object%': admin.toString(object)}, 'admin-messages') }}
+            </div>
+            <div class="box-footer clearfix">
+                <form method="POST" action="{{ admin.generateObjectUrl('token-reset', object) }}">
+                    <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+
+                    <button type="submit" name="btn_delete" class="btn btn-danger">
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                        {{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_CONFIRM'|trans({}, 'admin-messages') }}
+                    </button>
+                    {% if admin.hasRoute('list') and admin.hasAccess('list', object) %}
+                        {{ 'delete_or'|trans({}, 'SonataAdminBundle') }}
+
+                        <a class="btn btn-success" href="{{ admin.generateUrl('list') }}">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                            {{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

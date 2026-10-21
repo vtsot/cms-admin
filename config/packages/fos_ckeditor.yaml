@@ -1,0 +1,134 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+fos_ck_editor:
+    auto_inline: false
+    configs:
+        base-config:
+            toolbar: toolbar_base
+            removeButtons: ['About']
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: true
+            # startupMode: 'source'
+            # enterMode: CKEDITOR.ENTER_BR
+            versionCheck: false
+        cms-config:
+            toolbar: toolbar_cms
+            removeButtons: ['About']
+            uiColor: "#ffffff"
+            height: 700px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraPlugins: 'cms-embed' # 'youtube,iframe,image2'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: true
+            startupMode: 'source'
+            # enterMode: CKEDITOR.ENTER_BR
+            versionCheck: false
+        faq-config:
+            toolbar: toolbar_faq
+            removeButtons: [ 'About', 'Source' ]
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+            disallowedContent: 'h1;h2;h3;h4;pre;address;div'
+            autoParagraph: true
+            # startupMode: 'source'
+            # enterMode: CKEDITOR.ENTER_BR
+            versionCheck: false
+        description:
+            toolbar: toolbar_description
+            removeButtons: [ 'About', 'Source' ]
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraAllowedContent: '*[*]{*}(*)'
+            disallowedContent: 'h1;h2;h3;h4;pre;address;div'
+            autoParagraph: true
+            # startupMode: 'source'
+            # enterMode: CKEDITOR.ENTER_BR
+            versionCheck: false
+        email-template-site-contact:
+            toolbar: toolbar_email_template
+            removeButtons: [ 'About', 'Source' ]
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraPlugins: 'email-template-site-contact'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: true
+            versionCheck: false
+        email-template-site-expiration:
+            toolbar: toolbar_email_template
+            removeButtons: [ 'About', 'Source' ]
+            uiColor: "#ffffff"
+            height: 300px
+            forcePasteAsPlainText: true
+            filebrowserBrowseRoute: 'elfinder'
+            filebrowserBrowseRouteType: 0
+            contentsCss: 'assets/css/admin-editor.css'
+            extraPlugins: 'email-template-site-expiration'
+            extraAllowedContent: '*[*]{*}(*)'
+            autoParagraph: true
+            versionCheck: false
+
+    plugins:
+        cms-embed:
+            path: 'assets/ckeditor-plugins/cms-embed/'
+            filename: 'plugin.js'
+        cms-placeholder:
+            path: 'assets/ckeditor-plugins/cms-placeholder/'
+            filename: 'plugin.js'
+        placeholder:
+            path: 'assets/ckeditor-plugins/placeholder/'
+            filename: 'plugin.js'
+        autocomplete:
+            path: 'assets/ckeditor-plugins/autocomplete/'
+            filename: 'plugin.js'
+        textwatcher:
+            path: 'assets/ckeditor-plugins/textwatcher/'
+            filename: 'plugin.js'
+        textmatch:
+            path: 'assets/ckeditor-plugins/textmatch/'
+            filename: 'plugin.js'
+        email-template-site-contact:
+            path: 'assets/ckeditor-plugins/email-template-site-contact/'
+            filename: 'plugin.js'
+        email-template-site-expiration:
+            path: 'assets/ckeditor-plugins/email-template-site-expiration/'
+            filename: 'plugin.js'
+
+    toolbars:
+        configs:
+            toolbar_base: ['@base_line']
+            toolbar_cms: ['@cms_line']
+            toolbar_faq:  ['@faq_line']
+            toolbar_description:  ['@description_line']
+            toolbar_email_template: ['@email_template_line']
+        items:
+            base_line: ['Format', '-', 'Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', '-', 'Image', '-', 'Table', '-', 'Source', '-']
+            cms_line: ['Format', '-', 'Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', '-', 'Image', '-', 'Table', '-', 'CreateDiv', '-', 'CmsEmbed', 'Source'] # CreateDiv - is required for CmsEmbed
+            faq_line: ['Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-']
+            description_line: ['Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-']
+            email_template_line: ['Bold','Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-']
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

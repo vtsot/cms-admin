@@ -1,0 +1,79 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            failed: 'doctrine://default?queue_name=failed'
+            # sync: 'sync://'
+
+            queue_high_priority:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: high_priority
+                    queues:
+                        high_priority: ~
+                retry_strategy:
+                    max_retries: 5
+                    delay: 60000
+                    multiplier: 2
+
+            queue_standard_priority:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: standard_priority
+                    queues:
+                        standard_priority: ~
+                retry_strategy:
+                    max_retries: 5
+                    delay: 60000
+                    multiplier: 2
+
+            queue_low_priority:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: low_priority
+                    queues:
+                        low_priority: ~
+                retry_strategy:
+                    max_retries: 5
+                    delay: 60000
+                    multiplier: 2
+
+            queue_notification:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: notification
+                    queues:
+                        notification: ~
+                retry_strategy:
+                    max_retries: 5
+                    delay: 60000
+                    multiplier: 2
+
+#        routing:
+#            App\Contract\Message\HighPriorityAsyncMessageInterface: queue_high_priority
+#            App\Contract\Message\StandardPriorityAsyncMessageInterface: queue_standard_priority
+#            App\Contract\Message\LowPriorityAsyncMessageInterface: queue_low_priority
+#        #            Symfony\Component\Mailer\Messenger\SendEmailMessage: queue_notification
+#        #            Symfony\Component\Notifier\Message\ChatMessage: queue_notification
+#        #            Symfony\Component\Notifier\Message\SmsMessage: queue_notification
+#        #            Symfony\Component\Notifier\Message\PushMessage: queue_notification
+
+        default_bus: command.bus
+
+        buses:
+            command.bus:
+                middleware:
+                    - doctrine_transaction
+
+            query.bus:
+                middleware: ~
+
+            event.bus:
+                default_middleware: allow_no_handlers
+                middleware: ~

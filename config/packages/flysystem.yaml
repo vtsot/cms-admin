@@ -1,0 +1,43 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+    storages:
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/default'
+
+        gallery.image.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_dir%/images/gallery'
+        gallery.image.cache.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_cache_dir%/images/gallery'
+
+        banner.image.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_dir%/images/banner'
+        banner.image.cache.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_cache_dir%/images/banner'
+
+        article.image.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_dir%/images/article'
+        article.image.cache.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_cache_dir%/images/article'
+
+        site.image.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_dir%/images/site'
+        site.image.cache.storage:
+            adapter: 'local'
+            options:
+                directory: '%storage_cache_dir%/images/site'

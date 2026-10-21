@@ -1,0 +1,13 @@
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Admin\AbstractAdmin child #}
+
+{% if admin.hasRoute('list') and admin.rootAncestor.children %}
+    {% for child in admin.rootAncestor.children %}
+        {% if child is not null %}
+            <a href="{{ child.generateInfinityChildListUrl(child, object) }}"
+               class="btn btn-sm btn-default child-link">
+                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,38 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('js/admin/color-picker') }}
+    {{ encore_entry_link_tags('css/admin-color-picker') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/admin/color-picker') }}
+
+    <script>
+        $(document).ready(() => {
+            const $theme = $("select[name$='[settings][theme]']");
+            const $linkType = $("select[name$='[settings][linkType]']");
+
+            if ($theme.length > 0 && $linkType.length > 0) {
+                setTimeout(() => {
+                    $theme.trigger('change');
+                }, 300);
+
+                if ($theme.val() === 'review') {
+                    setTimeout(() => {
+                        $linkType.trigger('change');
+                    }, 300);
+                }
+
+                $theme.on('change', () => {
+                    if ($theme.val() === 'review') {
+                        setTimeout(() => $linkType.trigger('change'), 0);
+                    }
+                })
+            }
+        });
+    </script>
+{% endblock %}

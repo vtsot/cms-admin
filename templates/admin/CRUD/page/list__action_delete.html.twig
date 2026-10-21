@@ -1,0 +1,6 @@
+{# @var \App\Admin\Site\SitePageAdmin admin #}
+{# @var \App\Entity\Page\Page object #}
+
+{% if not object.homepage and admin.hasAccess('delete', object) and admin.hasRoute('delete') %}
+    {% include '@SonataAdmin/CRUD/list__action_delete.html.twig' %}
+{% endif %}

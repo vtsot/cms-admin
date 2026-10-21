@@ -1,57 +1,50 @@
 {% extends 'base.html.twig' %}
-{% import '@general_templates/web/macros/navigation-drawer.html.twig' as functions %}
+{# @var \App\Entity\Page\Page page #}
+
+{%- block title -%}
+    {%- if page is defined and page is not null -%}
+        {{ page.metaTitle|default(page.ogTitle)|default(page.title) }}
+    {%- else -%}
+        {{ parent() }}
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block seo -%}
+    {%- if page is defined and page is not null -%}
+        {%- if page.indexed == false -%}
+            <meta name="robots" content="noindex, nofollow">
+        {% endif -%}
+
+        <meta name="description" content="{{ page.metaDescription }}">
+        <meta name="keywords" content="{{ page.metaKeywords }}">
+        <meta name="title" content="{{ page.metaTitle|default(page.title) }}">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ page.ogTitle|default(page.title) }}">
+        <meta property="og:description" content="{{ page.ogDescription|default(page.metaDescription) }}">
+        <meta property="og:image" content="{{ page.ogImage ? absolute_url(page.ogImage) : asset('assets/images/logo.svg') }}">
+        <meta property="og:url" content="{% block ogUrl %}{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}{% endblock %}">
+        <meta property="og:locale" content="{{ app.request.locale }}">
+    {%- else -%}
+        {{ parent() }}
+    {%- endif -%}
+{%- endblock -%}
+
 
 {%- block body -%}
 
-    <div id="app">
+    {% block content %}
+        <h1>{{ page.title }}</h1>
+        {{ page.content | raw }}
+    {% endblock %}
 
-        <v-progress-linear indeterminate v-if="globalStore.isLoading()"></v-progress-linear>
-        <v-app v-else>
+{%- endblock -%}
 
-            <app-header>
-                <template #header-title>
-                    {% block header_title %}
-                        {{ header_title ?? null }}
-                    {% endblock %}
-                </template>
 
-                <template #header-navigation>
-                    {% block header_navigation %}
-
-                        {% set items = getHeaderNavigationItems() %}
-                        {% set opened = getHeaderNavigationOpened() %}
-                        {% if items %}
-                            {{ functions.navigation_drawer(items, opened) }}
-                        {% endif %}
-
-                    {% endblock %}
-                </template>
-
-                <template #user-navigation>
-                    {% block user_navigation %}
-
-                        {% set items = getUserNavigationItems() %}
-                        {% set opened = getUserNavigationOpened() %}
-                        {% if items %}
-                            {{ functions.navigation_drawer(items, opened) }}
-                        {% endif %}
-
-                    {% endblock %}
-                </template>
-            </app-header>
-
-            <v-main>
-                <app-alert></app-alert>
-                <app-flash></app-flash>
-                <v-card-text>
-                    {% block content %}
-                    {% endblock %}
-                </v-card-text>
-            </v-main>
-            <v-divider class="my-2"/>
-
-        </v-app>
-
-    </div>
+{%- block before_body_end -%}
+    {% if page is defined and page is not null %}
+        {{ page.codeBlock | raw }}
+    {%- else -%}
+        {{ parent() }}
+    {% endif %}
 
 {%- endblock -%}

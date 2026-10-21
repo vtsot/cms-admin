@@ -1,0 +1,20 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+
+{% block field %}
+    {% set imageRouteName = field_description.options.data.imageRouteName ?? null %}
+    {% set imageType = field_description.options.data.imageType ?? null %}
+
+    {% if attribute(object, 'image') is defined and object.image is not null and imageRouteName %}
+
+        {% set previewWidth = field_description.options.data.previewWidth ?? 200 %}
+        {% set previewHeight = field_description.options.data.previewHeight ?? 200 %}
+        {% set downloadWidth = field_description.options.data.downloadWidth ?? 9999 %}
+        {% set downloadHeight = field_description.options.data.downloadHeight ?? 9999 %}
+
+        {% set imageUrlThumbnail = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': previewWidth, 'height': previewHeight, 'image' : object.image }) %}
+        {% set imageUrlDownload = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.image }) %}
+
+        <a href="{{ imageUrlDownload }}" target="_blank"><img src="{{ imageUrlThumbnail }}" alt=""></a>
+
+    {% endif %}
+{% endblock %}

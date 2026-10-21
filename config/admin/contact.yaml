@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  # show_in_dashboard = false
+  # do not display
+  admin.contact:
+    class: App\Admin\ContactAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.contact' ] ]
+      - [ setBaseRoutePattern,    [ 'contact' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\Contact'
+        manager_type: orm
+        group: MENU_GROUP.CONTACT
+        label: MENU.CONTACT.LIST
+        translation_domain: '%admin_translation_domain%'
+        show_in_dashboard: false
+

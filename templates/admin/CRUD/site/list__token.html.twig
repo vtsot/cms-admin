@@ -1,0 +1,38 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\Site\SiteAdmin admin #}
+{# @var \App\Entity\Site\Site object #}
+
+{% block field %}
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.ID'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.id }}
+    </div>
+    <div>&nbsp;</div>
+    <div>
+        <strong>{{ 'SITE_ENTITY.LABEL.TOKEN'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.token ?? 'SITE_ENTITY.LABEL.NO_TOKEN'|trans({}, 'admin-messages') }}
+    </div>
+
+    {% if admin.hasAccess('token-reset', object) and admin.hasRoute('token-reset') %}
+        <div>
+            {% set button_content = sonata_config.getOption('list_action_button_content') %}
+            <a
+                href="{{ admin.generateObjectUrl('token-reset', object, actions.link_parameters|default([])) }}"
+                class="btn btn-sm btn-success edit_link"
+                title="{{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}"
+            >
+                {% if button_content == 'icon' or button_content == 'all' %}
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                {% endif %}
+                {% if button_content == 'text' or button_content == 'all' %}
+                    {{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}
+                {% else %}
+                    <span class="sr-only">
+                        {{ 'SITE_ENTITY.TOKEN_RESET.BUTTON_NEW'|trans({}, 'admin-messages') }}
+                    </span>
+                {% endif %}
+            </a>
+        </div>
+    {% endif %}
+
+{% endblock %}

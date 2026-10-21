@@ -1,0 +1,48 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.navigation_top:
+        class: App\Admin\Navigation\TopNavigationAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.navigation_top' ] ]
+            - [ setBaseRoutePattern,    [ 'navigation-top' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Navigation\TopNavigation'
+                manager_type: orm
+                group: MENU_GROUP.NAVIGATION
+                label: MENU.NAVIGATION.TOP
+                translation_domain: '%admin_translation_domain%'
+                show_in_dashboard: false
+
+    admin.navigation_bottom:
+        class: App\Admin\Navigation\BottomNavigationAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.navigation_bottom' ] ]
+            - [ setBaseRoutePattern,    [ 'navigation-bottom' ] ]
+            - [ addChild,               [ '@admin.navigation_bottom.children', 'parent' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Navigation\BottomNavigation'
+                manager_type: orm
+                group: MENU_GROUP.NAVIGATION
+                label: MENU.NAVIGATION.BOTTOM
+                translation_domain: '%admin_translation_domain%'
+                show_in_dashboard: false
+
+    admin.navigation_bottom.children:
+        class: App\Admin\Navigation\ChildrenNavigationAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.navigation_bottom.children' ] ]
+            - [ setBaseRoutePattern,    [ 'navigation-bottom-children' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Navigation\BottomNavigation'
+                manager_type: orm
+                group: MENU_GROUP.NAVIGATION
+                label: MENU.NAVIGATION.CHILDREN
+                translation_domain: '%admin_translation_domain%'
+                show_in_dashboard: false

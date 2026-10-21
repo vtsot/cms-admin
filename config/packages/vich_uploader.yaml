@@ -1,0 +1,55 @@
+vich_uploader:
+    db_driver: orm
+    storage:   flysystem
+
+    metadata:
+        type: attribute
+
+    mappings:
+        gallery:
+            upload_destination: gallery.image.storage
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: { property: 'id', chars_per_dir: 2, dirs: 2 }
+            namer:
+                service: vich_uploader.namer_property
+                options: { property: 'id' }
+            inject_on_load: true # true is required
+            delete_on_update: true
+            delete_on_remove: true
+
+        banner:
+            upload_destination: banner.image.storage
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: { property: 'id', chars_per_dir: 2, dirs: 2 }
+            namer:
+                service: App\Service\UploaderUuidNamer
+                options: { property: 'id' }
+            inject_on_load: true # true is required
+            delete_on_update: true
+            delete_on_remove: true
+
+        article:
+            upload_destination: article.image.storage
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: { property: 'id', chars_per_dir: 2, dirs: 2 }
+            namer:
+                service: vich_uploader.namer_property
+                options: { property: 'id' }
+            inject_on_load: true # true is required
+            delete_on_update: true
+            delete_on_remove: true
+
+        site:
+            upload_destination: site.image.storage
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: { property: 'id', chars_per_dir: 2, dirs: 2 }
+            namer:
+                service: App\Service\UploaderUuidNamer
+                options: { property: 'id' }
+            inject_on_load: true # true is required
+            delete_on_update: true
+            delete_on_remove: true

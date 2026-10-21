@@ -1,0 +1,21 @@
+{% extends '@SonataAdmin/CRUD/list_string.html.twig' %}
+{# @var \App\Admin\BannerAdmin admin #}
+{# @var \App\Entity\Banner object #}
+
+{% block field %}
+    {% set imageRouteName = field_description.options.data.imageRouteName ?? null %}
+
+    {% if attribute(object, 'mobileImage') is defined and object.mobileImage is not null and imageRouteName %}
+
+        {% set previewWidth = field_description.options.data.previewWidth ?? 200 %}
+        {% set previewHeight = field_description.options.data.previewHeight ?? 200 %}
+        {% set downloadWidth = field_description.options.data.downloadWidth ?? 9999 %}
+        {% set downloadHeight = field_description.options.data.downloadHeight ?? 9999 %}
+
+        {% set imageUrlThumbnail = url(imageRouteName, {'crop' : 'resize', 'width': previewWidth, 'height': previewHeight, 'image' : object.mobileImage }) %}
+        {% set imageUrlDownload = url(imageRouteName, {'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.mobileImage }) %}
+
+        <a href="{{ imageUrlDownload }}" target="_blank"><img src="{{ imageUrlThumbnail }}" alt=""></a>
+
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "@SonataAdmin/CRUD/list_url.html.twig" %}
+{# @var \App\Admin\AbstractAdmin admin #}
+{# @var \App\Contract\Entity\LinkEntityInterface object  #}
+
+{% block field %}
+    {% set value = null %}
+
+    {% if object.linkType == constant('\\App\\Contract\\Entity\\LinkEntityInterface::LINK_TYPE_PAGE') %}
+        {% set value = object.linkPage and object.linkPage.site and object.linkPage.site.domain and object.linkPage.slug
+            ? object.linkPage.site.domain ~ '/' ~ object.linkPage.slug
+            : null
+        %}
+    {% elseif object.linkType == constant('\\App\\Contract\\Entity\\LinkEntityInterface::LINK_TYPE_ARTICLE') %}
+        {% set value = object.linkArticle and object.linkArticle.site and object.linkArticle.site.domain and object.linkArticle.slug
+            ? object.linkArticle.site.domain ~ '/' ~ object.linkArticle.slug
+            : null
+        %}
+    {% else %}
+        {% set value = getLinkEntityUrl(object) %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

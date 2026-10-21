@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Repository\Review;
+
+use App\Entity\Review\MedicationTimeReviewQuestionItem;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
+
+/**
+ * @extends ServiceEntityRepository<MedicationTimeReviewQuestionItem>
+ *
+ * @method MedicationTimeReviewQuestionItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MedicationTimeReviewQuestionItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MedicationTimeReviewQuestionItem[]    findAll()
+ * @method MedicationTimeReviewQuestionItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MedicationTimeReviewQuestionItem[]    findAllActiveBySiteId(Uuid $siteId)
+ * @method MedicationTimeReviewQuestionItem      findOneById(Uuid $id)
+ * @method MedicationTimeReviewQuestionItem|null findOneActiveByIdAndSiteId(Uuid $id, Uuid $siteId)
+ */
+class MedicationTimeReviewQuestionItemRepository extends AbstractReviewQuestionItemRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, MedicationTimeReviewQuestionItem::class);
+    }
+}

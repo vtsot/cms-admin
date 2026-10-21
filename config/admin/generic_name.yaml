@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  admin.generic_name:
+    class: App\Admin\GenericNameAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.generic_name' ] ]
+      - [ setBaseRoutePattern,    [ 'generic-name' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\GenericName'
+        manager_type: orm
+        group: MENU_GROUP.SITE
+        label: MENU.GENERIC_NAME
+        show_in_dashboard: true
+

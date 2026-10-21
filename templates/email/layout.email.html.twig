@@ -1,0 +1,5 @@
+{% apply inky_to_html|inline_css(source('@email_assets/css/foundation-emails.css')) %}
+
+    {% block content %}{% endblock %}
+
+{% endapply %}

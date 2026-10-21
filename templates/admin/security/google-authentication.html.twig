@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/admin-google-authentication') }}
+{% endblock %}
+
+{% block title %}
+    {{ 'TWO_STEP_AUTH.TITLE'|trans({}, 'admin-messages') }}
+{% endblock %}
+
+{% block body %}
+    <div class="google-authentication">
+        <div class="widget">
+            <div class="widget__body">
+
+                {% if validate %}
+                    <h3 class="widget__title">
+                        {{ 'TWO_STEP_AUTH.VALIDATE'|trans({}, 'admin-messages') }}
+                    </h3>
+                {% else %}
+                    <h3 class="widget__title">
+                        {{ 'TWO_STEP_AUTH.TITLE'|trans({}, 'admin-messages') }}
+                    </h3>
+
+                    <p>
+                        {{ 'TWO_STEP_AUTH.INSTALL'|trans({}, 'admin-messages') }}
+                    </p>
+
+                    <div class="app-buttons">
+                        <a target="_blank"
+                           href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">
+                            <img width="150px" src="{{ asset('assets/images/admin/stores/google-play.png') }}" alt="Google Play"/>
+                        </a>
+
+                        <a target="_blank" href="https://itunes.apple.com/app/google-authenticator/id388497605">
+                            <img width="150px" src="{{ asset('assets/images/admin/stores/app-store.png') }}" alt="App Store">
+                        </a>
+                    </div>
+
+                    <p>
+                        {{ 'TWO_STEP_AUTH.SCAN_CODE'|trans({}, 'admin-messages') }}
+                    </p>
+
+                    <div class="qr-code">
+                        <img src="{{ qrCodeImg }}" alt="QR Code"/>
+                    </div>
+                {% endif %}
+
+                <label for="confirm-code" class="input-label">
+                    {{ 'TWO_STEP_AUTH.ENTER_CODE'|trans({}, 'admin-messages') }}
+                </label>
+
+                {% if error %}
+                    <div class="alert">
+                        {{ 'TWO_STEP_AUTH.ERROR_CODE'|trans({}, 'admin-messages') }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    <input id="confirm-code"
+                           type="text"
+                           name="_code"
+                           class="confirm-code"
+                           placeholder="{{ 'TWO_STEP_AUTH.PLACEHOLDER_CODE'|trans({}, 'admin-messages') }}"
+                           autofocus autocomplete='off'
+                    />
+                    <div class="text-right">
+                        <button class="submit-code btn" type="submit">{{ 'TWO_STEP_AUTH.BUTTON_SUBMIT'|trans({}, 'admin-messages') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

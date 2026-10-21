@@ -1,0 +1,49 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    # show_in_dashboard = false
+    # do not display, it used as autocomplete
+    admin.user.all:
+        class: App\Admin\User\AllUserAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin.user_all'] ]
+            - [ setBaseRoutePattern,    ['user-all'] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\User'
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER.USER_ALL
+                translation_domain: '%admin_translation_domain%'
+                show_in_dashboard: false
+
+    admin.user.admin:
+        class: App\Admin\User\AdminUserAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin.user_admin'] ]
+            - [ setBaseRoutePattern,    ['user-admin'] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\User'
+              manager_type: orm
+              group: MENU_GROUP.USER
+              label: MENU.USER.USER_ADMIN
+              translation_domain: '%admin_translation_domain%'
+
+    admin.user.regular:
+        class: App\Admin\User\RegularUserAdmin
+        calls:
+            - [ setBaseRouteName,       ['admin.user_regular'] ]
+            - [ setBaseRoutePattern,    ['user-regular'] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\User'
+              manager_type: orm
+              group: MENU_GROUP.USER
+              label: MENU.USER.USER_REGULAR
+              translation_domain: '%admin_translation_domain%'
+              show_in_dashboard: false
+

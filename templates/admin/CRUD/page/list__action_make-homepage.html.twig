@@ -1,0 +1,25 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+{# @var \App\Admin\Site\SitePageAdmin admin #}
+{# @var \App\Entity\Page\Page object #}
+
+{% block field %}
+    {% if not object.homepage and admin.hasAccess('make-homepage', object) and admin.hasRoute('make-homepage') %}
+        {% set button_content = sonata_config.getOption('list_action_button_content') %}
+        <a
+                href="{{ admin.generateObjectUrl('make-homepage', object, actions.link_parameters|default([])) }}"
+                class="btn btn-sm btn-default edit_link"
+                title="{{ 'PAGE_ENTITY.LABEL.MAKE_HOMEPAGE'|trans({}, 'admin-messages') }}"
+        >
+            {% if button_content == 'icon' or button_content == 'all' %}
+                <i class="fas fa-eye" aria-hidden="true"></i>
+            {% endif %}
+            {% if button_content == 'text' or button_content == 'all' %}
+                {{ 'PAGE_ENTITY.LABEL.MAKE_HOMEPAGE'|trans({}, 'admin-messages') }}
+            {% else %}
+                <span class="sr-only">
+                            {{ 'PAGE_ENTITY.LABEL.MAKE_HOMEPAGE'|trans({}, 'admin-messages') }}
+                    </span>
+            {% endif %}
+        </a>
+    {% endif %}
+{% endblock %}

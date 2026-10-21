@@ -1,0 +1,745 @@
+ADMIN:
+    LOGIN:
+        TITLE: 'Login'
+    LABEL:
+        ACTIONS: 'Actions'
+        LANGUAGES: 'Languages'
+
+AUTH:
+    LOGIN: 'Login'
+    LOGOUT: 'Logout'
+
+MENU_GROUP:
+    CONTENT: 'Site Content'
+    NAVIGATION: 'Navigation'
+    USER: 'Users'
+    SITE: 'Sites'
+    REVIEW: 'Reviews'
+    GALLERY_IMAGE: 'Gallery'
+    FAQ_GROUP: 'Faq Groups'
+    SYSTEM: 'System'
+
+MENU:
+    CONTENT:
+        ALL_PAGE:
+            LIST: 'All Pages'
+            RELATED_ARTICLE: 'Related Articles'
+    NAVIGATION:
+        TOP: 'Top Navigation'
+        BOTTOM: 'Bottom Navigation'
+        CHILDREN: 'Child Navigation'
+    USER:
+        USER_ADMIN: 'Admins'
+        USER_REGULAR: 'Regular'
+    SITE:
+        SETTINGS: 'Site Settings'
+        LIST: 'Sites List'
+        PAGE:
+            LIST: 'Pages'
+            RELATED_ARTICLE: 'Related Articles'
+        NAVIGATION:
+            TOP: 'Top Navigation'
+            BOTTOM: 'Bottom Navigation'
+            CHILDREN: 'Child Navigation'
+        GALLERY_IMAGE:
+            LIST: 'Gallery'
+        FAQ_GROUP: 'FAQ Groups'
+        FAQ: 'FAQs'
+        CONTACT: 'Contacts List'
+        BANNER: 'Site Banners'
+        ARTICLE: 'Articles'
+        EMAIL_TEMPLATE: 'Site E-mail Templates'
+    REVIEW:
+        SITE: 'Sites'
+        LIST: 'Reviews'
+        SETTINGS:
+            PRODUCT: 'Product Settings'
+            REASON: 'Reason Settings'
+            AGE: 'Age Settings'
+            MEDICATION_TIME: 'Time on medication Settings'
+    GALLERY_IMAGE:
+        LIST: 'Images List'
+    FAQ_GROUP: 'FAQ Groups'
+    FAQ: 'FAQs'
+    GENERIC_NAME: 'Generic Names'
+    BRAND: 'Brands List'
+    SYSTEM:
+        MAIL_LOG: 'Mail Logs'
+
+BREADCRUMB:
+    MENU_CONTENT_ALL_PAGE:
+        PAGE_list: 'All Pages'
+        PAGE_create: 'Create Page'
+
+    MENU_NAVIGATION_TOP:
+        TOPNAVIGATION_list: 'Top Navigation'
+        TOPNAVIGATION_create: 'Create Top Navigation'
+    MENU_NAVIGATION_BOTTOM:
+        BOTTOMNAVIGATION_list: 'Bottom Navigation'
+        BOTTOMNAVIGATION_create: 'Create Bottom Navigation'
+
+    MENU_NAVIGATION_CHILDREN:
+        TOPNAVIGATION_list: 'Child Navigation'
+        TOPNAVIGATION_create: 'Create Child'
+        BOTTOMNAVIGATION_list: 'Child Navigation'
+        BOTTOMNAVIGATION_create: 'Create Child'
+
+    MENU_SITE_NAVIGATION_CHILDREN:
+        TOPNAVIGATION_list: 'Child Navigation'
+        TOPNAVIGATION_create: 'Create Child'
+        BOTTOMNAVIGATION_list: 'Child Navigation'
+        BOTTOMNAVIGATION_create: 'Create Child'
+
+    MENU_USER_USER_ADMIN:
+        USER_list: 'Admins'
+        USER_create: 'Create admin'
+    MENU_USER_USER_REGULAR:
+        USER_list: 'Regular'
+        USER_create: 'Create regular user'
+
+    MENU_SITE_LIST:
+        SITE_list: 'Sites'
+        SITE_create: 'Create site'
+
+    MENU_SITE_SETTINGS:
+        SITESETTINGS_list: 'Site Settings'
+        SITESETTINGS_create: 'sss'
+
+    MENU_SITE_PAGE_LIST:
+        PAGE_list: 'Pages'
+        PAGE_create: 'Create Page'
+
+    MENU_SITE_PAGE_RELATED_ARTICLE:
+        PAGERELATEDARTICLE_list: 'Related Articles'
+        PAGERELATEDARTICLE_create: 'Create Related Article'
+
+    MENU_SITE_NAVIGATION_TOP:
+        TOPNAVIGATION_list: 'Top Navigations'
+        TOPNAVIGATION_create: 'Create Top Navigation'
+
+    MENU_SITE_NAVIGATION_BOTTOM:
+        BOTTOMNAVIGATION_list: 'Bottom Navigations'
+        BOTTOMNAVIGATION_create: 'Create Bottom Navigation'
+
+    MENU_SITE_GALLERY_IMAGE_LIST:
+        GALLERYIMAGE_list: 'Gallery Images'
+        GALLERYIMAGE_create: 'Create Image'
+
+    MENU_SITE_FAQ_GROUP:
+        FAQGROUP_list: 'Faq Groups'
+        FAQGROUP_create: 'Create'
+
+    MENU_SITE_FAQ:
+        FAQ_list: 'Faqs'
+        FAQ_create: 'Create'
+
+    MENU_SITE_THEME:
+        SITETHEME_list: 'Site Themes'
+        SITETHEME_create: 'Create Site Theme'
+
+    MENU_REVIEW_SITE:
+        SITE_list: 'Sites'
+
+    MENU_REVIEW_LIST:
+        REVIEW_list: 'Reviews List'
+        REVIEW_create: 'Create Review'
+
+    MENU_REVIEW_SETTINGS_PRODUCT:
+        PRODUCTREVIEWQUESTIONITEM_list: 'Product Settings'
+        PRODUCTREVIEWQUESTIONITEM_create: 'Create Product Option'
+
+    MENU_REVIEW_SETTINGS_REASON:
+        REASONREVIEWQUESTIONITEM_list: 'Reason Settings'
+        REASONREVIEWQUESTIONITEM_create: 'Create Reason Option'
+
+    MENU_REVIEW_SETTINGS_AGE:
+        AGEREVIEWQUESTIONITEM_list: 'Age Settings'
+        AGEREVIEWQUESTIONITEM_create: 'Create Age Option'
+
+    MENU_REVIEW_SETTINGS_MEDICATION_TIME:
+        MEDICATIONTIMEREVIEWQUESTIONITEM_list: 'Time on medication Settings'
+        MEDICATIONTIMEREVIEWQUESTIONITEM_create: 'Create Option of Time on medication'
+
+    MENU_GALLERY_IMAGE_LIST:
+        GALLERYIMAGE_list: 'Gallery Images'
+        GALLERYIMAGE_create: 'Create Image'
+
+    MENU_FAQ_GROUP:
+        FAQGROUP_list: 'FAQ Groups'
+        FAQGROUP_create: 'Create'
+
+    MENU_FAQ:
+        FAQ_list: 'FAQs'
+        FAQ_create: 'Create'
+
+    MENU_GENERIC_NAME:
+        GENERICNAME_list: 'Generic Names'
+        GENERICNAME_create: 'Create'
+
+    MENU_BRAND:
+        BRAND_list: 'Brands'
+        BRAND_create: 'Create'
+
+    MENU_SITE_CONTACT:
+        CONTACT_list: 'Contacts'
+        CONTACT_create: 'Create'
+
+    MENU_SYSTEM_MAIL_LOG:
+        MAILLOG_list: 'Mail Logs'
+        MAILLOG_create: 'Create'
+
+    MENU_SITE_BANNER:
+        BANNER_list: 'Site Banners'
+        BANNER_create: 'Create'
+
+    MENU_SITE_ARTICLE:
+        ARTICLE_list: 'Site Article'
+        ARTICLE_create: 'Create'
+
+    MENU_SITE_EMAIL_TEMPLATE:
+        EMAILTEMPLATE_list: 'Site E-mail Templates'
+        EMAILTEMPLATE_create: 'Create'
+
+FIELD:
+    ACTIVE: 'Active'
+    USER: 'User'
+    CREATED_AT: 'Created At'
+    UPDATED_AT: 'Updated At'
+    CHANGED_AT: 'Changed At'
+    CHANGED_BY: 'Changed By'
+    CREATED_BY: 'Created By'
+    UPDATED_BY: 'Updated By'
+    POSITION: 'Position'
+    LINK_ENTITY:
+        TYPE: 'Link Type'
+        PAGE: 'Page'
+        PAGE_HELP: 'Select a Page'
+        ARTICLE: 'Article'
+        ARTICLE_HELP: 'Select an Article'
+        LINK_URL: 'Url'
+        LINK_URL_HELP: 'Absolute (http: // ...) or Relative Link (/ example-slug)'
+        NO_FOLLOW: 'Follow / No Follow?'
+        NO_FOLLOW_HELP: 'Choose "No Follow" to set the rel="nofollow" attribute'
+        TARGET: 'Target'
+        CHOICE:
+            NONE: '-- None --'
+            LINK: 'External URL'
+            PAGE: 'Page'
+            TOP: 'Same Window'
+            BLANK: 'New Window'
+            FOLLOW: 'Follow'
+            NO_FOLLOW: 'No Follow'
+            ARTICLE: 'Article'
+
+CHOICE:
+    YES: 'Yes'
+    NO: 'No'
+    NONE: '-- None --'
+
+TWO_STEP_AUTH:
+    TITLE: 'Two Step Authentication'
+    VALIDATE: 'Validate code'
+    INSTALL: 'Install "Google Authenticator" on your smartphone.'
+    SCAN_CODE: 'Scan QR code using your mobile application'
+    ENTER_CODE: 'Enter the verification code generated by your mobile application'
+    ERROR_CODE: 'Validation code you have entered is wrong'
+    PLACEHOLDER_CODE: 'Confirmation Code'
+    BUTTON_SUBMIT: 'Confirm Code'
+
+FREQUENCY:
+    LABEL: 'Frequency'
+    CHOICE:
+        ALWAYS: 'Always'
+        IMMEDIATELY: 'Immediately'
+        HOURLY: 'Hourly'
+        DAILY: 'Daily'
+        WEEKLY: 'Weekly'
+        MONTHLY: 'Monthly'
+        YEARLY: 'Yearly'
+        NEVER: 'Never'
+
+FLASH:
+    ERROR:
+        NO_PERMISSION: 'No permission to continue the operation'
+
+NAVIGATION_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Title'
+
+USER_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        EMAIL: 'E-mail'
+        EMAIL_CONFIRMED: 'Email confirmed'
+        FIRST_NAME: 'First Name'
+        LAST_NAME: 'Last Name'
+        PASSWORD: 'Password'
+        PASSWORD_REPEAT: 'Password repeat'
+        ROLES: 'Role'
+        GOOGLE_AUTHENTICATOR_ENABLED: 'Enable Two-Step Authentication'
+        GOOGLE_AUTHENTICATOR_ENABLED_LIST_LABEL: 'Two-Step Auth'
+        GOOGLE_AUTHENTICATOR_TOKEN: 'Two-Step Authentication Token'
+        SITES: 'Sites'
+        USERS: 'Users'
+    HELP:
+        EMAIL: ''
+        EMAIL_CONFIRMED: ''
+        FIRST_NAME: ''
+        LAST_NAME: ''
+        ROLES: ''
+        GOOGLE_AUTHENTICATOR_ENABLED: 'Set "Yes" to enable Two-Step Authentication. Set "No" to disable Two-Step Authentication.'
+        GOOGLE_AUTHENTICATOR_TOKEN_IS_SET: 'Leave blank to reset the token and it will be saved after the next successful login into the admin area.'
+        GOOGLE_AUTHENTICATOR_TOKEN_NOT_SET: 'Leave blank and the token will be saved after the next successful login into the admin area.'
+        SITES: ''
+    ERROR:
+        EMAIL_TAKEN: 'E-mail "%EMAIL%" already registered'
+        PASSWORD_MISMATCH: 'Password not confirmed'
+    ROLE:
+        ROLE_USER: 'User'
+        ROLE_SITE_MANAGER: 'Site Manager'
+        ROLE_SUPERVISOR: 'Supervisor'
+
+META:
+    LABEL:
+        META_TITLE: 'Meta title'
+        META_KEYWORDS: 'Meta keywords'
+        META_DESCRIPTION: 'Meta description'
+        LOGO_TITLE: 'Logo title'
+        OG_TITLE: 'Og title'
+        OG_DESCRIPTION: 'Og description'
+        OG_IMAGE: 'Og image'
+    HELP:
+        META_TITLE: ''
+        META_KEYWORDS: ''
+        META_DESCRIPTION: ''
+        LOGO_TITLE: ''
+        OG_TITLE: ''
+        OG_DESCRIPTION: ''
+        OG_IMAGE: ''
+
+PAGE_ENTITY:
+    SECTION:
+        CONTENT: 'Content'
+        SEO: 'SEO'
+        CODE_BLOCK: 'Code block'
+        SETTINGS: 'Settings'
+        INDEXING: 'Indexing'
+        RELATED_ARTICLES: 'Related Articles'
+    LABEL:
+        TRANSLATIONS: 'Translations'
+        TITLE: 'Title'
+        SLUG: 'Slug'
+        DESCRIPTION: 'Short Description'
+        CONTENT: 'Content'
+        CODE_BLOCK: 'Code block'
+        REDIRECT: 'Redirect'
+        INDEXED: 'Should be Indexed by Search Engines?'
+        CHANGE_FREQUENCY: 'How Often Content is Updated?'
+        PRIORITY: 'Importance Compared to Other Pages'
+        HOMEPAGE: 'Homepage'
+        MAKE_HOMEPAGE: 'Make Homepage'
+        SOURCE: 'Sources'
+        RELATED_ARTICLE_TITLE: 'Related Articles Title'
+        RELATED_ARTICLES: 'Articles'
+    HELP:
+        TITLE: ''
+        DESCRIPTION: ''
+        CONTENT: ''
+        CODE_BLOCK: 'Code will be inserted "as is" at the bottom of the page. Useful for custom JavaScript trackers.'
+        REDIRECT: 'Leave blank unless you want page redirected to a specified location'
+        HOMEPAGE: ''
+        MAKE_HOMEPAGE: ''
+        SOURCE: ''
+        RELATED_ARTICLE_TITLE: ''
+    ERROR:
+        SLUG_TAKEN: 'This slug is already used'
+    FLASH:
+        ERROR:
+            NOT_FOUND: 'Page Not Found'
+        SUCCESS:
+            MAKE_HOMEPAGE: 'The page "{TITLE}" has been successfully set as homepage'
+
+ARTICLE_ENTITY:
+    LABEL:
+        ALT: 'Alt'
+        IMAGE: 'Image'
+        IMAGE_DOWNLOAD: 'Download'
+        DESCRIPTION: 'Short Description'
+    HELP:
+        ALT: 'Article Image Alternate Text'
+        IMAGE: 'Article Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
+        DESCRIPTION: ''
+
+PAGE_RELATED_ARTICLE_ENTITY:
+    LABEL:
+        PAGE: 'Page'
+        ARTICLE: 'Article'
+    HELP:
+        PAGE: ''
+        ARTICLE: ''
+    PLACEHOLDER:
+        PAGE: 'Page'
+        ARTICLE: 'Choose an Article'
+
+
+SITE_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+        DOMAIN_REGISTRATION: 'Domain Registration'
+        DOMAIN_DETAILS: 'Domain Details'
+    LABEL:
+        SETTINGS: 'Settings'
+        ID: 'ID'
+        DOMAIN: 'Domain'
+        USERS: 'Users'
+        SITES: 'Sites'
+        TOKEN: 'API Token'
+        NO_TOKEN: 'No token'
+        RESET_TOKEN: 'Reset Token'
+        NAVIGATION: 'Navigation'
+        THEME: 'Theme'
+        TITLE: 'Title'
+        GENERIC_NAMES: 'Generic names'
+        COMMON_BRANDS: 'Common brands'
+        FOOTER_TEXT1: 'Left Footer Text Block'
+        FOOTER_TEXT2: 'Right Footer Text Block'
+        COPYRIGHT_TEXT: 'Copyright Text'
+        DOMAIN_DETAILS: 'Domain Details'
+        REGISTRAR_EMAIL: 'Registrar E-mail'
+        REGISTRAR_NAME: 'Registrar Name'
+        REGISTERED_AT: 'Registered At'
+        EXPIRE_AT: 'Expire At'
+        ARCHIVE_BIRTH_YEAR: 'ABY'
+        GLOBAL_SEARCH_VOLUME: 'GSV'
+        US_SEARCH_VOLUME: 'US'
+        MOZ_SPAM: 'Moz Spam'
+        AHREFS_DOMAIN_RATING: 'Ahrefs DR'
+        AHREFS_BACK_LINKS: 'Ahrefs Backlinks'
+        AHREFS_REF_DOMAINS: 'Ahrefs Ref Domains'
+        SEMRUSH_AUTHORITY_SCORE: 'Semrush AS'
+        SEMRUSH_BACK_LINKS: 'Semrush Backlinks'
+        SEMRUSH_REF_DOMAINS: 'Semrush Ref. Domains'
+        WIKIPEDIA_LINK: 'Wikipedia Link'
+        IS_PENALTY: 'Is Penalty?'
+    HELP:
+        DOMAIN: 'Ex. "https://example.com" (Attention: domain must start with http:// or https://)'
+        USERS: ''
+        THEME: ''
+        TITLE: ''
+        GENERIC_NAMES: ''
+        COMMON_BRANDS: ''
+        FOOTER_TEXT1: ''
+        FOOTER_TEXT2: ''
+        COPYRIGHT_TEXT: ''
+        DOMAIN_DETAILS: ''
+        REGISTRAR_EMAIL: 'E-mail used during the registration '
+        REGISTRAR_NAME: ''
+        REGISTERED_AT: ''
+        EXPIRE_AT: ''
+        ARCHIVE_BIRTH_YEAR: 'Archive Birth Year'
+        GLOBAL_SEARCH_VOLUME: 'Global Search Volume'
+        US_SEARCH_VOLUME: 'US Search Volume'
+        MOZ_SPAM: 'Moz Spam (%)'
+        AHREFS_DOMAIN_RATING: 'Ahrefs Domain Rating'
+        AHREFS_BACK_LINKS: ''
+        AHREFS_REF_DOMAINS: ''
+        SEMRUSH_AUTHORITY_SCORE: 'Semrush Authority Score'
+        SEMRUSH_BACK_LINKS: ''
+        SEMRUSH_REF_DOMAINS: ''
+        WIKIPEDIA_LINK: 'Absolute URL (http: // ...)'
+        IS_PENALTY: ''
+    PLACEHOLDER:
+        THEME: 'Select Theme'
+    ERROR:
+        DOMAIN_INVALID: 'Domain "%DOMAIN%" is invalid'
+        DOMAIN_TAKEN: 'Domain "%DOMAIN%" already used'
+    FILTER:
+        SITES: 'Sites'
+    TOKEN_RESET:
+        TITLE: 'Reset Site API Token'
+        MESSAGE_CONFIRM: 'New Site API token will be generated'
+        BUTTON_NEW: 'New Token'
+        BUTTON_CONFIRM: 'Generate Token'
+        FLASH:
+            SUCCESS: 'API token for Site "%object%" has been successfully generated'
+            ERROR: 'An Error has occurred during API token generated for site "%object%"'
+    BUTTON:
+        SETTINGS: 'Site Settings'
+        CACHE_CLEAR: 'Cache Clear'
+    CACHE_CLEAR:
+        FLASH:
+            SUCCESS: 'Cache Site "%object%" has been successfully cleared'
+            ERROR: 'An Error has occurred during cache clearing for site "%object%"'
+
+SITE_SETTINGS_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+        SENDER: 'General Sender Settings'
+        THEME: 'Theme Settings'
+    LABEL:
+        SENDER_EMAIL: 'Sender E-mail'
+        SENDER_NAME: 'Sender Name'
+        FROM_EMAIL: 'E-mail From'
+        FROM_NAME: 'E-mail From Name'
+        FAVICON: 'Favicon'
+        FAVICON_DELETE: 'Delete Favicon'
+        IMAGE_POSITION: 'Image Position'
+        IMAGE_TITLE: 'Image Title'
+        DESKTOP_IMAGE: 'Desktop Image'
+        DESKTOP_IMAGE_DELETE: 'Delete Desktop Image'
+        MOBILE_IMAGE: 'Mobile Image'
+        MOBILE_IMAGE_DELETE: 'Delete Mobile Image'
+        IMAGE_DOWNLOAD: 'Download'
+        LINK_ACTIVE: 'Button Link Active?'
+        LINK_TITLE: 'Button Link Title'
+        LINK_TYPE: 'Button Link Type'
+        THEME_PRIMARY_COLOR: 'Theme Primary Color'
+        THEME_TEXT_COLOR: 'Theme Text Color'
+        THEME_TOP_BG_COLOR: 'Theme Top Background Color'
+        THEME_FOOTER_BG_COLOR: 'Theme Footer Background Color'
+    HELP:
+        SENDER_EMAIL: ''
+        SENDER_NAME: ''
+        FROM_EMAIL: ''
+        FROM_NAME: ''
+        FAVICON: 'Favicon Image should be no less than "%SIZE%"'
+        IMAGE_POSITION: 'Choose an image position or leave blank to use the default position'
+        IMAGE_TITLE: ''
+        LINK_ACTIVE: 'Choose "No" to hide the Button'
+        LINK_TITLE: 'Enter button title or leave blank to use the default value'
+        DESKTOP_IMAGE: 'Desktop Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
+        MOBILE_IMAGE: 'Mobile Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
+        THEME_COLOR: 'Enter hex color (e.g. #ffffff) or leave blank to use the default value'
+        THEME_PRIMARY_COLOR: 'Enter hex color or leave blank to use the default value'
+        THEME_TEXT_COLOR: 'Enter hex color or leave blank to use the default value'
+        THEME_TOP_BG_COLOR: 'Enter hex color or leave blank to use the default value'
+        THEME_FOOTER_BG_COLOR: 'Enter hex color or leave blank to use the default value'
+
+EMAIL_TEMPLATE_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        CODE: 'Key'
+        PLACEHOLDERS: 'Placeholders'
+        SUBJECT: 'Subject'
+        TEXT: 'Text'
+        HTML: 'Html'
+        SEND_TO: 'Send to'
+        SEND_TO_MANAGERS_ACTIVE: 'Send to Managers?'
+        SEND_TO_MANAGERS_ACTIVE_FORM: 'Is the email sent to all site managers?'
+        REPLY_TO: 'Reply To'
+    HELP:
+        CODE: ''
+        ACTIVE: 'Is an E-mail template available for sending?'
+        PLACEHOLDERS: 'Use placeholders to replace data'
+        SUBJECT: 'E-mail Subject'
+        TEXT: ''
+        HTML: ''
+        SEND_TO: 'Enter addresses separated by commas. A copy of the letter will be sent.'
+        SEND_TO_MANAGERS_ACTIVE: 'Choose "No" to disable sending mail'
+        SEND_TO_MANAGERS_ACTIVE_FORM: ''
+        REPLY_TO: 'E-mail for reply. Leave blank or set an E-mail. e.g. no-reply@example.com'
+    ERROR:
+        INVALID_EMAIL: 'Invalid email "%EMAIL%"'
+
+SITE_THEME_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Title'
+    HELP:
+        TITLE: ''
+
+REVIEW_ENTITY:
+    SECTION:
+        CUSTOMER: 'Customer'
+        REVIEW: 'Review'
+        PRODUCT: 'Product'
+        FEEDBACK: 'Feedback'
+    FIELD:
+        AUTHOR: 'Author'
+        DETAILS: 'Details'
+    LABEL:
+        SITE:
+            DOMAIN: 'Domain'
+        QTY: 'Reviews Quantity'
+        AUTHOR:
+            NAME: 'Name'
+            GENDER: 'Gender'
+            TYPE: 'Type'
+            AGE: 'Age'
+        CONTENT: 'Review'
+        EFFECTIVENESS: 'Effectiveness'
+        EASE_OF_USE: 'Ease of Use'
+        SATISFACTION: 'Satisfaction'
+        GENDER: 'Gender'
+        REASON: 'Main reason for taking this medication'
+        MEDICATION_TIME: 'Time on Medication'
+        LIKE_QTY: 'Likes Quantity'
+        DISLIKE_QTY: 'Dislikes Quantity'
+        REPORT_QTY: 'Reports Quantity'
+        FULL_NAME: 'Full Name'
+        EMAIL: 'E-mail'
+        PRODUCT: 'Product'
+        OTHER_PRODUCT_NAME: 'Other Product'
+        OTHER_PRODUCT_MANUFACTURER: 'Manufacturer'
+    HELP:
+        AUTHOR:
+            NAME: ''
+            GENDER: ''
+            TYPE: ''
+            AGE: ''
+        CONTENT: ''
+        EFFECTIVENESS: 'The valid range is 1 through 5.'
+        EASE_OF_USE: 'The valid range is 1 through 5.'
+        SATISFACTION: 'The valid range is 1 through 5.'
+        REASON: ''
+        MEDICATION_TIME: ''
+        LIKE_QTY: ''
+        DISLIKE_QTY: ''
+        REPORT_QTY: ''
+        FULL_NAME: ''
+        EMAIL: ''
+        PRODUCT: ''
+        OTHER_PRODUCT_NAME: ''
+        OTHER_PRODUCT_MANUFACTURER: ''
+
+    PLACEHOLDER:
+        AUTHOR:
+            GENDER: 'Select Gender'
+            TYPE: 'Select Type'
+            AGE: 'Select an age range'
+        REASON: 'Select a Condition'
+        MEDICATION_TIME: 'Select Duraction'
+    GENDER:
+        MALE: Male
+        FEMALE: Female
+    TYPE:
+        PATIENT: Patient
+        CAREGIVER: Caregiver
+
+REVIEW_QUESTION_ITEM_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Title'
+    HELP:
+        TITLE: ''
+
+GALLERY_IMAGE_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Title'
+        ALT: 'Image Alt'
+        COLOR: 'Color'
+        SHAPE: 'Shape'
+        IMPRINT: 'Imprint'
+        CONTENT: 'Description'
+        IMAGE: 'Image'
+        IMAGE_DOWNLOAD: 'Download'
+    HELP:
+        TITLE: ''
+        ALT: ''
+        IMAGE: ''
+        COLOR: ''
+        SHAPE: ''
+        IMPRINT: ''
+        CONTENT: ''
+
+FAQ_GROUP_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Title'
+    HELP:
+        TITLE: ''
+
+FAQ_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        TITLE: 'Question'
+        CONTENT: 'Answer'
+    HELP:
+        TITLE: ''
+        CONTENT: ''
+
+GENERIC_NAME_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        NAME: 'Generic name'
+        NAMES: 'Generic Names'
+    HELP:
+        NAME: ''
+        NAMES: ''
+    ERROR:
+        NAME_TAKEN: 'Generic Name "%NAME%" already added'
+
+BRAND_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        NAME: 'Brand name'
+        NAMES: 'Brand Names'
+    HELP:
+        NAME: ''
+        NAMES: ''
+    ERROR:
+        NAME_TAKEN: 'Brand Name "%NAME%" already added'
+
+CONTACT_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        ID: 'ID'
+        NAME: 'Contact name'
+        EMAIL: 'E-mail'
+        MESSAGE: 'Message'
+    HELP:
+        NAME: ''
+        EMAIL: ''
+        MESSAGE: ''
+
+MAIL_LOG_ENTITY:
+    LABEL:
+        ID: 'Id'
+        STATUS: 'Status'
+        SUBJECT: 'Subject'
+        HTML: 'Html'
+        TEXT: 'Text'
+        FROM: 'From'
+        REPLY_TO: 'Reply To'
+        RETURN_PATH: 'Return Path'
+        TO: 'To'
+        CC: 'Cc'
+        BCC: 'Bcc'
+        DEBUG: 'DEBUG'
+        SITE: 'Site'
+
+    STATUS:
+        SENT: 'Sent'
+        ERROR: 'Error'
+
+BANNER_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        PRIORITY: 'Priority'
+        NAME: 'Name'
+        ALT: 'Alt'
+        BANNER: 'Banner Image'
+        DESKTOP_IMAGE: 'Desktop Image'
+        MOBILE_IMAGE: 'Mobile Image'
+        IMAGE_DOWNLOAD: 'Download'
+    HELP:
+        PRIORITY: 'The higher the priority, the higher the probability of the banner being displayed'
+        NAME: ''
+        ALT: 'Banner Image Alternate Text'
+        BANNER: ''
+        DESKTOP_IMAGE: 'Desktop Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
+        MOBILE_IMAGE: 'Mobile Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'

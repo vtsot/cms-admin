@@ -1,0 +1,15 @@
+{% extends "@SonataAdmin/CRUD/list_url.html.twig" %}
+{# @var \App\Admin\Content\AbstractPageAdmin admin #}
+{# @var \App\Entity\Page\Page object  #}
+
+{% block field %}
+    {% if object.slug %}
+        {% if object.homepage %}
+            {% set value = path('homepage') %}
+        {% else %}
+            {% set value = path('web.cms', {'slug': object.slug}) %}
+        {% endif %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}

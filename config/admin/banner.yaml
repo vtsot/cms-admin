@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  # show_in_dashboard = false
+  # do not display
+  admin.brand:
+    class: App\Admin\BannerAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.banner' ] ]
+      - [ setBaseRoutePattern,    [ 'banner' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\Banner'
+        manager_type: orm
+        group: MENU_GROUP.BANNER
+        label: MENU.BANNER
+        show_in_dashboard: false

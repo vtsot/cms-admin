@@ -1,0 +1,46 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+{# @var \App\Admin\Review\ReviewAdmin admin #}
+{# @var \App\Entity\Review\Review object #}
+
+{% block field %}
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.REASON'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.reason ? object.reason.title : '-' }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.MEDICATION_TIME'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.medicationTime ? object.medicationTime.title : '-' }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.EFFECTIVENESS'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.effectiveness }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.EASE_OF_USE'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.easeOfUse }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.SATISFACTION'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.satisfaction }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.PRODUCT'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.product ? object.product : '-'  }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.OTHER_PRODUCT_NAME'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.otherProductName ? object.otherProductName : '-'  }}
+    </div>
+
+    <div>
+        <strong>{{ 'REVIEW_ENTITY.LABEL.OTHER_PRODUCT_MANUFACTURER'|trans({}, 'admin-messages') }}:</strong>
+        {{ object.otherProductManufacturer ? object.otherProductManufacturer : '-'  }}
+    </div>
+
+{% endblock %}

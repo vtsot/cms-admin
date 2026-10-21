@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block metaTitle %}
+    {{ 'ADMIN.LOGIN.TITLE'|trans({}, 'admin-messages') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/admin-login') }}
+{% endblock %}
+
+{% block body %}
+    <div class="login-page">
+        <div class="widget">
+            <h3 class="widget__header">
+                {{ 'ADMIN.LOGIN.TITLE'|trans({}, 'admin-messages') }}
+            </h3>
+            <div class="widget__body">
+                {% if error is defined and error is not null %}
+                    <div class="alert">
+                        {{ error.message|trans(error.messageData, 'security') | raw }}
+                    </div>
+                {% endif %}
+                <form action="{{ path('admin.login_check') }}" method="post">
+                    <input type="text" id="username" name="_username" placeholder="{{ 'USER_ENTITY.LABEL.EMAIL'|trans({}, 'admin-messages') }}" value="{{ last_username is defined ? last_username : '' }}" autofocus />
+                    <input type="password" id="password" name="_password" placeholder="Password" autocomplete="new-password"/>
+                    <button type="submit" class="btn">{{ 'AUTH.LOGIN'|trans({}, 'admin-messages') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

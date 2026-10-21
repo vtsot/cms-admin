@@ -1,0 +1,13 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+{# @var \App\Admin\AbstractAdmin admin #}
+
+{%- block actions -%}
+    {% if admin.parent.hasAccess('list') and admin.parent.hasRoute('list') %}
+        <li>
+            <a class="sonata-action-element" href="{{ admin.parent.generateUrl('list') }}">
+                <i class="fas fa-list" aria-hidden="true"></i>
+                {{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}
+            </a>
+        </li>
+    {% endif %}
+{%- endblock -%}

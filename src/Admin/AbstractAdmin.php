@@ -50,19 +50,19 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
         $this->routeGenerator = $routeGenerator;
         $this->security       = $security;
 
-        //$this->setTranslationDomain($this->parameterBag->get('admin_translation_domain'));
+        $this->setTranslationDomain($this->parameterBag->get('admin_translation_domain'));
     }
 
     protected function configure(): void
     {
-//        // resolve breadcrumb translation key
-//        $this->classnameLabel = strtoupper(
-//            sprintf(
-//                'BREADCRUMB.%s.%s',
-//                str_replace('.', '_', $this->getLabel()),
-//                $this->classnameLabel
-//            )
-//        );
+        // resolve breadcrumb translation key
+        $this->classnameLabel = strtoupper(
+            sprintf(
+                'BREADCRUMB.%s.%s',
+                str_replace('.', '_', $this->getLabel()),
+                $this->classnameLabel
+            )
+        );
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void

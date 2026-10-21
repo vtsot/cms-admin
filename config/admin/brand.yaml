@@ -1,0 +1,18 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  admin.brand:
+    class: App\Admin\BrandAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.brand' ] ]
+      - [ setBaseRoutePattern,    [ 'brand' ] ]
+    tags:
+      - name: sonata.admin
+        model_class: 'App\Entity\Brand'
+        manager_type: orm
+        group: MENU_GROUP.SITE
+        label: MENU.BRAND
+        show_in_dashboard: true

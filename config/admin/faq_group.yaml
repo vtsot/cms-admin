@@ -1,0 +1,34 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  admin.faq_group:
+    class: App\Admin\Faq\FaqGroupAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.faq_group' ] ]
+      - [ setBaseRoutePattern,    [ 'faq-group' ] ]
+      - [ addChild,               [ '@admin.faq', 'faqGroup' ] ]
+    tags:
+      -   name: sonata.admin
+          model_class: 'App\Entity\Faq\FaqGroup'
+          manager_type: orm
+          group: MENU_GROUP.FAQ_GROUP
+          label: MENU.FAQ_GROUP
+          translation_domain: '%admin_translation_domain%'
+          show_in_dashboard: false
+
+  admin.faq:
+    class: App\Admin\Faq\FaqAdmin
+    calls:
+      - [ setBaseRouteName,       [ 'admin.faq' ] ]
+      - [ setBaseRoutePattern,    [ 'faq' ] ]
+    tags:
+      -   name: sonata.admin
+          model_class: 'App\Entity\Faq\Faq'
+          manager_type: orm
+          group: MENU_GROUP.FAQ_GROUP
+          label: MENU.FAQ
+          translation_domain: '%admin_translation_domain%'
+          show_in_dashboard: false

@@ -1,0 +1,94 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.review_site:
+        class: App\Admin\Review\ReviewSiteAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.review_site' ] ]
+            - [ setBaseRoutePattern,    [ 'review-sites' ] ]
+            - [ addChild,               [ '@admin.review_site.review', 'site' ] ]
+            - [ addChild,               [ '@admin.review_site.question.product', 'site' ] ]
+            - [ addChild,               [ '@admin.review_site.question.reason', 'site' ] ]
+            - [ addChild,               [ '@admin.review_site.question.age', 'site' ] ]
+            - [ addChild,               [ '@admin.review_site.question.medication_time', 'site' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Site\Site'
+              manager_type: orm
+              group: MENU_GROUP.REVIEW
+              label: MENU.REVIEW.SITE
+              translation_domain: '%admin_translation_domain%'
+              show_in_dashboard: true
+
+    admin.review_site.review:
+        class: App\Admin\Review\ReviewAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.review_site.review' ] ]
+            - [ setBaseRoutePattern,    [ 'site-review' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Review\Review'
+              controller: 'App\Controller\Admin\Site\SiteReviewCrudController'
+              manager_type: orm
+              group: MENU_GROUP.REVIEW
+              label: MENU.REVIEW.LIST
+              show_in_dashboard: false
+
+    admin.review_site.question.product:
+      class: App\Admin\Review\ProductReviewQuestionItemAdmin
+      calls:
+        - [ setBaseRouteName,       [ 'admin.review_site.question.product' ] ]
+        - [ setBaseRoutePattern,    [ 'site-review-question-product' ] ]
+      tags:
+        - name: sonata.admin
+          model_class: 'App\Entity\Review\ProductReviewQuestionItem'
+          controller: 'App\Controller\Admin\Site\SiteReviewQuestionProductCrudController'
+          manager_type: orm
+          group: MENU_GROUP.REVIEW
+          label: MENU.REVIEW.SETTINGS.PRODUCT
+          show_in_dashboard: false
+
+    admin.review_site.question.reason:
+        class: App\Admin\Review\ReasonReviewQuestionItemAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.review_site.question.reason' ] ]
+            - [ setBaseRoutePattern,    [ 'site-review-question-reason' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Review\ReasonReviewQuestionItem'
+              controller: 'App\Controller\Admin\Site\SiteReviewQuestionReasonCrudController'
+              manager_type: orm
+              group: MENU_GROUP.REVIEW
+              label: MENU.REVIEW.SETTINGS.REASON
+              show_in_dashboard: false
+
+    admin.review_site.question.age:
+        class: App\Admin\Review\AgeReviewQuestionItemAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.review_site.question.age' ] ]
+            - [ setBaseRoutePattern,    [ 'site-review-question-age' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Review\AgeReviewQuestionItem'
+              controller: 'App\Controller\Admin\Site\SiteReviewQuestionAgeCrudController'
+              manager_type: orm
+              group: MENU_GROUP.REVIEW
+              label: MENU.REVIEW.SETTINGS.AGE
+              show_in_dashboard: false
+
+    admin.review_site.question.medication_time:
+        class: App\Admin\Review\MedicationTimeReviewQuestionItemAdmin
+        calls:
+            - [ setBaseRouteName,       [ 'admin.review_site.question.medication_time' ] ]
+            - [ setBaseRoutePattern,    [ 'site-review-question-medication_time' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Review\MedicationTimeReviewQuestionItem'
+              controller: 'App\Controller\Admin\Site\SiteReviewQuestionMedicationTimeCrudController'
+              manager_type: orm
+              group: MENU_GROUP.REVIEW
+              label: MENU.REVIEW.SETTINGS.MEDICATION_TIME
+              show_in_dashboard: false

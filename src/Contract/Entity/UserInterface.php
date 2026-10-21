@@ -28,6 +28,4 @@ interface UserInterface extends EntityInterface, PasswordAuthenticatedUserInterf
     public function getGoogleAuthenticatorToken(): ?string;
 
     public function setGoogleAuthenticatorToken(?string $googleAuthenticatorToken);
-
-    public function isEmailConfirmed(): bool;
 }

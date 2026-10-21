@@ -1,0 +1,45 @@
+{# @var string cmsEmbedId #}
+{# @var string label #}
+{# @var string help #}
+
+{% if cmsEmbedId is not defined %}
+    {% set cmsEmbedId = null %}
+{% endif %}
+
+{%- block cms_embed -%}
+    <div class="cms-embed {{ cmsEmbedId }}"
+         data-cms-embed-id="{{ cmsEmbedId }}"
+         contenteditable="false"
+        {%- block params -%}
+            {% if params is defined %}
+                {% for param in params %}
+                    {{ ' data-%s=%s '|format(param.paramId, param.paramValue) }}
+                {% endfor %}
+            {% endif %}
+        {%- endblock -%}
+    >
+        {%- block placeholder -%}
+            <div class="cms-embed-label">
+                {{ label|length > 0 ? label : cmsEmbedId }}
+            </div>
+
+            <div class="cms-embed-visibility">
+                <div class="cms-embed-visibility-user">
+                    {{ visibility }}
+                </div>
+
+                {% if campaign %}
+                    <div class="cms-embed-visibility-campaign">
+                        {{ campaign }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="cms-embed-help">
+                {{ help }}
+            </div>
+
+            {# <img src="{{ asset('assets/images/cms-embed/example-placeholder.png') }}" alt="Example Placeholder"> #}
+        {%- endblock -%}
+    </div>
+{%- endblock -%}
