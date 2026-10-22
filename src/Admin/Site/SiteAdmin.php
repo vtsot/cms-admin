@@ -88,34 +88,34 @@ class SiteAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $this->configureFilterFieldText($filter, 'domain', 'SITE_ENTITY.LABEL.DOMAIN');
-        $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldModel($filter, 'siteTheme', 'title', 'SITE_ENTITY.LABEL.THEME');
-        $this->configureFilterFieldAutocompleteUsers($filter);
-        $this->configureFilterFieldActive($filter);
-
-        $this->configureFilterFieldAutocompleteGenericNames($filter);
-        $this->configureFilterFieldAutocompleteBrands($filter);
-
-        $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
-        $this->configureFilterFieldText($filter, 'registrarName', 'SITE_ENTITY.LABEL.REGISTRAR_NAME');
-        $this->configureFilterFieldDateRange($filter, 'registeredAt', 'SITE_ENTITY.LABEL.REGISTERED_AT');
-        $this->configureFilterFieldDateRange($filter, 'expireAt', 'SITE_ENTITY.LABEL.EXPIRE_AT');
-        $this->configureFilterFieldNumber($filter, 'archiveBirthYear', 'SITE_ENTITY.LABEL.ARCHIVE_BIRTH_YEAR');
-        $this->configureFilterFieldNumber($filter, 'globalSearchVolume', 'SITE_ENTITY.LABEL.GLOBAL_SEARCH_VOLUME');
-        $this->configureFilterFieldNumber($filter, 'usSearchVolume', 'SITE_ENTITY.LABEL.US_SEARCH_VOLUME');
-        $this->configureFilterFieldNumber($filter, 'mozSpam', 'SITE_ENTITY.LABEL.MOZ_SPAM');
-        $this->configureFilterFieldNumber($filter, 'ahrefsDomainRating', 'SITE_ENTITY.LABEL.AHREFS_DOMAIN_RATING');
-        $this->configureFilterFieldNumber($filter, 'ahrefsBackLinks', 'SITE_ENTITY.LABEL.AHREFS_BACK_LINKS');
-        $this->configureFilterFieldNumber($filter, 'ahrefsRefDomains', 'SITE_ENTITY.LABEL.AHREFS_REF_DOMAINS');
-        $this->configureFilterFieldNumber($filter, 'semrushAuthorityScore', 'SITE_ENTITY.LABEL.SEMRUSH_AUTHORITY_SCORE');
-        $this->configureFilterFieldNumber($filter, 'semrushBackLinks', 'SITE_ENTITY.LABEL.SEMRUSH_BACK_LINKS');
-        $this->configureFilterFieldNumber($filter, 'semrushRefDomains', 'SITE_ENTITY.LABEL.SEMRUSH_REF_DOMAINS');
-        $this->configureFilterFieldNumber($filter, 'wikipediaLink', 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK');
-        $this->configureFilterFieldActive($filter, 'isPenalty', 'SITE_ENTITY.LABEL.IS_PENALTY');
-
-        $this->configureFilterFieldCreatedAtDateRange($filter);
-        $this->configureFilterFieldUpdatedAtDateRange($filter);
+        //        $this->configureFilterFieldText($filter, 'domain', 'SITE_ENTITY.LABEL.DOMAIN');
+        //        $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
+        //        $this->configureFilterFieldModel($filter, 'siteTheme', 'title', 'SITE_ENTITY.LABEL.THEME');
+        //        $this->configureFilterFieldAutocompleteUsers($filter);
+        //        $this->configureFilterFieldActive($filter);
+        //
+        //        $this->configureFilterFieldAutocompleteGenericNames($filter);
+        //        $this->configureFilterFieldAutocompleteBrands($filter);
+        //
+        //        $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
+        //        $this->configureFilterFieldText($filter, 'registrarName', 'SITE_ENTITY.LABEL.REGISTRAR_NAME');
+        //        $this->configureFilterFieldDateRange($filter, 'registeredAt', 'SITE_ENTITY.LABEL.REGISTERED_AT');
+        //        $this->configureFilterFieldDateRange($filter, 'expireAt', 'SITE_ENTITY.LABEL.EXPIRE_AT');
+        //        $this->configureFilterFieldNumber($filter, 'archiveBirthYear', 'SITE_ENTITY.LABEL.ARCHIVE_BIRTH_YEAR');
+        //        $this->configureFilterFieldNumber($filter, 'globalSearchVolume', 'SITE_ENTITY.LABEL.GLOBAL_SEARCH_VOLUME');
+        //        $this->configureFilterFieldNumber($filter, 'usSearchVolume', 'SITE_ENTITY.LABEL.US_SEARCH_VOLUME');
+        //        $this->configureFilterFieldNumber($filter, 'mozSpam', 'SITE_ENTITY.LABEL.MOZ_SPAM');
+        //        $this->configureFilterFieldNumber($filter, 'ahrefsDomainRating', 'SITE_ENTITY.LABEL.AHREFS_DOMAIN_RATING');
+        //        $this->configureFilterFieldNumber($filter, 'ahrefsBackLinks', 'SITE_ENTITY.LABEL.AHREFS_BACK_LINKS');
+        //        $this->configureFilterFieldNumber($filter, 'ahrefsRefDomains', 'SITE_ENTITY.LABEL.AHREFS_REF_DOMAINS');
+        //        $this->configureFilterFieldNumber($filter, 'semrushAuthorityScore', 'SITE_ENTITY.LABEL.SEMRUSH_AUTHORITY_SCORE');
+        //        $this->configureFilterFieldNumber($filter, 'semrushBackLinks', 'SITE_ENTITY.LABEL.SEMRUSH_BACK_LINKS');
+        //        $this->configureFilterFieldNumber($filter, 'semrushRefDomains', 'SITE_ENTITY.LABEL.SEMRUSH_REF_DOMAINS');
+        //        $this->configureFilterFieldNumber($filter, 'wikipediaLink', 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK');
+        //        $this->configureFilterFieldActive($filter, 'isPenalty', 'SITE_ENTITY.LABEL.IS_PENALTY');
+        //
+        //        $this->configureFilterFieldCreatedAtDateRange($filter);
+        //        $this->configureFilterFieldUpdatedAtDateRange($filter);
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -158,7 +158,7 @@ class SiteAdmin extends AbstractAdmin
 
         $this->configureListFieldText(
             $list,
-            'settings',
+            'settings_virtual',
             'SITE_ENTITY.LABEL.SETTINGS',
             [
                 'virtual_field' => true,
@@ -183,7 +183,7 @@ class SiteAdmin extends AbstractAdmin
             'domain',
             UrlType::class,
             [
-                'required'    => true,
+                'required'    => false,
                 'label'       => 'SITE_ENTITY.LABEL.DOMAIN',
                 'help'        => 'SITE_ENTITY.HELP.DOMAIN',
                 'constraints' => [
@@ -199,78 +199,78 @@ class SiteAdmin extends AbstractAdmin
             'title',
             TextType::class,
             [
-                'required'           => true,
+                'required'           => false,
                 'label'              => 'SITE_ENTITY.LABEL.TITLE',
                 'help'               => 'SITE_ENTITY.HELP.TITLE',
-                'constraints'        => [new NotBlank()],
+                'constraints'        => [], // [new NotBlank()],
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
 
-        $form
-            ->add(
-                'settings',
-                AdminType::class,
-                [
-                    'required' => false,
-                    'label'    => 'SITE_SETTINGS_ENTITY.SECTION.THEME',
-                    'help'     => '',
-                ],
-                [
-                    'admin_code' => 'admin.site.theme.settings.inline',
-                ],
-            );
+        //        $form
+        //            ->add(
+        //                'settings',
+        //                AdminType::class,
+        //                [
+        //                    'required' => false,
+        //                    'label'    => 'SITE_SETTINGS_ENTITY.SECTION.THEME',
+        //                    'help'     => '',
+        //                ],
+        //                [
+        //                    'admin_code' => 'admin.site.theme.settings.inline',
+        //                ],
+        //            );
 
-        $this->configureFormFieldAutocompleteGenericNames(
-            form: $form,
-            label: 'SITE_ENTITY.LABEL.GENERIC_NAMES',
-            help: 'SITE_ENTITY.HELP.GENERIC_NAMES'
-        );
+        //        $this->configureFormFieldAutocompleteGenericNames(
+        //            form: $form,
+        //            label: 'SITE_ENTITY.LABEL.GENERIC_NAMES',
+        //            help: 'SITE_ENTITY.HELP.GENERIC_NAMES'
+        //        );
 
-        $this->configureFormFieldAutocompleteBrands(
-            form: $form,
-            label: 'SITE_ENTITY.LABEL.COMMON_BRANDS',
-            help: 'SITE_ENTITY.HELP.COMMON_BRANDS'
-        );
+        //        $this->configureFormFieldAutocompleteBrands(
+        //            form: $form,
+        //            label: 'SITE_ENTITY.LABEL.COMMON_BRANDS',
+        //            help: 'SITE_ENTITY.HELP.COMMON_BRANDS'
+        //        );
 
-        $form->add(
-            'footerText1',
-            CKEditorType::class,
-            [
-                'required'    => false,
-                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT1',
-                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT1',
-                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-                'trim'        => true,
-                'config'      => [],
-            ],
-        );
+        //        $form->add(
+        //            'footerText1',
+        //            CKEditorType::class,
+        //            [
+        //                'required'    => false,
+        //                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT1',
+        //                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT1',
+        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
+        //                'trim'        => true,
+        //                'config'      => [],
+        //            ],
+        //        );
 
-        $form->add(
-            'footerText2',
-            CKEditorType::class,
-            [
-                'required'    => false,
-                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT2',
-                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT2',
-                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-                'trim'        => true,
-                'config'      => [],
-            ],
-        );
+        //        $form->add(
+        //            'footerText2',
+        //            CKEditorType::class,
+        //            [
+        //                'required'    => false,
+        //                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT2',
+        //                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT2',
+        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
+        //                'trim'        => true,
+        //                'config'      => [],
+        //            ],
+        //        );
 
-        $form->add(
-            'copyrightText',
-            CKEditorType::class,
-            [
-                'required'    => false,
-                'label'       => 'SITE_ENTITY.LABEL.COPYRIGHT_TEXT',
-                'help'        => 'SITE_ENTITY.HELP.COPYRIGHT_TEXT',
-                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-                'trim'        => true,
-                'config'      => ['height' => '100px'],
-            ],
-        );
+        //        $form->add(
+        //            'copyrightText',
+        //            CKEditorType::class,
+        //            [
+        //                'required'    => false,
+        //                'label'       => 'SITE_ENTITY.LABEL.COPYRIGHT_TEXT',
+        //                'help'        => 'SITE_ENTITY.HELP.COPYRIGHT_TEXT',
+        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
+        //                'trim'        => true,
+        //                'config'      => ['height' => '100px'],
+        //            ],
+        //        );
 
         $this->configureFormFieldAutocompleteUsers($form);
 

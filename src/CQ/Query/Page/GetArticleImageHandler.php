@@ -13,11 +13,11 @@ use SplFileInfo;
 readonly class GetArticleImageHandler implements QueryHandlerInterface
 {
     public function __construct(
-        private ImageStorageService $imageStorageService,
-        private FilesystemOperator $articleImageStorage,
-        private FilesystemOperator $articleImageCacheStorage,
-//        private string $articleCacheImageDir,
-//        private string $articleNoImagePath,
+        //        private ImageStorageService $imageStorageService,
+        //        private FilesystemOperator $articleImageStorage,
+        //        private FilesystemOperator $articleImageCacheStorage,
+        //        private string $articleCacheImageDir,
+        //        private string $articleNoImagePath,
     ) {
     }
 

@@ -19,9 +19,9 @@ use function implode;
 
 readonly class SiteDTOFactory
 {
-    public const CONTEXT_HOMEPAGE_SLUG     = 'homepage-slug';
-    public const CONTEXT_NAVIGATION_TOP    = NavigationType::Top->value;
-    public const CONTEXT_NAVIGATION_BOTTOM = NavigationType::Bottom->value;
+    public const CONTEXT_HOMEPAGE_SLUG = 'homepage-slug';
+    //    public const CONTEXT_NAVIGATION_TOP    = NavigationType::Top->value;
+    //    public const CONTEXT_NAVIGATION_BOTTOM = NavigationType::Bottom->value;
 
     public function __construct(
         private SiteThemeDTOFactory $siteThemeDTOFactory,

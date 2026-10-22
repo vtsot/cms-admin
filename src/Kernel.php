@@ -31,6 +31,6 @@ class Kernel extends BaseKernel
         parent::boot();
 
         // todo: timezone
-        //date_default_timezone_set($this->container->getParameter('timezone'));
+        // date_default_timezone_set($this->container->getParameter('timezone'));
     }
 }

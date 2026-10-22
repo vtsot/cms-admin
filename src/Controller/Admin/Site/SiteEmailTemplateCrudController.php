@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Site;
 
 use App\CQ\Command\Site\CreateDefaultSiteEmailTemplatesCommand;
 use App\Entity\EmailTemplate;
-use App\Security\Voter\Admin\SiteEmailTemplateVoter;
+use App\Security\Voter\Admin\Site\SiteEmailTemplateVoter;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

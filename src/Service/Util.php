@@ -44,6 +44,7 @@ class Util
         }
     }
 
+    /** @deprecated  */
     public static function normalizeFilePath(string $fileName, int $depth = 2, int $pathDepth = self::PATH_DEPTH): string
     {
         [$name, $extension] = explode('.', $fileName);

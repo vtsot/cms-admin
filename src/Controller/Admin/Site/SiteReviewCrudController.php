@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\Review\Review;
-use App\Security\Voter\Admin\SiteReviewVoter;
+use App\Security\Voter\Admin\Site\SiteReviewVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

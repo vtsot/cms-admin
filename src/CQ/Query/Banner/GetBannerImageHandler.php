@@ -5,36 +5,43 @@ declare(strict_types=1);
 namespace App\CQ\Query\Banner;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
+use App\Service\FileManager\BannerImageCacheFileManager;
+use App\Service\FileManager\BannerImageFileManager;
 use App\Service\ImageStorageService;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
 use SplFileInfo;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 readonly class GetBannerImageHandler implements QueryHandlerInterface
 {
     public function __construct(
         private ImageStorageService $imageStorageService,
-        private FilesystemOperator $bannerImageStorage,
-        private FilesystemOperator $bannerImageCacheStorage,
-//        private string $bannerCacheImageDir,
-//        private string $bannerNoImagePath,
+        private BannerImageFileManager $bannerImageFileManager,
+        private BannerImageCacheFileManager $bannerImageCacheFileManager,
+        #[Autowire(param: 'banner_no_image_path')]
+        private string $noImagePath,
     ) {
     }
 
     /**
+     * @throws ImageDecoderException
      * @throws FilesystemException
+     * @throws DriverException
+     * @throws InvalidArgumentException
      */
     public function __invoke(GetBannerImageQuery $query): SplFileInfo
     {
-        return $this->imageStorageService->getImageFromStorage(
+        return $this->imageStorageService->getImageFromLocalFileManager(
             $query->image,
             $query->crop,
             $query->width,
             $query->height,
-            $this->bannerImageStorage,
-            $this->bannerImageCacheStorage,
-            $this->bannerCacheImageDir,
-            new SplFileInfo($this->bannerNoImagePath),
+            $this->bannerImageFileManager,
+            $this->bannerImageCacheFileManager,
+            new SplFileInfo($this->noImagePath),
         );
     }
 }

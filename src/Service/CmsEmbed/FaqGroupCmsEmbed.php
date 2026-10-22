@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 use function array_multisort;
 
+use const SORT_ASC;
+use const SORT_STRING;
+
 class FaqGroupCmsEmbed extends AbstractCmsEmbed
 {
     public const ID    = 'faq-group';

@@ -130,7 +130,7 @@ class AbstractPageAdmin extends AbstractAdmin
             'title',
             TextType::class,
             [
-                'required'    => true,
+                'required'    => false,
                 'label'       => 'PAGE_ENTITY.LABEL.TITLE',
                 'help'        => 'PAGE_ENTITY.HELP.TITLE',
                 'constraints' => [new NotBlank()],

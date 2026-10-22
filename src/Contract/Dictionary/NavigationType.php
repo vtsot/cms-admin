@@ -6,6 +6,5 @@ namespace App\Contract\Dictionary;
 
 enum NavigationType: string
 {
-    case Top    = 'top';
-    case Bottom = 'bottom';
+    case Main = 'main';
 }

@@ -27,8 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'entity', type: Types::STRING)]
 #[ORM\DiscriminatorMap([
-    'top'    => TopNavigation::class,
-    'bottom' => BottomNavigation::class,
+    'main' => MainNavigation::class,
 ])]
 #[ORM\Entity(repositoryClass: NavigationRepository::class)]
 abstract class AbstractNavigation extends AbstractEntity implements LinkEntityInterface
@@ -38,20 +37,20 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
     use LinkEntityTrait;
     use PositionEntityTrait;
 
-    #[ORM\Column(name: 'type', type: Types::STRING, length: 255, nullable: true, enumType: NavigationType::class)]
-    private ?NavigationType $type = null;
+    #[ORM\Column(name: 'type', type: Types::STRING, length: 255, nullable: true, enumType: NavigationType::class, options: ['default' => NavigationType::Main->value])]
+    private ?NavigationType $type = NavigationType::Main;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?AbstractNavigation $parent = null;
 
-    #[ORM\ManyToOne(targetEntity: Site::class)]
-    #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-    private ?Site $site = null;
-
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'parent')]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $children;
+
+    #[ORM\ManyToOne(targetEntity: Site::class)]
+    #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?Site $site = null;
 
     public function __construct()
     {

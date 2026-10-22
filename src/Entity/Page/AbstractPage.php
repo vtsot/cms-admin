@@ -56,7 +56,7 @@ abstract class AbstractPage extends AbstractEntity implements SluggableInterface
     {
         $labels   = [];
         $labels[] = $this->getCreatedAt() === null ? 'New Entity' : null;
-        $labels[] = $this->getSite()?->getDomain();
+        // $labels[] = $this->getSite()?->getDomain();
         $labels[] = $this->getTitle();
 
         return implode(' ', array_filter($labels));

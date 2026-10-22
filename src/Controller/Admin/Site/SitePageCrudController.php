@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Site;
 
 use App\CQ\Command\Site\UpdateSiteHomepageCommand;
 use App\Entity\Page\Page;
-use App\Security\Voter\Admin\SitePageVoter;
+use App\Security\Voter\Admin\Site\SitePageVoter;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;

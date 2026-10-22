@@ -14,6 +14,7 @@
         "friendsofsymfony/ckeditor-bundle": "^2.8",
         "helios-ag/fm-elfinder-bundle": "^14.0",
         "intervention/image": "^4.4",
+        "league/flysystem": "^3.36",
         "league/flysystem-bundle": "^3.7",
         "nelmio/api-doc-bundle": "^5.13",
         "nelmio/cors-bundle": "^2.6",

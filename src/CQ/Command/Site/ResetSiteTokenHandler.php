@@ -10,6 +10,7 @@ use App\Repository\Site\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function bin2hex;
 use function random_bytes;
 use function sha1;
 

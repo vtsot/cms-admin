@@ -12,6 +12,9 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 class AllUserAdmin extends AbstractUserAdmin
 {
+    public const bool MULTIPLE_ROLES           = false;
+    public const bool USE_GOOGLE_AUTHENTICATOR = false;
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->clearExcept('list');
@@ -26,7 +29,7 @@ class AllUserAdmin extends AbstractUserAdmin
     {
         /** @var ProxyQueryInterface|QueryBuilder $query */
 
-        // disable softdeleteable
+        // disable soft deletable
         if ($query->getEntityManager()->getFilters()->isEnabled('softdeleteable')) {
             $query->getEntityManager()->getFilters()->disable('softdeleteable');
         }

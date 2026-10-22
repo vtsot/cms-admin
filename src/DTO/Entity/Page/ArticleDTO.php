@@ -6,7 +6,6 @@ namespace App\DTO\Entity\Page;
 
 use App\DTOFactory\Entity\Page\ArticleDTOFactory;
 use OpenApi\Attributes as OA;
-
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 

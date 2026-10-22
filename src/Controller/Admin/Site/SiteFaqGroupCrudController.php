@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\Faq\FaqGroup;
-use App\Security\Voter\Admin\SiteFaqGroupVoter;
+use App\Security\Voter\Admin\Site\SiteFaqGroupVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

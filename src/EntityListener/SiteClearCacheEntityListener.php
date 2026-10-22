@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EntityListener;
 
 use App\Contract\Entity\EntityListenerInterface;
+use App\CQ\Command\Site\SiteCacheClearCommand;
 use App\Entity\AbstractEntity;
 use App\Entity\Banner;
 use App\Entity\Faq\FaqGroup;
@@ -32,7 +33,7 @@ use Throwable;
 final readonly class SiteClearCacheEntityListener implements EntityListenerInterface
 {
     public function __construct(
-//        private string $appEnv,
+        //        private string $appEnv,
         private HttpClientInterface $httpClient,
     ) {
     }
@@ -44,6 +45,10 @@ final readonly class SiteClearCacheEntityListener implements EntityListenerInter
 
     private function sendRequestToClearCache(AbstractEntity $entity): void
     {
+        // todo: use SiteCacheClearCommand
+
+        return;
+
         if ($this->appEnv === 'test') {
             return;
         }

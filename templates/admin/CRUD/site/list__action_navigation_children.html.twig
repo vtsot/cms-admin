@@ -1,0 +1,18 @@
+{# @var \App\Admin\Site\AbstractSiteNavigationAdmin admin #}
+{# @var \App\Admin\Navigation\Contract\NavigationAdminInterface child #}
+{# @var \App\Entity\Navigation\AbstractNavigation object #}
+
+{% if admin.hasRoute('list') and admin.rootAncestor.children and object.site is not null %}
+    {% for child in admin.rootAncestor.children %}
+        {% if child is not null
+            and child is instanceof('\\App\\Admin\\Navigation\\Contract\\NavigationAdminInterface')
+            and child.getChildListRoute
+        %}
+            <a href="{{ path(child.getChildListRoute, {'id': object.site.id.toString, 'childId': object.id.toString}) }}"
+               class="btn btn-sm btn-default child-link"
+            >
+                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -16,17 +16,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Contracts\Service\Attribute\Required;
 
 use function is_object;
-use function sprintf;
-use function str_replace;
-use function strtoupper;
 
 /**
  * @method EntityInterface getSubject()
  */
 abstract class AbstractAdmin extends BaseAbstractAdmin
 {
-    protected const string CK_EDITOR_BASE_CONFIG = 'base-config';
-    protected const string CK_EDITOR_CMS_CONFIG  = 'cms-config';
+    protected const string CK_EDITOR_BASE_CONFIG        = 'base-config';
+    protected const string CK_EDITOR_CMS_CONFIG         = 'cms-config';
     protected const string CK_EDITOR_FAQ_CONFIG         = 'faq-config';
     protected const string CK_EDITOR_DESCRIPTION_CONFIG = 'description';
 
@@ -52,18 +49,6 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
 
         $this->setTranslationDomain($this->parameterBag->get('admin_translation_domain'));
     }
-
-//    protected function configure(): void
-//    {
-//        // resolve breadcrumb translation key
-//        $this->classnameLabel = strtoupper(
-//            sprintf(
-//                'BREADCRUMB.%s.%s',
-//                str_replace('.', '_', $this->getLabel()),
-//                $this->classnameLabel
-//            )
-//        );
-//    }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
@@ -171,25 +156,5 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
         }
 
         return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
-    }
-
-    protected function isAdminRoute(string $name, ?string $adminCode = null): bool
-    {
-        if ($adminCode === null) {
-            $adminCode = $this->getRequest()->get('_sonata_admin');
-        }
-
-        $adminRoute = $this->getRequest()->get('_sonata_name');
-
-        if ($adminCode !== null && $adminRoute !== null) {
-            return $adminRoute === $adminCode . '_' . $name;
-        }
-
-        return false;
-    }
-
-    public function getCurrentRouteName(): string
-    {
-        return str_replace($this->getBaseCodeRoute() . '_', '', $this->getRequest()->get('_route'));
     }
 }

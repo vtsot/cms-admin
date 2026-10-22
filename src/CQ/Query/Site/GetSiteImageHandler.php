@@ -16,8 +16,8 @@ readonly class GetSiteImageHandler implements QueryHandlerInterface
         private ImageStorageService $imageStorageService,
         private FilesystemOperator $siteImageStorage,
         private FilesystemOperator $siteImageCacheStorage,
-//        private string $siteCacheImageDir,
-//        private string $siteNoImagePath,
+        //        private string $siteCacheImageDir,
+        //        private string $siteNoImagePath,
     ) {
     }
 

@@ -5,45 +5,49 @@ services:
         autoconfigure: true
 
     admin.site:
-        class: App\Admin\Site\SiteAdmin
+        class: 'App\Admin\Site\SiteAdmin'
         calls:
             - [ setTemplate,            [ 'edit', 'admin\CRUD\site\edit.html.twig' ] ]
             - [ setBaseRouteName,       [ 'admin.site' ] ]
             - [ setBaseRoutePattern,    [ 'site' ] ]
             - [ addChild,               [ '@admin.site.settings', 'site' ] ]
-            - [ addChild,               [ '@admin.site.email_template', 'site' ] ]
-            - [ addChild,               [ '@admin.site.navigation_top', 'site' ] ]
-            - [ addChild,               [ '@admin.site.navigation_bottom', 'site' ] ]
+            - [ addChild,               [ '@admin.site.navigation.main', 'site' ] ]
             - [ addChild,               [ '@admin.site.page', 'site' ] ]
-            - [ addChild,               [ '@admin.site.article', 'site' ] ]
-            - [ addChild,               [ '@admin.site.gallery_image', 'site' ] ]
-            - [ addChild,               [ '@admin.site.faq_group', 'site' ] ]
-            - [ addChild,               [ '@admin.site.contact', 'site' ] ]
             - [ addChild,               [ '@admin.site.banner', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.email_template', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.navigation_bottom', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.article', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.gallery_image', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.faq_group', 'site' ] ]
+#            - [ addChild,               [ '@admin.site.contact', 'site' ] ]
+
         tags:
           - name: sonata.admin
             model_class: 'App\Entity\Site\Site'
             controller: 'App\Controller\Admin\Site\SiteCrudController'
             manager_type: orm
             group: MENU_GROUP.SITE
-            label: MENU.SITE.LIST
+            label: MENU.SITE_LIST
             translation_domain: '%admin_translation_domain%'
 
-    admin.site.theme:
-      class: App\Admin\Site\SiteThemeAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.theme' ] ]
-        - [ setBaseRoutePattern,    [ 'site-theme' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Site\SiteTheme'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.THEME
-          show_in_dashboard: false
+    admin.site.settings:
+        class: 'App\Admin\Site\SiteSettingsAdmin'
+        calls:
+            - [ setTemplate,            [ 'edit', 'admin\CRUD\site-settings\edit.html.twig' ] ]
+            - [ setBaseRouteName,       [ 'admin.site.settings' ] ]
+            - [ setBaseRoutePattern,    [ 'site-settings' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Site\SiteSettings'
+              controller: 'App\Controller\Admin\Site\SiteSettingsCrudController'
+              manager_type: orm
+              group: MENU_GROUP.SITE
+              label: MENU.SITE_SETTINGS
+              translation_domain: '%admin_translation_domain%'
+              show_in_dashboard: false
 
     admin.site.page:
-        class: App\Admin\Site\SitePageAdmin
+        class: 'App\Admin\Site\SitePageAdmin'
         calls:
           - [ setBaseRouteName,       [ 'admin.site.page' ] ]
           - [ setBaseRoutePattern,    [ 'site-page' ] ]
@@ -54,25 +58,41 @@ services:
             controller: 'App\Controller\Admin\Site\SitePageCrudController'
             manager_type: orm
             group: MENU_GROUP.SITE
-            label: MENU.SITE.PAGE.LIST
+            label: MENU.SITE_PAGE
             show_in_dashboard: false
 
-    admin.site.article:
-      class: App\Admin\Site\SiteArticleAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.article' ] ]
-        - [ setBaseRoutePattern,    [ 'site-article' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Page\Article'
-          controller: 'App\Controller\Admin\Site\SiteArticleCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.ARTICLE
-          show_in_dashboard: false
 
+#    admin.site.theme:
+#      class: App\Admin\Site\SiteThemeAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.theme' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-theme' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Site\SiteTheme'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_THEME
+#          show_in_dashboard: true
+#
+
+#
+#    admin.site.article:
+#      class: App\Admin\Site\SiteArticleAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.article' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-article' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Page\Article'
+#          controller: 'App\Controller\Admin\Site\SiteArticleCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_ARTICLE
+#          show_in_dashboard: true
+#
     admin.site.page.related_article:
-        class: App\Admin\Site\SitePageRelatedArticleAdmin
+        class: 'App\Admin\Site\SitePageRelatedArticleAdmin'
         calls:
           - [ setBaseRouteName,       [ 'admin.site.page.related_article' ] ]
           - [ setBaseRoutePattern,    [ 'site-page-related-article' ] ]
@@ -82,190 +102,161 @@ services:
             controller: 'App\Controller\Admin\Site\SitePageRelatedArticleCrudController'
             manager_type: orm
             group: MENU_GROUP.SITE
-            label: MENU.SITE.PAGE.RELATED_ARTICLE
+            label: MENU.SITE_PAGE.RELATED_ARTICLE
             translation_domain: '%admin_translation_domain%'
             show_in_dashboard: false
-
-    admin.site.page.related_article.inline:
-      class: App\Admin\Site\SitePageRelatedArticleInlineAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.page.related_article.inline' ] ]
-        - [ setBaseRoutePattern,    [ 'site-page-related-article-inline' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Page\PageRelatedArticle'
-          controller: 'App\Controller\Admin\Site\SitePageRelatedArticleCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.PAGE.RELATED_ARTICLE
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.navigation_top:
-        class: App\Admin\Site\SiteNavigationTopAdmin
+#
+#    admin.site.page.related_article.inline:
+#      class: App\Admin\Site\SitePageRelatedArticleInlineAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.page.related_article.inline' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-page-related-article-inline' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Page\PageRelatedArticle'
+#          controller: 'App\Controller\Admin\Site\SitePageRelatedArticleCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_PAGE_RELATED_ARTICLE
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#
+    admin.site.navigation.main:
+        class: 'App\Admin\Site\Navigation\MainNavigationSiteAdmin'
         calls:
-          - [ setBaseRouteName,       [ 'admin.site.navigation_top' ] ]
-          - [ setBaseRoutePattern,    [ 'site-navigation-top' ] ]
+          - [ setBaseRouteName,       [ 'admin.site.navigation.main' ] ]
+          - [ setBaseRoutePattern,    [ 'site-navigation-main' ] ]
+          - [ addChildNavigation,     [ '@admin.site.navigation.main.children', 'parent', 'admin.site_admin.site.navigation.main_admin.site.navigation.main.children_list' ] ]
         tags:
           - name: sonata.admin
-            model_class: 'App\Entity\Navigation\TopNavigation'
-            controller: 'App\Controller\Admin\Site\SiteNavigationTopCrudController'
+            model_class: 'App\Entity\Navigation\MainNavigation'
+            controller: 'App\Controller\Admin\Site\Navigation\MainNavigationSiteCrudController'
             manager_type: orm
             group: MENU_GROUP.SITE
-            label:  MENU.SITE.NAVIGATION.TOP
-            translation_domain: '%admin_translation_domain%'
+            label:  MENU.SITE_NAVIGATION_MAIN
             show_in_dashboard: false
 
-    admin.site.navigation_bottom:
-        class: App\Admin\Site\SiteNavigationBottomAdmin
-        calls:
-          - [ setBaseRouteName,       [ 'admin.site.navigation_bottom' ] ]
-          - [ setBaseRoutePattern,    [ 'site-navigation-bottom' ] ]
-          - [ addChild,               [ '@admin.site.navigation_bottom.children', 'parent' ] ]
-        tags:
-          - name: sonata.admin
-            model_class: 'App\Entity\Navigation\BottomNavigation'
-            controller: 'App\Controller\Admin\Site\SiteNavigationBottomCrudController'
-            manager_type: orm
-            group: MENU_GROUP.SITE
-            label:  MENU.SITE.NAVIGATION.BOTTOM
-            translation_domain: '%admin_translation_domain%'
-            show_in_dashboard: false
-
-    admin.site.navigation_bottom.children:
-      class: App\Admin\Site\SiteNavigationChildrenAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.navigation_bottom.children' ] ]
-        - [ setBaseRoutePattern,    [ 'site-navigation-bottom-children' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Navigation\BottomNavigation'
-          controller: 'App\Controller\Admin\Site\SiteNavigationBottomCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.NAVIGATION.CHILDREN
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.gallery_image:
-      class: App\Admin\Site\SiteGalleryImageAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.gallery_image' ] ]
-        - [ setBaseRoutePattern,    [ 'site-gallery-image' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\GalleryImage'
-          controller: 'App\Controller\Admin\Site\SiteGalleryImageCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.GALLERY_IMAGE.LIST
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.faq_group:
-      class: App\Admin\Site\SiteFaqGroupAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.faq_group' ] ]
-        - [ setBaseRoutePattern,    [ 'site-faq-group' ] ]
-        - [ addChild,               [ '@admin.site.faq', 'faqGroup' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Faq\FaqGroup'
-          controller: 'App\Controller\Admin\Site\SiteFaqGroupCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.FAQ_GROUP
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.faq:
-      class: App\Admin\Site\SiteFaqAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.faq' ] ]
-        - [ setBaseRoutePattern,    [ 'site-faq' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Faq\Faq'
-          controller: 'App\Controller\Admin\Site\SiteFaqCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.FAQ
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.contact:
-      class: App\Admin\Site\SiteContactAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.contact' ] ]
-        - [ setBaseRoutePattern,    [ 'site-contact' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Contact'
-          controller: 'App\Controller\Admin\Site\SiteContactCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.CONTACT
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.settings:
-      class: App\Admin\Site\SiteSettingsAdmin
-      calls:
-        - [ setTemplate,            [ 'edit', 'admin\CRUD\site-settings\edit.html.twig' ] ]
-        - [ setBaseRouteName,       [ 'admin.site.settings' ] ]
-        - [ setBaseRoutePattern,    [ 'site-settings' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Site\SiteSettings'
-          controller: 'App\Controller\Admin\Site\SiteSettingsCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.SETTINGS
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-          default: true
-
-    admin.site.theme.settings.inline:
-      class: App\Admin\Site\SiteThemeSettingsInlineAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.theme.settings.inline' ] ]
-        - [ setBaseRoutePattern,    [ 'site-theme-settings-inline' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Site\SiteSettings'
-          controller: 'App\Controller\Admin\Site\SiteSettingsCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.SETTINGS
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
-
-    admin.site.email_template:
-      class: App\Admin\Site\SiteEmailTemplateAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.email_template' ] ]
-        - [ setBaseRoutePattern,    [ 'site-email-template' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\EmailTemplate'
-          controller: 'App\Controller\Admin\Site\SiteEmailTemplateCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.EMAIL_TEMPLATE
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
+    admin.site.navigation.main.children:
+          class: 'App\Admin\Site\Navigation\ChildrenNavigationSiteAdmin'
+          calls:
+            - [ setBaseRouteName,       [ 'admin.site.navigation.main.children' ] ]
+            - [ setBaseRoutePattern,    [ 'site-navigation-main-children' ] ]
+          tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Navigation\MainNavigation'
+              controller: 'App\Controller\Admin\Site\Navigation\MainNavigationSiteCrudController'
+              manager_type: orm
+              group: MENU_GROUP.SITE
+              label: MENU.SITE_NAVIGATION_CHILDREN
+              translation_domain: '%admin_translation_domain%'
+              show_in_dashboard: false
 
     admin.site.banner:
-      class: App\Admin\Site\SiteBannerAdmin
-      calls:
-        - [ setBaseRouteName,       [ 'admin.site.banner' ] ]
-        - [ setBaseRoutePattern,    [ 'site-banner' ] ]
-      tags:
-        - name: sonata.admin
-          model_class: 'App\Entity\Banner'
-          controller: 'App\Controller\Admin\Site\SiteBannerCrudController'
-          manager_type: orm
-          group: MENU_GROUP.SITE
-          label: MENU.SITE.BANNER
-          translation_domain: '%admin_translation_domain%'
-          show_in_dashboard: false
+        class: 'App\Admin\Site\SiteBannerAdmin'
+        calls:
+            - [ setBaseRouteName,       [ 'admin.site.banner' ] ]
+            - [ setBaseRoutePattern,    [ 'site-banner' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Banner'
+              controller: 'App\Controller\Admin\Site\SiteBannerCrudController'
+              manager_type: orm
+              group: MENU_GROUP.SITE
+              label: MENU.SITE_BANNER
+              show_in_dashboard: false
+
+
+
+#    admin.site.gallery_image:
+#      class: App\Admin\Site\SiteGalleryImageAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.gallery_image' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-gallery-image' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\GalleryImage'
+#          controller: 'App\Controller\Admin\Site\SiteGalleryImageCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_GALLERY_IMAGE_LIST
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#
+#    admin.site.faq_group:
+#      class: App\Admin\Site\SiteFaqGroupAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.faq_group' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-faq-group' ] ]
+#        - [ addChild,               [ '@admin.site.faq', 'faqGroup' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Faq\FaqGroup'
+#          controller: 'App\Controller\Admin\Site\SiteFaqGroupCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_FAQ_GROUP
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#
+#    admin.site.faq:
+#      class: App\Admin\Site\SiteFaqAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.faq' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-faq' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Faq\Faq'
+#          controller: 'App\Controller\Admin\Site\SiteFaqCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_FAQ
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#
+#    admin.site.contact:
+#      class: App\Admin\Site\SiteContactAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.contact' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-contact' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Contact'
+#          controller: 'App\Controller\Admin\Site\SiteContactCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_CONTACT
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#
+
+#
+#    admin.site.theme.settings.inline:
+#      class: App\Admin\Site\SiteThemeSettingsInlineAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.theme.settings.inline' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-theme-settings-inline' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\Site\SiteSettings'
+#          controller: 'App\Controller\Admin\Site\SiteSettingsCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_SETTINGS
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: false
+#
+#    admin.site.email_template:
+#      class: App\Admin\Site\SiteEmailTemplateAdmin
+#      calls:
+#        - [ setBaseRouteName,       [ 'admin.site.email_template' ] ]
+#        - [ setBaseRoutePattern,    [ 'site-email-template' ] ]
+#      tags:
+#        - name: sonata.admin
+#          model_class: 'App\Entity\EmailTemplate'
+#          controller: 'App\Controller\Admin\Site\SiteEmailTemplateCrudController'
+#          manager_type: orm
+#          group: MENU_GROUP.SITE
+#          label: MENU.SITE_EMAIL_TEMPLATE
+#          translation_domain: '%admin_translation_domain%'
+#          show_in_dashboard: true
+#

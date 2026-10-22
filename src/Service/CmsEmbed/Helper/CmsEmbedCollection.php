@@ -16,21 +16,21 @@ class CmsEmbedCollection
     private array $cmsEmbeds;
 
     public function __construct(
-//        iterable $cmsEmbedItems
+        //        iterable $cmsEmbedItems
     ) {
         $cmsEmbeds = [];
         $labels    = [];
 
-//        /** @var CmsEmbedInterface[] $cmsEmbedItems */
-//        foreach ($cmsEmbedItems as $cmsEmbed) {
-//            if ($cmsEmbed->isActive()) {
-//                $cmsEmbeds[] = $cmsEmbed;
-//                $labels[]    = $cmsEmbed->getLabel();
-//            }
-//        }
-//
-//        // sort by labels
-//        array_multisort($labels, SORT_STRING, SORT_ASC, $cmsEmbeds);
+        //        /** @var CmsEmbedInterface[] $cmsEmbedItems */
+        //        foreach ($cmsEmbedItems as $cmsEmbed) {
+        //            if ($cmsEmbed->isActive()) {
+        //                $cmsEmbeds[] = $cmsEmbed;
+        //                $labels[]    = $cmsEmbed->getLabel();
+        //            }
+        //        }
+        //
+        //        // sort by labels
+        //        array_multisort($labels, SORT_STRING, SORT_ASC, $cmsEmbeds);
         $this->cmsEmbeds = $cmsEmbeds;
     }
 

@@ -14,18 +14,24 @@ parameters:
     storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
     translation_cache_dir: '%kernel.project_dir%/var/cache/translations'
 
+    site_image_storage_dir: '%storage_dir%/images/site'
+    site_image_cache_storage_dir: '%storage_cache_dir%/images/site'
+    site_no_image_path: '%kernel.project_dir%/assets/images/site-no-image.jpg'
+
+    banner_image_storage_dir: '%storage_dir%/images/banner'
+    banner_image_cache_storage_dir: '%storage_cache_dir%/images/banner'
+    banner_no_image_path: '%kernel.project_dir%/assets/images/banner-no-image.jpg'
+
+
+#        string $siteStorageImageDir: '%storage_dir%/images/site'
+#        string $siteCacheImageDir: '%storage_cache_dir%/images/site/'
+
+#        string $bannerCacheImageDir: '%storage_cache_dir%/images/banner/'
+#        string $bannerNoImagePath: '%kernel.project_dir%/assets/images/banner-no-image.jpg'
+
 
 imports:
-    - { resource: admin/content.yaml }
-    - { resource: admin/navigation.yaml }
-    - { resource: admin/user.yaml }
-    - { resource: admin/sites.yaml }
-    - { resource: admin/brand.yaml }
-    - { resource: admin/generic_name.yaml }
-    - { resource: admin/review.yaml }
-    - { resource: admin/gallery_image.yaml }
-    - { resource: admin/faq_group.yaml }
-    - { resource: admin/system.yaml }
+    - { resource: admin.yaml }
 
 services:
     # default configuration for services in *this* file
@@ -86,3 +92,6 @@ services:
 
     App\Service\UploaderUuidNamer:
         public: true
+
+    Intervention\Image\ImageManager:
+        factory: ['App\Service\Factory\ImageManagerFactory', 'create']

@@ -12,7 +12,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @method SiteSettings|null getSubject()
@@ -62,8 +61,8 @@ class SiteSettingsAdmin extends AbstractAdmin
             'senderEmail',
             'SITE_SETTINGS_ENTITY.LABEL.SENDER_EMAIL',
             'SITE_SETTINGS_ENTITY.HELP.SENDER_EMAIL',
-            true,
-            ['constraints' => [new NotBlank(), new Email()]]
+            false,
+            ['constraints' => [new Email()]],
         );
 
         $this->configureFormFieldText(
@@ -71,8 +70,8 @@ class SiteSettingsAdmin extends AbstractAdmin
             'senderName',
             'SITE_SETTINGS_ENTITY.LABEL.SENDER_NAME',
             'SITE_SETTINGS_ENTITY.HELP.SENDER_NAME',
-            true,
-            ['constraints' => [new NotBlank()]]
+            false,
+            ['constraints' => []],
         );
 
         $this->configureFormFieldText(

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\Banner;
-use App\Security\Voter\Admin\SiteBannerVoter;
+use App\Security\Voter\Admin\Site\SiteBannerVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

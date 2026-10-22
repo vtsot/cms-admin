@@ -15,6 +15,7 @@ use Carbon\CarbonImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use function is_string;
 use function mb_strlen;
 use function mb_substr;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\GalleryImage;
-use App\Security\Voter\Admin\SiteGalleryImageVoter;
+use App\Security\Voter\Admin\Site\SiteGalleryImageVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

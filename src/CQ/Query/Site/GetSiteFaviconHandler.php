@@ -15,7 +15,7 @@ use const DIRECTORY_SEPARATOR;
 readonly class GetSiteFaviconHandler implements QueryHandlerInterface
 {
     public function __construct(
-//        private string $siteStorageImageDir,
+        //        private string $siteStorageImageDir,
     ) {
     }
 

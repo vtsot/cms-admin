@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Admin\Navigation;
 
 use App\Admin\AbstractAdmin;
+use App\Admin\Navigation\Contract\NavigationAdminInterface;
 use App\Admin\Traits\ConfigureAdminFullTrait;
 use App\Entity\Navigation\AbstractNavigation;
 use Doctrine\ORM\QueryBuilder;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -16,9 +18,22 @@ use Sonata\AdminBundle\Form\FormMapper;
 /**
  * @method AbstractNavigation|null getSubject()
  */
-abstract class AbstractNavigationAdmin extends AbstractAdmin
+abstract class AbstractNavigationAdmin extends AbstractAdmin implements NavigationAdminInterface
 {
     use ConfigureAdminFullTrait;
+
+    private ?string $childListRoute = null;
+
+    public function getChildListRoute(): ?string
+    {
+        return $this->childListRoute;
+    }
+
+    public function addChildNavigation(AdminInterface $admin, ?string $field = null, ?string $route = null): void
+    {
+        $this->addChild($admin, $field);
+        $this->childListRoute = $route;
+    }
 
     protected function configureDefaultSortValues(array &$sortValues): void
     {
@@ -62,15 +77,7 @@ abstract class AbstractNavigationAdmin extends AbstractAdmin
         $this->configureListFieldActive($list);
         $this->configureListFieldChangedAt($list);
 
-        $this->configureListFieldChildrenActions(
-            list: $list,
-            actions: [
-                'children' => ['template' => 'admin/CRUD/list__action_children_infinity.html.twig'],
-                'edit'     => [],
-                'delete'   => [],
-            ],
-            width: '300px'
-        );
+        $this->configureListFieldChildrenActions(list: $list, width: '300px');
     }
 
     protected function configureFormFields(FormMapper $form): void

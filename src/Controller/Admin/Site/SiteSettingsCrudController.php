@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\Site\SiteSettings;
-use App\Security\Voter\Admin\SiteSettingsVoter;
+use App\Security\Voter\Admin\Site\SiteSettingsVoter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 {
     protected function redirectTo(Request $request, object $object): RedirectResponse
     {
-        if ($request->get('btn_update_and_list') !== null) {
+        if ($request->request->get('btn_update_and_list') !== null) {
             return $this->redirectToRoute('admin.site_list');
         }
 

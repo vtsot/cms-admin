@@ -8,13 +8,13 @@ use App\Contract\Dictionary\User\UserRole;
 
 class AdminUserAdmin extends AbstractUserAdmin
 {
-    public const USE_GOOGLE_AUTHENTICATOR = true;
+    public const bool MULTIPLE_ROLES           = true;
+    public const bool USE_GOOGLE_AUTHENTICATOR = true;
 
     protected function resolveUserRoles(): array
     {
         return [
-            UserRole::SiteManager->value,
-            UserRole::Supervisor->value,
+            UserRole::Admin->value,
         ];
     }
 }

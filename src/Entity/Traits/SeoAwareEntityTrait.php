@@ -32,7 +32,7 @@ trait SeoAwareEntityTrait
         return $this->metaTitle;
     }
 
-    public function setMetaTitle(?string $metaTitle): self
+    public function setMetaTitle(?string $metaTitle): static
     {
         $this->metaTitle = $metaTitle;
 
@@ -44,7 +44,7 @@ trait SeoAwareEntityTrait
         return $this->metaKeywords;
     }
 
-    public function setMetaKeywords(?string $metaKeywords): self
+    public function setMetaKeywords(?string $metaKeywords): static
     {
         $this->metaKeywords = $metaKeywords;
 
@@ -56,7 +56,7 @@ trait SeoAwareEntityTrait
         return $this->metaDescription;
     }
 
-    public function setMetaDescription(?string $metaDescription): self
+    public function setMetaDescription(?string $metaDescription): static
     {
         $this->metaDescription = $metaDescription;
 
@@ -68,7 +68,7 @@ trait SeoAwareEntityTrait
         return $this->ogTitle;
     }
 
-    public function setOgTitle(?string $ogTitle): self
+    public function setOgTitle(?string $ogTitle): static
     {
         $this->ogTitle = $ogTitle;
 
@@ -80,7 +80,7 @@ trait SeoAwareEntityTrait
         return $this->ogDescription;
     }
 
-    public function setOgDescription(?string $ogDescription): self
+    public function setOgDescription(?string $ogDescription): static
     {
         $this->ogDescription = $ogDescription;
 
@@ -92,7 +92,7 @@ trait SeoAwareEntityTrait
         return $this->ogImage;
     }
 
-    public function setOgImage(?string $ogImage): self
+    public function setOgImage(?string $ogImage): static
     {
         $this->ogImage = $ogImage;
 

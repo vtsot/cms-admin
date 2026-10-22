@@ -23,7 +23,7 @@ class UserChecker implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(\Symfony\Component\Security\Core\User\UserInterface $user, ?TokenInterface $token = null): void
+    public function checkPostAuth(BaseUserInterface $user, ?TokenInterface $token = null): void
     {
     }
 }

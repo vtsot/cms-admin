@@ -137,7 +137,7 @@ class SitePageAdmin extends AbstractPageAdmin
         $this->configureFormSectionContent($form);
         $this->configureFormSectionSettings($form);
         $this->configureFormSectionSitemap($form);
-        $this->configureFormSectionRelatedArticles($form);
+        //        $this->configureFormSectionRelatedArticles($form);
         $this->configureFormSectionSeo($form);
         $this->configureFormSectionCodeBlock($form);
     }

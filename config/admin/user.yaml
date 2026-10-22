@@ -7,31 +7,53 @@ services:
     # show_in_dashboard = false
     # do not display, it used as autocomplete
     admin.user.all:
-        class: App\Admin\User\AllUserAdmin
+        class: 'App\Admin\User\AllUserAdmin'
         calls:
-            - [ setBaseRouteName,       ['admin.user_all'] ]
+            - [ setBaseRouteName,       ['admin.user-all'] ]
             - [ setBaseRoutePattern,    ['user-all'] ]
         tags:
             -   name: sonata.admin
                 model_class: 'App\Entity\User'
                 manager_type: orm
                 group: MENU_GROUP.USER
-                label: MENU.USER.USER_ALL
-                translation_domain: '%admin_translation_domain%'
+                label: MENU.USER_ALL
                 show_in_dashboard: false
 
-    admin.user.admin:
-        class: App\Admin\User\AdminUserAdmin
+    admin.user.supervisor:
+        class: 'App\Admin\User\SupervisorUserAdmin'
         calls:
-            - [ setBaseRouteName,       ['admin.user_admin'] ]
+            - [ setBaseRouteName,       ['admin.user-supervisor'] ]
+            - [ setBaseRoutePattern,    ['user-supervisor'] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\User'
+              manager_type: orm
+              group: MENU_GROUP.USER
+              label: MENU.USER_SUPERVISOR
+
+    admin.user.admin:
+        class: 'App\Admin\User\AdminUserAdmin'
+        calls:
+            - [ setBaseRouteName,       ['admin.user-admin'] ]
             - [ setBaseRoutePattern,    ['user-admin'] ]
         tags:
             - name: sonata.admin
               model_class: 'App\Entity\User'
               manager_type: orm
               group: MENU_GROUP.USER
-              label: MENU.USER.USER_ADMIN
-              translation_domain: '%admin_translation_domain%'
+              label: MENU.USER_ADMIN
+
+    admin.user.site_manager:
+        class: 'App\Admin\User\SiteManagerUserAdmin'
+        calls:
+            - [ setBaseRouteName,       ['admin.user-site-manager'] ]
+            - [ setBaseRoutePattern,    ['user-site-manager'] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\User'
+              manager_type: orm
+              group: MENU_GROUP.USER
+              label: MENU.USER_SITE_MANAGER
 
     admin.user.regular:
         class: App\Admin\User\RegularUserAdmin
@@ -43,7 +65,5 @@ services:
               model_class: 'App\Entity\User'
               manager_type: orm
               group: MENU_GROUP.USER
-              label: MENU.USER.USER_REGULAR
-              translation_domain: '%admin_translation_domain%'
-              show_in_dashboard: false
+              label: MENU.USER_REGULAR
 

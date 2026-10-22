@@ -45,7 +45,7 @@ trait ConfigureFormFieldLinkEntityRelatedToSiteTrait
         /** @var AbstractAdmin $this */
         /** @var AbstractAdmin $admin */
         $admin    = $this->getRootAncestor();
-        $objectId = $this->getRequest()->get($admin->getIdParameter());
+        $objectId = $this->getRequest()->attributes->get($admin->getIdParameter());
         $site     = $admin->getObject($objectId);
 
         if (!$site instanceof Site) {

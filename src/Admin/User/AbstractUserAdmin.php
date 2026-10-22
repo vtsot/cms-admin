@@ -6,10 +6,7 @@ namespace App\Admin\User;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
-use App\Admin\Traits\ConfigureFilterAutocompleteSitesTrait;
-use App\Admin\Traits\ConfigureFormAutocompleteSitesTrait;
 use App\Contract\Dictionary\User\UserRole;
-use App\Contract\Entity\UserInterface;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -25,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Email;
@@ -35,20 +33,21 @@ use Symfony\Contracts\Service\Attribute\Required;
 use function current;
 use function implode;
 use function in_array;
+use function sprintf;
 use function strtoupper;
 use function Symfony\Component\String\u;
 
 /**
- * @method UserInterface|null getSubject()
+ * @method User|null getSubject()
  */
 abstract class AbstractUserAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
-    use ConfigureFilterAutocompleteSitesTrait;
-    use ConfigureFormAutocompleteSitesTrait;
+    // use ConfigureFilterAutocompleteUsersTrait;
+    // use ConfigureFormAutocompleteUsersTrait;
 
-    public const USE_GOOGLE_AUTHENTICATOR = false;
-    public const MULTIPLE_ROLES           = false;
+    public const bool MULTIPLE_ROLES           = false;
+    public const bool USE_GOOGLE_AUTHENTICATOR = false;
 
     /**
      * @return string[]
@@ -57,11 +56,15 @@ abstract class AbstractUserAdmin extends AbstractAdmin
 
     protected UserRepository $userRepository;
 
+    private PasswordHasherFactoryInterface $passwordHasher;
+
     #[Required]
     public function initDependencies(
         UserRepository $userRepository,
+        PasswordHasherFactoryInterface $passwordHasher,
     ): void {
         $this->userRepository = $userRepository;
+        $this->passwordHasher = $passwordHasher;
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -77,7 +80,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         /** @var ProxyQueryInterface|QueryBuilder $query */
         parent::configureQuery($query);
 
-        // disable softdeleteable
+        // disable soft deletable
         if ($query->getEntityManager()->getFilters()->isEnabled('softdeleteable')) {
             $query->getEntityManager()->getFilters()->disable('softdeleteable');
         }
@@ -145,7 +148,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
                 ) {
                     if ($data->hasValue() && $role = $data->getValue()) {
                         $qb->andWhere(sprintf('%s.%s LIKE :role ', $alias, $field))
-                            ->setParameter('role', '%' . (new UnicodeString($role))->toString() . '%');
+                            ->setParameter('role', '%' . new UnicodeString((string) $role)->toString() . '%');
 
                         return true;
                     }
@@ -162,7 +165,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
         $this->configureFilterFieldText($filter, 'firstName', 'USER_ENTITY.LABEL.FIRST_NAME');
         $this->configureFilterFieldText($filter, 'lastName', 'USER_ENTITY.LABEL.LAST_NAME');
         $this->configureFilterFieldRoles($filter);
-        $this->configureFilterFieldAutocompleteSites($filter);
+        // $this->configureFilterFieldAutocompleteSites($filter);
 
         if (static::USE_GOOGLE_AUTHENTICATOR) {
             $this->configureFilterFieldActive(
@@ -186,16 +189,16 @@ abstract class AbstractUserAdmin extends AbstractAdmin
 
         $this->configureListFieldRoles($list);
 
-        $this->configureListFieldManyToMany(
-            $list,
-            'sites',
-            'domain',
-            'USER_ENTITY.LABEL.SITES',
-            [
-                'route'      => ['name' => 'show'],
-                'admin_code' => 'admin.site',
-            ],
-        );
+        //        $this->configureListFieldManyToMany(
+        //            $list,
+        //            'sites',
+        //            'domain',
+        //            'USER_ENTITY.LABEL.SITES',
+        //            [
+        //                'route'      => ['name' => 'show'],
+        //                'admin_code' => 'admin.site',
+        //            ],
+        //        );
 
         if (static::USE_GOOGLE_AUTHENTICATOR) {
             $this->configureListFieldActive(
@@ -239,7 +242,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with('USER_ENTITY.SECTION.MAIN');
+        $form->with($this->trans('USER_ENTITY.SECTION.MAIN'));
 
         $form->add(
             'email',
@@ -264,7 +267,12 @@ abstract class AbstractUserAdmin extends AbstractAdmin
             'USER_ENTITY.HELP.FIRST_NAME'
         );
 
-        $this->configureFormFieldText($form, 'lastName', 'USER_ENTITY.LABEL.LAST_NAME', 'USER_ENTITY.HELP.LAST_NAME');
+        $this->configureFormFieldText(
+            $form,
+            'lastName',
+            'USER_ENTITY.LABEL.LAST_NAME',
+            'USER_ENTITY.HELP.LAST_NAME'
+        );
 
         $user = $this->getSubject();
 
@@ -275,6 +283,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
                 'plainPassword',
                 RepeatedType::class,
                 [
+                    'mapped'        => false,
                     'type'          => PasswordType::class,
                     'required'      => $isPasswordRequired,
                     'first_options' => [
@@ -334,7 +343,7 @@ abstract class AbstractUserAdmin extends AbstractAdmin
             }
         }
 
-        $this->configureFormFieldAutocompleteSites($form);
+        // $this->configureFormFieldAutocompleteSites($form);
 
         $form->end();
     }
@@ -394,14 +403,25 @@ abstract class AbstractUserAdmin extends AbstractAdmin
     {
         /** @var User $object */
         $this->prepareUserRoles($object);
-        $this->prepareUserSites($object);
+        $this->preparePassword($object);
     }
 
     protected function preUpdate(object $object): void
     {
         /** @var User $object */
         $this->prepareUserRoles($object);
-        $this->prepareUserSites($object);
+        $this->preparePassword($object);
+    }
+
+    private function preparePassword(User $user): void
+    {
+        if ($this->hasSubject()
+            && ($form = $this->getForm())
+            && $form->has('plainPassword')
+            && ($plainPassword = $form->get('plainPassword')->getData())
+        ) {
+            $user->setPlainPassword($plainPassword);
+        }
     }
 
     private function prepareUserRoles(User $user): void
@@ -415,13 +435,6 @@ abstract class AbstractUserAdmin extends AbstractAdmin
             && in_array($role, $this->getRolesChoices(), true)
         ) {
             $user->setRoles([$role]);
-        }
-    }
-
-    private function prepareUserSites(User $user): void
-    {
-        if ($user->hasRole(UserRole::Supervisor->value)) {
-            $user->getSites()->clear();
         }
     }
 }

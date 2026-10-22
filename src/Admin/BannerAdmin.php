@@ -21,8 +21,8 @@ class BannerAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
 
-    public const IMAGE_DOWNLOAD_WIDTH  = 9999;
-    public const IMAGE_DOWNLOAD_HEIGHT = 9999;
+    public const int IMAGE_DOWNLOAD_WIDTH  = 9999;
+    public const int IMAGE_DOWNLOAD_HEIGHT = 9999;
 
     protected function configureDefaultSortValues(array &$sortValues): void
     {
@@ -79,10 +79,10 @@ class BannerAdmin extends AbstractAdmin
             'name',
             TextType::class,
             [
-                'required'           => true,
+                'required'           => false,
                 'label'              => 'BANNER_ENTITY.LABEL.NAME',
                 'help'               => 'BANNER_ENTITY.HELP.NAME',
-                'constraints'        => [new NotBlank()],
+                'constraints'        => [],
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
@@ -114,12 +114,12 @@ class BannerAdmin extends AbstractAdmin
                 'help'                        => 'BANNER_ENTITY.HELP.DESKTOP_IMAGE',
                 'help_translation_parameters' => ['%SIZE%' => $desktopSize['width'] . 'x' . $desktopSize['height']],
                 'download_label'              => 'BANNER_ENTITY.LABEL.IMAGE_DOWNLOAD',
-                'required'                    => $isRequiredDesktopImage,
-                'allow_delete'                => false,
+                'required'                    => false, // $isRequiredDesktopImage,
+                'allow_delete'                => true,
                 'image_uri'                   => $this->getImageUrl($desktopImage, 'resize', $desktopSize['width'], $desktopSize['height']) ?: false,
                 'download_uri'                => $this->getImageUrl($desktopImage, 'resize', static::IMAGE_DOWNLOAD_WIDTH, static::IMAGE_DOWNLOAD_HEIGHT) ?: false,
                 'translation_domain'          => $this->getTranslationDomain(),
-                'constraints'                 => $isRequiredDesktopImage ? [new NotBlank()] : [],
+                // 'constraints'                 => $isRequiredDesktopImage ? [new NotBlank()] : [],
             ],
         );
 
@@ -133,12 +133,12 @@ class BannerAdmin extends AbstractAdmin
                 'help'                        => 'BANNER_ENTITY.HELP.MOBILE_IMAGE',
                 'help_translation_parameters' => ['%SIZE%' => $mobileSize['width'] . 'x' . $mobileSize['height']],
                 'download_label'              => 'BANNER_ENTITY.LABEL.IMAGE_DOWNLOAD',
-                'required'                    => $isRequiredMobileImage,
-                'allow_delete'                => false,
+                'required'                    => false, // $isRequiredMobileImage,
+                'allow_delete'                => true,
                 'image_uri'                   => $this->getImageUrl($mobileImage, 'resize', $mobileSize['width'], $mobileSize['height']) ?: false,
                 'download_uri'                => $this->getImageUrl($mobileImage, 'resize', static::IMAGE_DOWNLOAD_WIDTH, static::IMAGE_DOWNLOAD_WIDTH) ?: false,
                 'translation_domain'          => $this->getTranslationDomain(),
-                'constraints'                 => $isRequiredMobileImage ? [new NotBlank()] : [],
+                // 'constraints'                 => $isRequiredMobileImage ? [new NotBlank()] : [],
             ],
         );
 

@@ -1,3 +1,12 @@
 imports:
+#    - { resource: admin/content.yaml }
 #    - { resource: admin/navigation.yaml }
-    - { resource: admin/content.yaml }
+    - { resource: admin/sites.yaml }
+    - { resource: admin/user.yaml }
+#    - { resource: admin/sites.yaml }
+#    - { resource: admin/brand.yaml }
+#    - { resource: admin/generic_name.yaml }
+#    - { resource: admin/review.yaml }
+#    - { resource: admin/gallery_image.yaml }
+#    - { resource: admin/faq_group.yaml }
+#    - { resource: admin/system.yaml }

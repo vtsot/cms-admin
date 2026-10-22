@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
+use function sprintf;
+
 abstract class AbstractSiteRootCrudController extends AbstractCrudController
 {
     protected Security $security;
@@ -27,7 +29,7 @@ abstract class AbstractSiteRootCrudController extends AbstractCrudController
     {
         /** @var AbstractAdmin $admin */
         $admin    = $this->admin->getRootAncestor();
-        $objectId = $request->get($admin->getIdParameter());
+        $objectId = $request->attributes->get($admin->getIdParameter());
         $site     = $admin->getObject($objectId);
 
         if (!$site instanceof Site) {

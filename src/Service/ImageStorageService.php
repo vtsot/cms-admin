@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Closure;
+use App\Service\FileManager\AbstractLocalFileManager;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
 use SplFileInfo;
 
-use function extension_loaded;
 use function pathinfo;
 use function sprintf;
 
@@ -20,60 +21,63 @@ use const PATHINFO_FILENAME;
 
 class ImageStorageService
 {
-    public const CROP_FIT    = 'fit';
-    public const CROP_RESIZE = 'resize';
+    public const string CROP_FIT    = 'fit';
+    public const string CROP_RESIZE = 'resize';
+
+    public function __construct(
+        private readonly ImageManager $imageManager,
+    ) {
+    }
 
     /**
      * @throws FilesystemException
+     * @throws DriverException
+     * @throws ImageDecoderException
+     * @throws InvalidArgumentException
      */
-    public function getImageFromStorage(
-        string $imageName,
+    public function getImageFromLocalFileManager(
+        string $sourceName,
         string $crop,
         int $width,
         int $height,
-        FilesystemOperator $imageStorage,
-        FilesystemOperator $imageCacheStorage,
-        string $imageCacheDir,
-        ?SplFileInfo $defaultImage = null,
-        ?Closure $imagePathNormalizer = null,
-        int $pathDepth = Util::PATH_DEPTH,
+        AbstractLocalFileManager $sourceFileManager,
+        AbstractLocalFileManager $cacheFileManager,
+        SplFileInfo $defaultImage,
     ): SplFileInfo {
-        $cacheImageName = sprintf(
+        $filename = sprintf(
             '%s_%s_%sx%s.%s',
-            pathinfo($imageName, PATHINFO_FILENAME),
+            pathinfo($sourceName, PATHINFO_FILENAME),
             $crop,
             $width,
             $height,
-            pathinfo($imageName, PATHINFO_EXTENSION)
+            pathinfo($sourceName, PATHINFO_EXTENSION)
         );
 
-        $cacheImagePath  = Util::normalizeFilePath($cacheImageName, pathDepth: $pathDepth);
-        $originImagePath = $imagePathNormalizer !== null
-            ? $imagePathNormalizer($imageName)
-            : Util::normalizeFilePath($imageName, pathDepth: $pathDepth);
-
-        if ($imageStorage->has($originImagePath)) {
-            $originalImage          = $imageStorage->readStream($originImagePath);
-            $originalImageTimestamp = $imageStorage->lastModified($originImagePath);
+        if ($sourceFileManager->fileExists($sourceName, false)) {
+            $originalImage          = $sourceFileManager->readStream($sourceName, false);
+            $originalImageTimestamp = $sourceFileManager->lastModified($sourceName, false);
         } else {
             $originalImage          = null;
-            $originalImageTimestamp = $defaultImage?->getMTime();
+            $originalImageTimestamp = $defaultImage->getMTime();
         }
 
-        if (!$imageCacheStorage->has($cacheImagePath) || $imageCacheStorage->lastModified($cacheImagePath) < $originalImageTimestamp
+        if (!$cacheFileManager->fileExists($filename, false)
+            || $cacheFileManager->lastModified($filename, false) < $originalImageTimestamp
         ) {
-            $imageManager = extension_loaded('imagick') ? ImageManager::imagick() : ImageManager::gd();
-            $image        = $imageManager->read($originalImage ?? $defaultImage);
+            $image = match (true) {
+                $originalImage !== null => $this->imageManager->decodeStream($originalImage),
+                default                 => $this->imageManager->decodeSplFileInfo($defaultImage),
+            };
 
             $image = match ($crop) {
                 self::CROP_RESIZE => $image->resizeDown($width, $height),
                 default           => $image->cover($width, $height),
             };
 
-            $encoded = $image->encodeByExtension(FileExtension::WEBP);
-            $imageCacheStorage->write($cacheImagePath, $encoded->toString());
+            $encoded = $image->encodeUsingFileExtension(FileExtension::WEBP);
+            $cacheFileManager->write($filename, $encoded->toString(), false);
         }
 
-        return new SplFileInfo($imageCacheDir . $cacheImagePath);
+        return new SplFileInfo($cacheFileManager->getLocalFilepath($filename));
     }
 }
