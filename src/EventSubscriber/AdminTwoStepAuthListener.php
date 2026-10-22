@@ -6,8 +6,8 @@ namespace App\EventSubscriber;
 
 use App\Contract\Entity\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Google\Authenticator\GoogleQrUrl;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+use Sonata\GoogleAuthenticator\GoogleQrUrl;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,19 +17,22 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Twig\Environment as Twig;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 use function sprintf;
 use function str_starts_with;
 
 readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
 {
-    private const ISSUER = 'rsm';
+    private const string ISSUER = 'cms-admin';
 
     public function __construct(
-        private GoogleAuthenticator $authenticator,
-        private TokenStorageInterface $tokenStorage,
         private Twig $twig,
         private EntityManagerInterface $em,
+        private GoogleAuthenticator $authenticator,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 
@@ -40,6 +43,11 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -68,9 +76,8 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         }
 
         // GoogleAuthenticator is enabled
-        // process it
         $request    = $event->getRequest();
-        $sessionKey = sprintf('_user_two_step_auth_%s_%s', $token->getFirewallName(), $token->getUserIdentifier());
+        $sessionKey = sprintf('_user_two_step_auth_%s_%s', 'admin', $token->getUserIdentifier());
 
         // google auth token is not set yet
         if ($user->getGoogleAuthenticatorToken() === null) {
@@ -88,6 +95,11 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     private function handleAuthResponse(
         Request $request,
         UserInterface $user,
@@ -105,7 +117,7 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
 
         // handle post request
         if ($request->isMethod(Request::METHOD_POST)) {
-            if ($this->authenticator->checkCode($secret, $request->get('_code'))) {
+            if ($this->authenticator->checkCode($secret, $request->request->get('_code'))) {
                 // update session
                 $session->set($sessionKey, true);
                 $session->remove($secretKey);
@@ -133,6 +145,11 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     private function handleConfirmResponse(
         Request $request,
         UserInterface $user,
@@ -141,9 +158,12 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         $session = $request->getSession();
         $error   = false;
 
-        // handle post request
+        // handle post-request
         if ($request->isMethod(Request::METHOD_POST)) {
-            if ($this->authenticator->checkCode($user->getGoogleAuthenticatorToken(), $request->get('_code'))) {
+            if ($this->authenticator->checkCode(
+                $user->getGoogleAuthenticatorToken(),
+                $request->request->get('_code')
+            )) {
                 $session->set($sessionKey, true);
 
                 return new RedirectResponse($request->getUri());

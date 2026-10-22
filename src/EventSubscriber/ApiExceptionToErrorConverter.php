@@ -15,6 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -30,10 +31,11 @@ use function str_contains;
 
 readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
 {
-    private const EXCEPTIONS_TO_CATCH = [
+    private const array EXCEPTIONS_TO_CATCH = [
         BadRequestHttpException::class      => Response::HTTP_BAD_REQUEST,
         InvalidOptionsException::class      => Response::HTTP_BAD_REQUEST,
         EntityNotFoundException::class      => Response::HTTP_NOT_FOUND,
+        AccessDeniedHttpException::class    => Response::HTTP_FORBIDDEN,
         AccessDeniedException::class        => Response::HTTP_FORBIDDEN,
         UnprocessableEntityException::class => Response::HTTP_UNPROCESSABLE_ENTITY,
         PaymentRequiredException::class     => Response::HTTP_PAYMENT_REQUIRED,
@@ -41,7 +43,7 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
         TooManyRequestsHttpException::class => Response::HTTP_TOO_MANY_REQUESTS,
     ];
 
-    private const EXCEPTIONS_TO_NORMALIZE = [
+    private const array EXCEPTIONS_TO_NORMALIZE = [
         ValidationFailedException::class        => Response::HTTP_UNPROCESSABLE_ENTITY,
         SymfonyValidationFailedException::class => Response::HTTP_UNPROCESSABLE_ENTITY,
     ];
@@ -81,8 +83,10 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
                     true
                 )
             );
-        } elseif (array_key_exists($throwableClass, self::EXCEPTIONS_TO_CATCH) || $throwable instanceof AppException) {
-            $errorCode = self::EXCEPTIONS_TO_CATCH[$throwableClass] ?? self::EXCEPTIONS_TO_CATCH[AppException::class];
+        } elseif (array_key_exists($throwableClass, self::EXCEPTIONS_TO_CATCH)
+            || $throwable instanceof AppException
+        ) {
+            $errorCode = self::EXCEPTIONS_TO_CATCH[$throwableClass] ?? Response::HTTP_BAD_REQUEST;
 
             $event->setResponse(
                 new JsonResponse(

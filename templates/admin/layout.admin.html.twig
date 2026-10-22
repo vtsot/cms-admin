@@ -2,24 +2,25 @@
 
 {% block stylesheets %}
     {{ parent() }}
-
     {{ encore_entry_link_tags('css/admin') }}
 {% endblock %}
 
-{%- block logo -%}
-    <a class="logo" href="{{ path('sonata_admin_dashboard') }}" style="background-color: #222d32">
-        <img src="{{ asset('assets/images/admin/logo.jpg') }}" alt="">
-    </a>
-{%- endblock -%}
+{% block html_attributes %}
+    {{ parent() }}
+    lang="{{ app.request.locale }}"
+    data-default-locale="{{ app.request.locale }}"
+{% endblock %}
 
 {%- block sonata_top_nav_menu -%}
-    <a class="exit-btn" href="{{ path('admin.logout') }}">
-        {{ 'AUTH.LOGOUT'|trans({}, 'admin-messages') }}
+    <a href="{{ path('admin.logout') }}"
+       class="exit-btn fa fa-sign-out"
+    >
+        {{ 'ADMIN.LOGOUT'|trans({}, 'admin-messages') }}
     </a>
 {%- endblock -%}
 
-{% block side_bar_after_nav %}
-{% endblock %}
+{#{% block side_bar_after_nav %}#}
+{#{% endblock %}#}
 
 {% block javascripts %}
     {{ parent() }}
@@ -31,7 +32,7 @@
                 const form = $(this).closest('form');
 
                 if (form.length === 1) {
-                    form.find('button[type=submit]').trigger('click');
+                    form.find('button[type=submit]').click();
                 }
             });
         });

@@ -50,11 +50,8 @@ class ApiRequestResolver implements ValueResolverInterface
 
     private function getRequestParams(Request $request): array
     {
-        $queryParams = $request->query->all();
-
-        Util::arrayKeysToSnake($queryParams);
-
-        return $queryParams + $request->request->all();
+        return Util::arrayKeysToSnake($request->query->all())
+            + Util::arrayKeysToSnake($request->request->all());
     }
 
     private function getRouteParams(Request $request): array
@@ -75,6 +72,6 @@ class ApiRequestResolver implements ValueResolverInterface
             $params[$key] = $value ?? $param;
         }
 
-        return $params;
+        return Util::arrayKeysToSnake($params);
     }
 }

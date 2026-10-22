@@ -16,7 +16,7 @@ use function json_decode;
 
 use const JSON_THROW_ON_ERROR;
 
-readonly class JsonRequestBodyConverter implements EventSubscriberInterface
+final readonly class JsonRequestBodyConverter implements EventSubscriberInterface
 {
     public function onKernelRequest(RequestEvent $event): void
     {
@@ -26,7 +26,11 @@ readonly class JsonRequestBodyConverter implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        if ($request->getContentTypeFormat() === 'json' && $request->getContent()) {
+        if ($request->getContent()
+            && ($request->getContentTypeFormat() === 'json'
+                || str_starts_with($request->getRequestUri(), '/api/')
+            )
+        ) {
             try {
                 $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 

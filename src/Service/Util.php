@@ -4,59 +4,72 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use function explode;
-use function sprintf;
-use function str_contains;
-use function Symfony\Component\String\s;
+use Carbon\CarbonImmutable;
+
+use function array_combine;
+use function array_keys;
+use function array_map;
+use function array_values;
+use function filter_var;
 use function Symfony\Component\String\u;
 
-use const DIRECTORY_SEPARATOR;
-use const STR_PAD_LEFT;
+use const FILTER_NULL_ON_FAILURE;
+use const FILTER_VALIDATE_BOOLEAN;
 
 class Util
 {
-    public const PATH_DEPTH = 2;
-
-    public static function normalizeOrderBy(string $mainTable, string $orderBy, ?string $orderDirection): array
+    public static function arrayKeysToSnake(array $data): array
     {
-        if (str_contains($orderBy, '.')) {
-            [$table, $field] = explode('.', $orderBy);
-        } else {
-            $table = $mainTable;
-            $field = $orderBy;
-        }
-
-        return [sprintf('%s.%s', $table, s($field)->camel()->toString()), $orderDirection];
+        return array_combine(
+            array_map(
+                static fn (string $key): string => u($key)->snake()->toString(),
+                array_keys($data),
+            ),
+            array_values($data),
+        );
     }
 
-    public static function arrayKeysToSnake(array &$data): void
+    public static function normalizeDate(?string $date): ?CarbonImmutable
     {
-        foreach (array_keys($data) as $key) {
-            $value = &$data[$key];
-
-            unset($data[$key]);
-
-            $transformedKey = u($key)->snake()->toString();
-
-            $data[$transformedKey] = $value;
-
-            unset($value);
-        }
+        return $date ? CarbonImmutable::createFromFormat('Y-m-d', $date) : null;
     }
 
-    /** @deprecated  */
-    public static function normalizeFilePath(string $fileName, int $depth = 2, int $pathDepth = self::PATH_DEPTH): string
+    public static function normalizeBool(mixed $value): ?bool
     {
-        [$name, $extension] = explode('.', $fileName);
-
-        $normalizedName = str_pad($name, $depth * 2, '0', STR_PAD_LEFT);
-
-        $path = '';
-
-        for ($i = 0; $i < $depth; $i++) {
-            $path .= substr($normalizedName, $i * $pathDepth, $pathDepth) . DIRECTORY_SEPARATOR;
+        if ($value === null) {
+            return null;
         }
 
-        return $path . $name . '.' . $extension;
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
+
+    //    public const PATH_DEPTH = 2;
+    //
+    //    public static function normalizeOrderBy(string $mainTable, string $orderBy, ?string $orderDirection): array
+    //    {
+    //        if (str_contains($orderBy, '.')) {
+    //            [$table, $field] = explode('.', $orderBy);
+    //        } else {
+    //            $table = $mainTable;
+    //            $field = $orderBy;
+    //        }
+    //
+    //        return [sprintf('%s.%s', $table, s($field)->camel()->toString()), $orderDirection];
+    //    }
+    //
+    //    /** @deprecated  */
+    //    public static function normalizeFilePath(string $fileName, int $depth = 2, int $pathDepth = self::PATH_DEPTH): string
+    //    {
+    //        [$name, $extension] = explode('.', $fileName);
+    //
+    //        $normalizedName = str_pad($name, $depth * 2, '0', STR_PAD_LEFT);
+    //
+    //        $path = '';
+    //
+    //        for ($i = 0; $i < $depth; $i++) {
+    //            $path .= substr($normalizedName, $i * $pathDepth, $pathDepth) . DIRECTORY_SEPARATOR;
+    //        }
+    //
+    //        return $path . $name . '.' . $extension;
+    //    }
 }

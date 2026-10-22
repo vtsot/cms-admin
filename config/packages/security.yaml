@@ -4,41 +4,21 @@ security:
             - IS_AUTHENTICATED_FULLY
             - IS_AUTHENTICATED_REMEMBERED
 
-        ROLE_ADMIN_USER_ALL:
-            - ROLE_USER
-            - ROLE_ADMIN_USER_ADMIN_ALL
-            - ROLE_ADMIN_USER_REGULAR_ALL
-
         ROLE_SITE_MANAGER:
             - ROLE_USER
             - ROLE_ADMIN_SITE_LIST
+            - ROLE_ADMIN_SITE_NAVIGATION_MAIN_ALL
             - ROLE_ADMIN_SITE_PAGE_ALL
             - ROLE_ADMIN_SITE_PAGE_RELATED_ARTICLE_ALL
-            - ROLE_ADMIN_SITE_NAVIGATION_TOP_ALL
-            - ROLE_ADMIN_SITE_NAVIGATION_TOP_CHILDREN_ALL
-            - ROLE_ADMIN_SITE_NAVIGATION_BOTTOM_ALL
-            - ROLE_ADMIN_SITE_NAVIGATION_BOTTOM_CHILDREN_ALL
-            - ROLE_ADMIN_REVIEW_SITE_ALL
-            - ROLE_ADMIN_REVIEW_SITE_REVIEW_ALL
-            - ROLE_ADMIN_REVIEW_SITE_QUESTION_REASON_ALL
-            - ROLE_ADMIN_REVIEW_SITE_QUESTION_AGE_ALL
-            - ROLE_ADMIN_REVIEW_SITE_QUESTION_MEDICATION_TIME_ALL
-            - ROLE_ADMIN_SITE_GALLERY_IMAGE_ALL
-            - ROLE_ADMIN_SITE_FAQ_GROUP_ALL
-            - ROLE_ADMIN_SITE_FAQ_ALL
-            - ROLE_ADMIN_SITE_CONTACT_LIST
-            - ROLE_ADMIN_SITE_CONTACT_VIEW
-            - ROLE_ADMIN_SITE_SETTINGS
-            - ROLE_ADMIN_SITE_SETTINGS_ALL
-            - ROLE_ADMIN_SITE_CACHE_CLEAR
-            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_ALL
-            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_SHOW_HTML
-            - ROLE_ADMIN_SITE_EMAIL_TEMPLATE_SHOW_TEXT
+
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_SITE_MANAGER
 
         ROLE_SUPERVISOR:
-            - ROLE_SITE_MANAGER
             - ROLE_ALLOWED_TO_SWITCH
-            - ROLE_ADMIN_SYSTEM_MAIL_LOG_ALL
+            - ROLE_ADMIN
+            - ROLE_ADMIN_USER_SUPERVISOR_ALL
 
     providers:
         api_doc_users:
@@ -108,8 +88,8 @@ security:
     access_control:
         # allow unauthenticated users to access the login form
         - { path: '^/admin/login', roles: PUBLIC_ACCESS }
-        # - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
-        #- { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
+        - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
+        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
         - { path: '^/api/doc', roles: ROLE_API_DOC }
         - { path: '^/api/sites', roles: ROLE_API_SITE }
         - { path: '^/', roles: PUBLIC_ACCESS }

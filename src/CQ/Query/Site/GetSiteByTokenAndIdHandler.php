@@ -10,8 +10,6 @@ use App\DTO\Collection\NavigationTreeCollectionDTO;
 use App\DTO\Entity\Site\SiteDTO;
 use App\DTOFactory\Data\LinkDTOFactory;
 use App\DTOFactory\Entity\Site\SiteDTOFactory;
-use App\DTOFactory\Entity\Site\SiteThemeDTOFactory;
-use App\Entity\Site\SiteTheme;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Repository\Page\PageRepository;
 use App\Repository\Site\SiteRepository;

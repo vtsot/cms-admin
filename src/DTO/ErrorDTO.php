@@ -6,11 +6,12 @@ namespace App\DTO;
 
 use OpenApi\Attributes as OA;
 
-readonly class ErrorDTO
+final readonly class ErrorDTO
 {
     public function __construct(
         public int $code,
         public string $message,
+        /** @var mixed[] */
         #[OA\Property(
             property: 'errors',
             properties: [
