@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Page;
 
-use App\Entity\Traits\AltEntityTrait;
 use App\Entity\Traits\DescriptionEntityTrait;
+use App\Entity\Traits\ImageAltEntityTrait;
 use App\Repository\Page\ArticleRepository;
 use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,8 +23,8 @@ use function implode;
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article extends AbstractPage
 {
-    use AltEntityTrait;
     use DescriptionEntityTrait;
+    use ImageAltEntityTrait;
 
     #[ORM\Column(name: 'image', type: Types::STRING, length: 255, nullable: true)]
     private ?string $image = null;
@@ -62,17 +62,17 @@ class Article extends AbstractPage
         return $this;
     }
 
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
     public function setImageFile(File|UploadedFile|null $imageFile): self
     {
         $this->imageFile = $imageFile;
         $this->setUpdatedAt(new CarbonImmutable());
 
         return $this;
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
     }
 
     /**

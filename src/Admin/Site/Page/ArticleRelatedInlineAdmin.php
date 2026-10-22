@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Site;
+namespace App\Admin\Site\Page;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
@@ -17,7 +17,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 /**
  * @method PageRelatedArticle|null getSubject()
  */
-class SitePageRelatedArticleInlineAdmin extends AbstractAdmin
+class ArticleRelatedInlineAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
 
@@ -42,9 +42,8 @@ class SitePageRelatedArticleInlineAdmin extends AbstractAdmin
     {
         $this->configureFormFieldPosition(form: $form, options: ['attr' => ['style' => 'width: 100px']]);
 
-        $articleChoiceLoader = new CallbackChoiceLoader(
-            fn () => $this->articleRepository->getChoiceListBySiteId($this->getSubject()?->getPage()?->getSite()?->getId())
-        );
+        $siteId              = $this->getSubject()?->getPage()?->getSite()?->getId();
+        $articleChoiceLoader = new CallbackChoiceLoader(fn () => $siteId ? $this->articleRepository->getChoiceListBySiteId($siteId) : []);
 
         $form->add(
             'article',
@@ -59,7 +58,7 @@ class SitePageRelatedArticleInlineAdmin extends AbstractAdmin
                 'choice_loader' => $articleChoiceLoader,
             ],
             [
-                'admin_code' => 'admin.site.page.related_article.inline',
+                'admin_code' => 'admin.site.page.article.related.inline',
             ],
         );
 

@@ -150,15 +150,15 @@ class AbstractPageAdmin extends AbstractAdmin
             ],
         );
 
-        $form->add(
-            'relatedArticlesTitle',
-            TextType::class,
-            [
-                'required' => false,
-                'label'    => 'PAGE_ENTITY.LABEL.RELATED_ARTICLE_TITLE',
-                'help'     => 'PAGE_ENTITY.HELP.RELATED_ARTICLE_TITLE',
-            ],
-        );
+        //        $form->add(
+        //            'relatedArticlesTitle',
+        //            TextType::class,
+        //            [
+        //                'required' => false,
+        //                'label'    => 'PAGE_ENTITY.LABEL.RELATED_ARTICLE_TITLE',
+        //                'help'     => 'PAGE_ENTITY.HELP.RELATED_ARTICLE_TITLE',
+        //            ],
+        //        );
 
         $form->add(
             'sources',

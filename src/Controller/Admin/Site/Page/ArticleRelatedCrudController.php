@@ -10,7 +10,7 @@ use App\Security\Voter\Admin\Site\SitePageRelatedArticleVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SitePageRelatedArticleCrudController extends AbstractSiteRootCrudController
+class ArticleRelatedCrudController extends AbstractSiteRootCrudController
 {
     protected function preList(Request $request): ?Response
     {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Site;
+namespace App\Admin\Site\Page;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * @method PageRelatedArticle|null getSubject()
  */
-class SitePageRelatedArticleAdmin extends AbstractAdmin
+class ArticleRelatedAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
     use ConfigureFieldArticleRelatedToSiteTrait;

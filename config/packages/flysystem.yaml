@@ -31,18 +31,16 @@ flysystem:
             public_url: '%banner_image_cache_storage_dir%'
             options: { directory: '%banner_image_cache_storage_dir%' }
 
-
-#            calls:
-#                - [ setBaseRouteName,       [ 'admin.site.banner' ] ]
-
-#        article.image.storage:
-#            adapter: 'local'
-#            options:
-#                directory: '%storage_dir%/images/article'
-#        article.image.cache.storage:
-#            adapter: 'local'
-#            options:
-#                directory: '%storage_cache_dir%/images/article'
+        article.image.storage:
+            adapter: 'local'
+            public_url: '%article_image_storage_dir%'
+            options:
+                directory: '%article_image_storage_dir%'
+        article.image.cache.storage:
+            adapter: 'local'
+            public_url: '%article_image_cache_storage_dir%'
+            options:
+                directory: '%article_image_cache_storage_dir%'
 
         site.image.storage:
             adapter: 'local'

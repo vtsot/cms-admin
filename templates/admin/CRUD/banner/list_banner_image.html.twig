@@ -8,11 +8,10 @@
     {% set imageRouteName = field_description.options.data.imageRouteName ?? null %}
     {% set imageType = field_description.options.data.imageType ?? null %}
 
-    {% set theme = object.site.siteTheme.code ?? null %}
-    {% set desktopSizes = constant('App\\DTOFactory\\Entity\\BannerDTOFactory::DESKTOP_SIZE') ?? null %}
-    {% set desktopSize = desktopSizes[theme] ?? desktopSizes['default'] %}
-    {% set mobileSizes = constant('App\\DTOFactory\\Entity\\BannerDTOFactory::MOBILE_SIZE') ?? null %}
-    {% set mobileSize = mobileSizes[theme] ?? mobileSizes['default'] %}
+    {% set desktopSizes = constant('App\\DTOFactory\\Entity\\Site\\SiteBannerDTOFactory::DESKTOP_SIZE') ?? null %}
+    {% set desktopSize = desktopSizes['default'] %}
+    {% set mobileSizes = constant('App\\DTOFactory\\Entity\\Site\\SiteBannerDTOFactory::MOBILE_SIZE') ?? null %}
+    {% set mobileSize = mobileSizes['default'] %}
 
     {% if attribute(object, 'desktopImage') is defined and object.desktopImage is not null and imageRouteName %}
         <div>
@@ -26,7 +25,7 @@
             {% set imageUrlDownload = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.desktopImage }) %}
 
             <a href="{{ imageUrlDownload }}" target="_blank">
-                <img src="{{ imageUrlThumbnail }}" alt="{{ object.alt ?? object.name }}">
+                <img src="{{ imageUrlThumbnail }}" alt="{{ object.imageAlt ?? object.title }}">
             </a>
         </div>
     {% endif %}
@@ -43,7 +42,7 @@
             {% set imageUrlDownload = url(imageRouteName, {'type': imageType, 'crop' : 'resize', 'width': downloadWidth, 'height': downloadHeight, 'image' : object.mobileImage }) %}
 
             <a href="{{ imageUrlDownload }}" target="_blank">
-                <img src="{{ imageUrlThumbnail }}" alt="{{ object.alt ?? object.name }}">
+                <img src="{{ imageUrlThumbnail }}" alt="{{ object.imageAlt ?? object.title }}">
             </a>
         </div>
     {% endif %}

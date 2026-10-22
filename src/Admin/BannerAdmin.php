@@ -33,8 +33,8 @@ class BannerAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $this->configureFilterFieldText($filter, 'name', 'BANNER_ENTITY.LABEL.NAME');
-        $this->configureFilterFieldText($filter, 'alt', 'BANNER_ENTITY.LABEL.ALT');
+        $this->configureFilterFieldText($filter, 'title', 'BANNER_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldText($filter, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
 
         $this->configureFilterFieldActive($filter);
         $this->configureFilterFieldCreatedAtDateRange($filter);
@@ -61,8 +61,8 @@ class BannerAdmin extends AbstractAdmin
             ],
         );
 
-        $this->configureListFieldText($list, 'name', 'BANNER_ENTITY.LABEL.NAME');
-        $this->configureListFieldText($list, 'alt', 'BANNER_ENTITY.LABEL.ALT');
+        $this->configureListFieldText($list, 'title', 'BANNER_ENTITY.LABEL.TITLE');
+        $this->configureListFieldText($list, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
         $this->configureListFieldLinkEntity($list, 'linkUrl');
 
         $this->configureListFieldActive($list);
@@ -75,33 +75,33 @@ class BannerAdmin extends AbstractAdmin
         $form->with('BANNER_ENTITY.SECTION.MAIN');
 
         $form->add(
-            'name',
+            'title',
             TextType::class,
             [
                 'required'           => false,
-                'label'              => 'BANNER_ENTITY.LABEL.NAME',
-                'help'               => 'BANNER_ENTITY.HELP.NAME',
+                'label'              => 'BANNER_ENTITY.LABEL.TITLE',
+                'help'               => 'BANNER_ENTITY.HELP.TITLE',
                 'constraints'        => [],
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
 
         $form->add(
-            'alt',
+            'imageAlt',
             TextType::class,
             [
                 'required'           => false,
-                'label'              => 'BANNER_ENTITY.LABEL.ALT',
-                'help'               => 'BANNER_ENTITY.HELP.ALT',
+                'label'              => 'BANNER_ENTITY.LABEL.IMAGE_ALT',
+                'help'               => 'BANNER_ENTITY.HELP.IMAGE_ALT',
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
 
         $this->configureFormFieldPosition($form, 'priority', 'BANNER_ENTITY.LABEL.PRIORITY', 'BANNER_ENTITY.HELP.PRIORITY');
 
-        $theme       = $this->getSubject()?->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize = SiteBannerDTOFactory::DESKTOP_SIZE[$theme] ?? SiteBannerDTOFactory::DESKTOP_SIZE['default'];
-        $mobileSize  = SiteBannerDTOFactory::MOBILE_SIZE[$theme] ?? SiteBannerDTOFactory::MOBILE_SIZE['default'];
+        // $theme       = $this->getSubject()?->getSite()?->getSiteTheme()?->getCode();
+        $desktopSize = SiteBannerDTOFactory::DESKTOP_SIZE['default'];
+        $mobileSize  = SiteBannerDTOFactory::MOBILE_SIZE['default'];
 
         $desktopImage           = $this->getSubject()?->getDesktopImage();
         $isRequiredDesktopImage = !$desktopImage;

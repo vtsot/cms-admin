@@ -373,16 +373,16 @@ trait ConfigureFormTrait
                     'help'     => $labels['linkTypeHelp'] ?? null,
                     'required' => false,
                     'choices'  => [
-                        'FIELD.LINK_ENTITY.CHOICE.NONE' => LinkEntityInterface::LINK_TYPE_NONE,
-                        'FIELD.LINK_ENTITY.CHOICE.LINK' => LinkEntityInterface::LINK_TYPE_EXTERNAL_LINK,
-                        'FIELD.LINK_ENTITY.CHOICE.PAGE' => LinkEntityInterface::LINK_TYPE_PAGE,
-                        // 'FIELD.LINK_ENTITY.CHOICE.ARTICLE' => LinkEntityInterface::LINK_TYPE_ARTICLE,
+                        'FIELD.LINK_ENTITY.CHOICE.NONE'    => LinkEntityInterface::LINK_TYPE_NONE,
+                        'FIELD.LINK_ENTITY.CHOICE.LINK'    => LinkEntityInterface::LINK_TYPE_EXTERNAL_LINK,
+                        'FIELD.LINK_ENTITY.CHOICE.PAGE'    => LinkEntityInterface::LINK_TYPE_PAGE,
+                        'FIELD.LINK_ENTITY.CHOICE.ARTICLE' => LinkEntityInterface::LINK_TYPE_ARTICLE,
                     ],
                     'map' => [
                         LinkEntityInterface::LINK_TYPE_EXTERNAL_LINK => $mapExternal,
                         LinkEntityInterface::LINK_TYPE_PAGE          => $mapPage,
                         LinkEntityInterface::LINK_TYPE_NONE          => $mapNone,
-                        // LinkEntityInterface::LINK_TYPE_ARTICLE       => $mapArticle,
+                        LinkEntityInterface::LINK_TYPE_ARTICLE       => $mapArticle,
                     ],
                     'placeholder'        => 'FIELD.LINK_ENTITY.CHOICE.NONE',
                     'translation_domain' => $this->getTranslationDomain(),
@@ -408,24 +408,24 @@ trait ConfigureFormTrait
                 ['admin_code' => 'admin.site.page']
             );
 
-        //        $articleOptions = [
-        //            'label'    => $labels['linkArticle'] ?? 'FIELD.LINK_ENTITY.ARTICLE',
-        //            'help'     => $labels['linkArticleHelp'] ?? 'FIELD.LINK_ENTITY.ARTICLE_HELP',
-        //            'required' => false,
-        //            'btn_add'  => false,
-        //        ];
-        //
-        //        if ($articleChoiceLoader) {
-        //            $articleOptions['choice_loader'] = $articleChoiceLoader;
-        //        }
-        //
-        //        $form
-        //            ->add(
-        //                $nameLinkArticle,
-        //                ModelType::class,
-        //                $articleOptions,
-        //                ['admin_code' => 'admin.article']
-        //            );
+        $articleOptions = [
+            'label'    => $labels['linkArticle'] ?? 'FIELD.LINK_ENTITY.ARTICLE',
+            'help'     => $labels['linkArticleHelp'] ?? 'FIELD.LINK_ENTITY.ARTICLE_HELP',
+            'required' => false,
+            'btn_add'  => false,
+        ];
+
+        if ($articleChoiceLoader) {
+            $articleOptions['choice_loader'] = $articleChoiceLoader;
+        }
+
+        $form
+            ->add(
+                $nameLinkArticle,
+                ModelType::class,
+                $articleOptions,
+                ['admin_code' => 'admin.site.article']
+            );
 
         $form
             ->add(

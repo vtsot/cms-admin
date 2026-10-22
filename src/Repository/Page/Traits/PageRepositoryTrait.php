@@ -26,14 +26,14 @@ trait PageRepositoryTrait
             ->andWhere('p.slug = :slug')
             ->setParameters(
                 new ArrayCollection([
-                    new Parameter('siteId', $siteId),
+                    new Parameter('siteId', $siteId->toBinary()),
                     new Parameter('slug', $slug),
                 ]),
             );
 
         if ($exceptId !== null) {
             $qb->andWhere('p.id != :exceptId')
-                ->setParameter('exceptId', $exceptId);
+                ->setParameter('exceptId', $exceptId->toBinary());
         }
 
         try {
@@ -55,7 +55,7 @@ trait PageRepositoryTrait
                 ->setParameters(
                     new ArrayCollection([
                         new Parameter('siteToken', $siteToken),
-                        new Parameter('siteId', $siteId),
+                        new Parameter('siteId', $siteId->toBinary()),
                         new Parameter('slug', $slug),
                         new Parameter('isActive', true),
                     ])
@@ -78,7 +78,7 @@ trait PageRepositoryTrait
      */
     public function findAllBySiteId(Uuid $siteId): array
     {
-        return $this->findBy(['site' => $siteId]);
+        return $this->findBy(['site' => $siteId->toBinary()]);
     }
 
     /**
@@ -89,7 +89,7 @@ trait PageRepositoryTrait
         $items = $this->createQueryBuilder('p')
             ->select('p.id, p.title')
             ->where('p.site =:siteId')
-            ->setParameter('siteId', $siteId)
+            ->setParameter('siteId', $siteId->toBinary())
             ->orderBy('p.title', 'ASC')
             ->getQuery()
             ->getResult();
@@ -115,7 +115,7 @@ trait PageRepositoryTrait
             ->setParameters(
                 new ArrayCollection([
                     new Parameter('siteToken', $siteToken),
-                    new Parameter('siteId', $siteId),
+                    new Parameter('siteId', $siteId->toBinary()),
                     new Parameter('active', true),
                     new Parameter('indexed', true),
                 ])

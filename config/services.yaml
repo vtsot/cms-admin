@@ -18,6 +18,10 @@ parameters:
     site_image_cache_storage_dir: '%storage_cache_dir%/images/site'
     site_no_image_path: '%kernel.project_dir%/assets/images/site-no-image.jpg'
 
+    article_image_storage_dir: '%storage_dir%/images/site'
+    article_image_cache_storage_dir: '%storage_cache_dir%/images/site'
+    article_no_image_path: '%kernel.project_dir%/assets/images/article-no-image.jpg'
+
     banner_image_storage_dir: '%storage_dir%/images/banner'
     banner_image_cache_storage_dir: '%storage_cache_dir%/images/banner'
     banner_no_image_path: '%kernel.project_dir%/assets/images/banner-no-image.jpg'

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\General\Image;
 
 use App\Controller\AbstractController;
-use App\CQ\Query\Banner\GetBannerImageQuery;
+use App\CQ\Query\Site\Banner\GetBannerImageQuery;
+use App\CQ\Query\Site\Page\GetArticleImageQuery;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ class ImageController extends AbstractController
         path: '/images/{type}/{crop}/{width}x{height}/{image}',
         name: 'general.image',
         requirements: [
-            'type'   => 'gallery|banner|article|site',
+            'type'   => 'site|banner|article',
             'crop'   => 'fit|resize',
             'width'  => Requirement::DIGITS,
             'height' => Requirement::DIGITS,
@@ -39,8 +40,8 @@ class ImageController extends AbstractController
         $imageFile = $messageBusHandler->handleQuery(
             match ($type) {
                 //                'gallery' => new GetGalleryImageQuery($image, $crop, $width, $height),
-                'banner' => new GetBannerImageQuery($image, $crop, $width, $height),
-                //                'article' => new GetArticleImageQuery($image, $crop, $width, $height),
+                'banner'  => new GetBannerImageQuery($image, $crop, $width, $height),
+                'article' => new GetArticleImageQuery($image, $crop, $width, $height),
                 //                'site'    => new GetSiteImageQuery($image, $crop, $width, $height),
             },
         );

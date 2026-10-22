@@ -6,11 +6,7 @@ namespace App\Admin\Site;
 
 use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
-use App\Admin\Traits\ConfigureFilterAutocompleteBrandsTrait;
-use App\Admin\Traits\ConfigureFilterAutocompleteGenericNamesTrait;
 use App\Admin\Traits\ConfigureFilterAutocompleteUsersTrait;
-use App\Admin\Traits\ConfigureFormAutocompleteBrandsTrait;
-use App\Admin\Traits\ConfigureFormAutocompleteGenericNamesTrait;
 use App\Admin\Traits\ConfigureFormAutocompleteUsersTrait;
 use App\Contract\Dictionary\User\UserRole;
 use App\Entity\Site\Site;
@@ -26,9 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -40,11 +34,7 @@ class SiteAdmin extends AbstractAdmin
 {
     use ConfigureAdminFullTrait;
     use ConfigureFilterAutocompleteUsersTrait;
-    use ConfigureFilterAutocompleteBrandsTrait;
-    use ConfigureFilterAutocompleteGenericNamesTrait;
     use ConfigureFormAutocompleteUsersTrait;
-    use ConfigureFormAutocompleteBrandsTrait;
-    use ConfigureFormAutocompleteGenericNamesTrait;
 
     protected SiteRepository $siteRepository;
 
@@ -191,7 +181,6 @@ class SiteAdmin extends AbstractAdmin
         $form->end();
 
         $this->configureFormSectionSiteDomainRegistration($form);
-        $this->configureFormSectionSiteDomainDetails($form);
     }
 
     private function configureFormSectionSiteDomainRegistration(FormMapper $form): void
@@ -243,124 +232,6 @@ class SiteAdmin extends AbstractAdmin
                 'mapped' => false,
                 'data'   => $this->getSubject()?->getExpireAt(),
             ]
-        );
-
-        $form->end();
-    }
-
-    private function configureFormSectionSiteDomainDetails(FormMapper $form): void
-    {
-        $form->with('SITE_ENTITY.SECTION.DOMAIN_DETAILS', ['class' => 'col-md-3']);
-
-        $this->configureFormFieldNumber(
-            $form,
-            'archiveBirthYear',
-            'SITE_ENTITY.LABEL.ARCHIVE_BIRTH_YEAR',
-            'SITE_ENTITY.HELP.ARCHIVE_BIRTH_YEAR',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'globalSearchVolume',
-            'SITE_ENTITY.LABEL.GLOBAL_SEARCH_VOLUME',
-            'SITE_ENTITY.HELP.GLOBAL_SEARCH_VOLUME',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'usSearchVolume',
-            'SITE_ENTITY.LABEL.US_SEARCH_VOLUME',
-            'SITE_ENTITY.HELP.US_SEARCH_VOLUME',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'mozSpam',
-            'SITE_ENTITY.LABEL.MOZ_SPAM',
-            'SITE_ENTITY.HELP.MOZ_SPAM',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'ahrefsDomainRating',
-            'SITE_ENTITY.LABEL.AHREFS_DOMAIN_RATING',
-            'SITE_ENTITY.HELP.AHREFS_DOMAIN_RATING',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'ahrefsBackLinks',
-            'SITE_ENTITY.LABEL.AHREFS_BACK_LINKS',
-            'SITE_ENTITY.HELP.AHREFS_DOMAIN_RATING',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'ahrefsRefDomains',
-            'SITE_ENTITY.LABEL.AHREFS_REF_DOMAINS',
-            'SITE_ENTITY.HELP.AHREFS_REF_DOMAINS',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'semrushAuthorityScore',
-            'SITE_ENTITY.LABEL.SEMRUSH_AUTHORITY_SCORE',
-            'SITE_ENTITY.HELP.SEMRUSH_AUTHORITY_SCORE',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'semrushBackLinks',
-            'SITE_ENTITY.LABEL.SEMRUSH_BACK_LINKS',
-            'SITE_ENTITY.HELP.SEMRUSH_BACK_LINKS',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $this->configureFormFieldNumber(
-            $form,
-            'semrushRefDomains',
-            'SITE_ENTITY.LABEL.SEMRUSH_REF_DOMAINS',
-            'SITE_ENTITY.HELP.SEMRUSH_REF_DOMAINS',
-            false,
-            ['constraints' => [new GreaterThanOrEqual(0)]],
-        );
-
-        $form->add(
-            'wikipediaLink',
-            UrlType::class,
-            [
-                'required'           => false,
-                'label'              => 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK',
-                'help'               => 'SITE_ENTITY.HELP.WIKIPEDIA_LINK',
-                'constraints'        => [new Url()],
-                'translation_domain' => $this->getTranslationDomain(),
-            ]
-        );
-
-        $this->configureFormFieldActive(
-            $form,
-            'isPenalty',
-            'SITE_ENTITY.LABEL.IS_PENALTY',
-            'SITE_ENTITY.HELP.IS_PENALTY',
-            true,
-            ['constraints' => [new NotNull()]],
         );
 
         $form->end();

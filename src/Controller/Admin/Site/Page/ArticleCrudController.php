@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Site;
+namespace App\Controller\Admin\Site\Page;
 
+use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\Entity\Page\Article;
 use App\Security\Voter\Admin\Site\SiteArticleVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SiteArticleCrudController extends AbstractSiteRootCrudController
+class ArticleCrudController extends AbstractSiteRootCrudController
 {
     protected function preList(Request $request): ?Response
     {

@@ -36,7 +36,7 @@ vich_uploader:
                 service: Vich\UploaderBundle\Naming\SubdirDirectoryNamer
                 options: { property: 'id', chars_per_dir: 2, dirs: 3 }
             namer:
-                service: vich_uploader.namer_property
+                service: App\Service\UploaderUuidNamer
                 options: { property: 'id' }
             inject_on_load: true # true is required
             delete_on_update: true

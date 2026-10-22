@@ -7,10 +7,10 @@ namespace App\Entity\Site;
 use App\Contract\Entity\LinkEntityInterface;
 use App\Entity\AbstractEntity;
 use App\Entity\Traits\ActiveEntityTrait;
-use App\Entity\Traits\AltEntityTrait;
+use App\Entity\Traits\ImageAltEntityTrait;
 use App\Entity\Traits\LinkEntityTrait;
-use App\Entity\Traits\NameEntityTrait;
 use App\Entity\Traits\PriorityEntityTrait;
+use App\Entity\Traits\TitleEntityTrait;
 use App\Repository\Site\SiteBannerRepository;
 use Carbon\CarbonImmutable;
 use Doctrine\DBAL\Types\Types;
@@ -32,10 +32,10 @@ use function implode;
 class SiteBanner extends AbstractEntity implements LinkEntityInterface
 {
     use ActiveEntityTrait;
-    use NameEntityTrait;
+    use TitleEntityTrait;
     use PriorityEntityTrait;
     use LinkEntityTrait;
-    use AltEntityTrait;
+    use ImageAltEntityTrait;
 
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'banners')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
@@ -57,7 +57,7 @@ class SiteBanner extends AbstractEntity implements LinkEntityInterface
     {
         $labels   = [];
         $labels[] = $this->getCreatedAt() === null ? 'New Entity' : null;
-        $labels[] = $this->getName();
+        $labels[] = $this->getTitle();
 
         return implode(' ', array_filter($labels));
     }

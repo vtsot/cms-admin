@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Site;
+namespace App\Admin\Site\Page;
 
 use App\Admin\Content\AbstractPageAdmin;
 use App\DTOFactory\Entity\Page\ArticleDTOFactory;
@@ -19,10 +19,10 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 /**
  * @method Article|null getSubject()
  */
-class SiteArticleAdmin extends AbstractPageAdmin
+class ArticleAdmin extends AbstractPageAdmin
 {
-    public const IMAGE_DOWNLOAD_WIDTH  = 9999;
-    public const IMAGE_DOWNLOAD_HEIGHT = 9999;
+    public const int IMAGE_DOWNLOAD_WIDTH  = 9999;
+    public const int IMAGE_DOWNLOAD_HEIGHT = 9999;
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
@@ -59,12 +59,6 @@ class SiteArticleAdmin extends AbstractPageAdmin
             'title',
             'PAGE_ENTITY.LABEL.TITLE',
             ['identifier' => true, 'route' => ['name' => 'edit']],
-        );
-
-        $this->configureListFieldText(
-            $list,
-            'alt',
-            'ARTICLE_ENTITY.LABEL.ALT',
         );
 
         $this->configureListFieldHtml(
@@ -105,7 +99,7 @@ class SiteArticleAdmin extends AbstractPageAdmin
             'title',
             TextType::class,
             [
-                'required'    => true,
+                'required'    => false,
                 'label'       => 'PAGE_ENTITY.LABEL.TITLE',
                 'help'        => 'PAGE_ENTITY.HELP.TITLE',
                 'constraints' => [new NotBlank()],
@@ -113,18 +107,17 @@ class SiteArticleAdmin extends AbstractPageAdmin
         );
 
         $form->add(
-            'alt',
+            'imageAlt',
             TextType::class,
             [
                 'required'    => false,
-                'label'       => 'ARTICLE_ENTITY.LABEL.ALT',
-                'help'        => 'ARTICLE_ENTITY.HELP.ALT',
+                'label'       => 'ARTICLE_ENTITY.LABEL.IMAGE_ALT',
+                'help'        => 'ARTICLE_ENTITY.HELP.IMAGE_ALT',
                 'constraints' => [],
             ],
         );
 
-        $theme       = $this->getSubject()?->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize = ArticleDTOFactory::DESKTOP_SIZE[$theme] ?? ArticleDTOFactory::DESKTOP_SIZE['default'];
+        $desktopSize = ArticleDTOFactory::DESKTOP_SIZE['default'];
 
         $form->add('imageFile',
             VichImageType::class,

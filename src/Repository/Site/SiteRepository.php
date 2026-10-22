@@ -50,7 +50,7 @@ class SiteRepository extends ServiceEntityRepository implements FindByIdInterfac
         try {
             return $this->createQueryBuilder('s')
                 ->join('s.users', 'u', Join::WITH, 'u.id = :userId')->setParameter('userId', $userId)
-                ->where('s.id = :siteId')->setParameter('siteId', $id)
+                ->where('s.id = :siteId')->setParameter('siteId', $id->toBinary())
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult();

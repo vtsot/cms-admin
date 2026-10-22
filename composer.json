@@ -84,6 +84,11 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "install-editor": [
+            "@php ./bin/console ckeditor:install --exclude=samples --exclude=adapters --clear=drop --tag=4.22.1",
+            "@php ./bin/console assets:install",
+            "@php ./bin/console elfinder:install"
+        ],
         "lint": [
             "PHP_CS_FIXER_IGNORE_ENV=1 php -d pcov.enabled=0 -d memory_limit=-1 ./vendor/friendsofphp/php-cs-fixer/php-cs-fixer check -v"
         ],

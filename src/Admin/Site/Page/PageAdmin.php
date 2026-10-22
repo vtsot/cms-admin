@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin\Site;
+namespace App\Admin\Site\Page;
 
 use App\Admin\Content\AbstractPageAdmin;
 use App\Entity\Page\Page;
@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 /**
  * @method Page|null getSubject()
  */
-class SitePageAdmin extends AbstractPageAdmin
+class PageAdmin extends AbstractPageAdmin
 {
     protected function getAccessMapping(): array
     {
@@ -137,16 +137,16 @@ class SitePageAdmin extends AbstractPageAdmin
         $this->configureFormSectionContent($form);
         $this->configureFormSectionSettings($form);
         $this->configureFormSectionSitemap($form);
-        //        $this->configureFormSectionRelatedArticles($form);
+        $this->configureFormSectionRelatedArticles($form);
         $this->configureFormSectionSeo($form);
         $this->configureFormSectionCodeBlock($form);
     }
 
     private function configureFormSectionRelatedArticles(FormMapper $form): void
     {
-        if ($form->has('relatedArticlesTitle')) {
-            $form->remove('relatedArticlesTitle');
-        }
+        //        if ($form->has('relatedArticlesTitle')) {
+        //            $form->remove('relatedArticlesTitle');
+        //        }
 
         $form->with('PAGE_ENTITY.SECTION.RELATED_ARTICLES', ['class' => 'col-md-9']);
 
@@ -173,7 +173,7 @@ class SitePageAdmin extends AbstractPageAdmin
                 ],
             ],
             [
-                'admin_code' => 'admin.site.page.related_article.inline',
+                'admin_code' => 'admin.site.page.article.related.inline',
                 'edit'       => 'inline',
                 'inline'     => 'table',
             ],

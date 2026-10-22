@@ -55,6 +55,9 @@ mysql-logs:
 install: ## Install PHP dependencies via Composer
 	$(PHP) composer install
 
+install-editor: ## Install PHP dependencies via Composer
+	$(PHP) composer install-editor
+
 update: ## Update PHP dependencies via Composer
 	$(PHP) composer update
 
@@ -132,6 +135,6 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: test-acceptance test-coverage-html test-web-api test-web-api-coverage docker-build docker-up docker-stop docker-down docker-restart docker-ps docker-logs \
-	php-console node-console install update migrate fixtures cache-clear routes-dump jwt-keys \
+	php-console node-console install install-editor update migrate fixtures cache-clear routes-dump jwt-keys \
 	test test-api yarn-install yarn-dev yarn-watch yarn-build help
 

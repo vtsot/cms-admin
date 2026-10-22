@@ -45,7 +45,7 @@ class PageRelatedArticleRepository extends ServiceEntityRepository implements Fi
             ->orderBy('ra.position', 'ASC')
             ->setParameters(new ArrayCollection([
                 new Parameter('active', true),
-                new Parameter('pageId', $pageId),
+                new Parameter('pageId', $pageId->toBinary()),
             ]));
 
         return $qb->getQuery()->getResult();
@@ -58,7 +58,7 @@ class PageRelatedArticleRepository extends ServiceEntityRepository implements Fi
                 ->select('MAX(ra.position)')
                 ->join('ra.page', 'p', Join::WITH, 'p.id = :pageId')
                 ->andWhere('ra.active = :active')
-                ->setParameter('pageId', $pageId)
+                ->setParameter('pageId', $pageId->toBinary())
                 ->setParameter('active', true)
                 ->setMaxResults(1)
                 ->getQuery()

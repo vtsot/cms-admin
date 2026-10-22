@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Page;
+namespace App\CQ\Query\Site\Banner;
 
 /**
- * @see GetArticleImageHandler
+ * @see GetBannerImageHandler
  */
-readonly class GetArticleImageQuery
+readonly class GetBannerImageQuery
 {
     public function __construct(
         public string $image,

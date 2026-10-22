@@ -61,7 +61,7 @@ abstract class AbstractNavigationRepository extends ServiceEntityRepository impl
         $qb->andWhere('q.type = :type')->setParameter('type', $type);
         $qb->join('q.site', 's', Join::WITH, 's.token = :siteToken AND s.id = :siteId')
             ->setParameter('siteToken', $siteToken)
-            ->setParameter('siteId', $siteId);
+            ->setParameter('siteId', $siteId->toBinary());
 
         return $qb->getQuery()->getResult();
     }
@@ -74,8 +74,8 @@ abstract class AbstractNavigationRepository extends ServiceEntityRepository impl
                 ->where('n.site = :siteId')
                 ->andWhere('n.active = :active')
                 ->andWhere('n.parent = :parent')
-                ->setParameter('siteId', $siteId)
-                ->setParameter('parent', $parentId)
+                ->setParameter('siteId', $siteId->toBinary())
+                ->setParameter('parent', $parentId->toBinary())
                 ->setParameter('active', true)
                 ->setMaxResults(1)
                 ->getQuery()

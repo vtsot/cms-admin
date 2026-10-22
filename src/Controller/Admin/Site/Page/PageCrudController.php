@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function current;
 
-class SitePageCrudController extends AbstractSiteRootCrudController
+class PageCrudController extends AbstractSiteRootCrudController
 {
     public function __construct(
         private readonly MessageBusHandler $messageBusHandler,

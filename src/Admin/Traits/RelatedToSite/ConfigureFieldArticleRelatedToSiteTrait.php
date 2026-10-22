@@ -58,7 +58,7 @@ trait ConfigureFieldArticleRelatedToSiteTrait
         /** @var AbstractAdmin $this */
         /** @var AbstractAdmin $admin */
         $admin    = $this->getRootAncestor();
-        $objectId = $this->getRequest()->get($admin->getIdParameter());
+        $objectId = $this->getRequest()->attributes->get($admin->getIdParameter());
         $site     = $admin->getObject($objectId);
 
         if (!$site instanceof Site) {
@@ -77,45 +77,45 @@ trait ConfigureFieldArticleRelatedToSiteTrait
             );
         }
 
-        // resolve DatagridMapper
-        if ($form instanceof DatagridMapper) {
-            $form->add(
-                $name,
-                ChoiceFilter::class,
-                array_merge(
-                    [
-                        'field_type'    => ChoiceType::class,
-                        'field_options' => [
-                            'choice_loader'      => $articleChoiceLoader,
-                            'translation_domain' => $this->getTranslationDomain(),
-                        ],
-                    ], $options
-                ),
-                [
-                    'admin_code' => 'admin.site.page.related_article.inline',
-                ]
-            );
+        //        // resolve DatagridMapper
+        //        if ($form instanceof DatagridMapper) {
+        //            $form->add(
+        //                $name,
+        //                ChoiceFilter::class,
+        //                array_merge(
+        //                    [
+        //                        'field_type'    => ChoiceType::class,
+        //                        'field_options' => [
+        //                            'choice_loader'      => $articleChoiceLoader,
+        //                            'translation_domain' => $this->getTranslationDomain(),
+        //                        ],
+        //                    ], $options
+        //                ),
+        //                [
+        //                    'admin_code' => 'admin.site.page.related_article.inline',
+        //                ]
+        //            );
+        //
+        //            return;
+        //        }
 
-            return;
-        }
-
-        // resolve FormMapper
-        $form->add(
-            $name,
-            ModelType::class,
-            array_merge(
-                [
-                    'attr'          => ['data-sonata-select2-allow-clear' => 'true'],
-                    'required'      => $options['required'] ?? false,
-                    'btn_add'       => false,
-                    'empty_data'    => [],
-                    'multiple'      => false,
-                    'choice_loader' => $articleChoiceLoader,
-                ], $options,
-            ),
-            [
-                'admin_code' => 'admin.site.page.related_article.inline',
-            ],
-        );
+        //        // resolve FormMapper
+        //        $form->add(
+        //            $name,
+        //            ModelType::class,
+        //            array_merge(
+        //                [
+        //                    'attr'          => ['data-sonata-select2-allow-clear' => 'true'],
+        //                    'required'      => $options['required'] ?? false,
+        //                    'btn_add'       => false,
+        //                    'empty_data'    => [],
+        //                    'multiple'      => false,
+        //                    'choice_loader' => $articleChoiceLoader,
+        //                ], $options,
+        //            ),
+        //            [
+        //                'admin_code' => 'admin.site.page.related_article.inline',
+        //            ],
+        //        );
     }
 }

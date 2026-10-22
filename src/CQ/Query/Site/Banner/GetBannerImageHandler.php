@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Banner;
+namespace App\CQ\Query\Site\Banner;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\Service\FileManager\BannerImageCacheFileManager;

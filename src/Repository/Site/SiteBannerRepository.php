@@ -45,7 +45,7 @@ class SiteBannerRepository extends ServiceEntityRepository implements FindByIdIn
                 'b.priority',
             )
             ->join('b.site', 's', Join::WITH, 's.id = :siteId AND s.token = :siteToken AND s.active = :siteActive')
-            ->setParameter('siteId', $siteId)
+            ->setParameter('siteId', $siteId->toBinary())
             ->setParameter('siteToken', $siteToken)
             ->setParameter('siteActive', true)
             ->where('b.active = :active')

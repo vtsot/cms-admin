@@ -19,7 +19,7 @@ abstract class AbstractSiteRootCrudController extends AbstractCrudController
     protected Security $security;
 
     #[Required]
-    public function init(
+    public function initSecurity(
         Security $security,
     ): void {
         $this->security = $security;
