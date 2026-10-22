@@ -6,10 +6,10 @@ namespace App\Admin\Site;
 
 use App\Admin\BannerAdmin;
 use App\Admin\Traits\RelatedToSite\ConfigureFormFieldLinkEntityRelatedToSiteTrait;
-use App\Entity\Banner;
+use App\Entity\Site\SiteBanner;
 
 /**
- * @method Banner|null getSubject()
+ * @method SiteBanner|null getSubject()
  */
 class SiteBannerAdmin extends BannerAdmin
 {

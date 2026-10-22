@@ -15,15 +15,12 @@ use App\Admin\Traits\ConfigureFormAutocompleteUsersTrait;
 use App\Contract\Dictionary\User\UserRole;
 use App\Entity\Site\Site;
 use App\Repository\Site\SiteRepository;
-use App\Repository\Site\SiteThemeRepository;
 use Carbon\CarbonImmutable;
 use Doctrine\ORM\QueryBuilder;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -50,15 +47,12 @@ class SiteAdmin extends AbstractAdmin
     use ConfigureFormAutocompleteGenericNamesTrait;
 
     protected SiteRepository $siteRepository;
-    protected SiteThemeRepository $siteThemeRepository;
 
     #[Required]
     public function initDependencies(
         SiteRepository $siteRepository,
-        SiteThemeRepository $siteThemeRepository,
     ): void {
-        $this->siteRepository      = $siteRepository;
-        $this->siteThemeRepository = $siteThemeRepository;
+        $this->siteRepository = $siteRepository;
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -88,34 +82,19 @@ class SiteAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        //        $this->configureFilterFieldText($filter, 'domain', 'SITE_ENTITY.LABEL.DOMAIN');
-        //        $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
-        //        $this->configureFilterFieldModel($filter, 'siteTheme', 'title', 'SITE_ENTITY.LABEL.THEME');
-        //        $this->configureFilterFieldAutocompleteUsers($filter);
-        //        $this->configureFilterFieldActive($filter);
-        //
-        //        $this->configureFilterFieldAutocompleteGenericNames($filter);
-        //        $this->configureFilterFieldAutocompleteBrands($filter);
-        //
-        //        $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
-        //        $this->configureFilterFieldText($filter, 'registrarName', 'SITE_ENTITY.LABEL.REGISTRAR_NAME');
-        //        $this->configureFilterFieldDateRange($filter, 'registeredAt', 'SITE_ENTITY.LABEL.REGISTERED_AT');
-        //        $this->configureFilterFieldDateRange($filter, 'expireAt', 'SITE_ENTITY.LABEL.EXPIRE_AT');
-        //        $this->configureFilterFieldNumber($filter, 'archiveBirthYear', 'SITE_ENTITY.LABEL.ARCHIVE_BIRTH_YEAR');
-        //        $this->configureFilterFieldNumber($filter, 'globalSearchVolume', 'SITE_ENTITY.LABEL.GLOBAL_SEARCH_VOLUME');
-        //        $this->configureFilterFieldNumber($filter, 'usSearchVolume', 'SITE_ENTITY.LABEL.US_SEARCH_VOLUME');
-        //        $this->configureFilterFieldNumber($filter, 'mozSpam', 'SITE_ENTITY.LABEL.MOZ_SPAM');
-        //        $this->configureFilterFieldNumber($filter, 'ahrefsDomainRating', 'SITE_ENTITY.LABEL.AHREFS_DOMAIN_RATING');
-        //        $this->configureFilterFieldNumber($filter, 'ahrefsBackLinks', 'SITE_ENTITY.LABEL.AHREFS_BACK_LINKS');
-        //        $this->configureFilterFieldNumber($filter, 'ahrefsRefDomains', 'SITE_ENTITY.LABEL.AHREFS_REF_DOMAINS');
-        //        $this->configureFilterFieldNumber($filter, 'semrushAuthorityScore', 'SITE_ENTITY.LABEL.SEMRUSH_AUTHORITY_SCORE');
-        //        $this->configureFilterFieldNumber($filter, 'semrushBackLinks', 'SITE_ENTITY.LABEL.SEMRUSH_BACK_LINKS');
-        //        $this->configureFilterFieldNumber($filter, 'semrushRefDomains', 'SITE_ENTITY.LABEL.SEMRUSH_REF_DOMAINS');
-        //        $this->configureFilterFieldNumber($filter, 'wikipediaLink', 'SITE_ENTITY.LABEL.WIKIPEDIA_LINK');
-        //        $this->configureFilterFieldActive($filter, 'isPenalty', 'SITE_ENTITY.LABEL.IS_PENALTY');
-        //
-        //        $this->configureFilterFieldCreatedAtDateRange($filter);
-        //        $this->configureFilterFieldUpdatedAtDateRange($filter);
+        $this->configureFilterFieldText($filter, 'domain', 'SITE_ENTITY.LABEL.DOMAIN');
+        $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
+
+        $this->configureFilterFieldAutocompleteUsers($filter);
+        $this->configureFilterFieldActive($filter);
+
+        $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
+        $this->configureFilterFieldText($filter, 'registrarName', 'SITE_ENTITY.LABEL.REGISTRAR_NAME');
+        $this->configureFilterFieldDateRange($filter, 'registeredAt', 'SITE_ENTITY.LABEL.REGISTERED_AT');
+        $this->configureFilterFieldDateRange($filter, 'expireAt', 'SITE_ENTITY.LABEL.EXPIRE_AT');
+
+        $this->configureFilterFieldCreatedAtDateRange($filter);
+        $this->configureFilterFieldUpdatedAtDateRange($filter);
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -206,71 +185,6 @@ class SiteAdmin extends AbstractAdmin
                 'translation_domain' => $this->getTranslationDomain(),
             ]
         );
-
-        //        $form
-        //            ->add(
-        //                'settings',
-        //                AdminType::class,
-        //                [
-        //                    'required' => false,
-        //                    'label'    => 'SITE_SETTINGS_ENTITY.SECTION.THEME',
-        //                    'help'     => '',
-        //                ],
-        //                [
-        //                    'admin_code' => 'admin.site.theme.settings.inline',
-        //                ],
-        //            );
-
-        //        $this->configureFormFieldAutocompleteGenericNames(
-        //            form: $form,
-        //            label: 'SITE_ENTITY.LABEL.GENERIC_NAMES',
-        //            help: 'SITE_ENTITY.HELP.GENERIC_NAMES'
-        //        );
-
-        //        $this->configureFormFieldAutocompleteBrands(
-        //            form: $form,
-        //            label: 'SITE_ENTITY.LABEL.COMMON_BRANDS',
-        //            help: 'SITE_ENTITY.HELP.COMMON_BRANDS'
-        //        );
-
-        //        $form->add(
-        //            'footerText1',
-        //            CKEditorType::class,
-        //            [
-        //                'required'    => false,
-        //                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT1',
-        //                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT1',
-        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-        //                'trim'        => true,
-        //                'config'      => [],
-        //            ],
-        //        );
-
-        //        $form->add(
-        //            'footerText2',
-        //            CKEditorType::class,
-        //            [
-        //                'required'    => false,
-        //                'label'       => 'SITE_ENTITY.LABEL.FOOTER_TEXT2',
-        //                'help'        => 'SITE_ENTITY.HELP.FOOTER_TEXT2',
-        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-        //                'trim'        => true,
-        //                'config'      => [],
-        //            ],
-        //        );
-
-        //        $form->add(
-        //            'copyrightText',
-        //            CKEditorType::class,
-        //            [
-        //                'required'    => false,
-        //                'label'       => 'SITE_ENTITY.LABEL.COPYRIGHT_TEXT',
-        //                'help'        => 'SITE_ENTITY.HELP.COPYRIGHT_TEXT',
-        //                'config_name' => self::CK_EDITOR_BASE_CONFIG,
-        //                'trim'        => true,
-        //                'config'      => ['height' => '100px'],
-        //            ],
-        //        );
 
         $this->configureFormFieldAutocompleteUsers($form);
 
@@ -458,33 +372,17 @@ class SiteAdmin extends AbstractAdmin
             return;
         }
 
-        $pattern = "/^((http|https):\/\/)([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/";
-
-        if (preg_match($pattern, $value) === 0) {
-            // domain format is invalid
-            $context
-                ->buildViolation('SITE_ENTITY.ERROR.DOMAIN_INVALID')
-                ->setParameter('%DOMAIN%', $value)
-                ->setTranslationDomain($this->getTranslationDomain())
-                ->atPath('domain')
-                ->addViolation();
-
-            return;
-        }
-
         $entity = $this->siteRepository->findOneBy(['domain' => $value]);
 
         if ($entity !== null
             && $this->getSubject() !== null
             && $entity->getId() !== $this->getSubject()->getId()
         ) {
-            // this domain already exists
             $context
                 ->buildViolation('SITE_ENTITY.ERROR.DOMAIN_TAKEN')
                 ->setParameter('%DOMAIN%', $value)
                 ->setTranslationDomain($this->getTranslationDomain())
-                ->atPath('domain')
-                ->addViolation();
+                ->atPath('domain')->addViolation();
         }
     }
 
@@ -511,7 +409,6 @@ class SiteAdmin extends AbstractAdmin
         /** @var Site $object */
         parent::prePersist($object);
         $this->prepareCarbonImmutables($object);
-        $this->prepareSettingsTheme($object);
     }
 
     protected function preUpdate(object $object): void
@@ -519,7 +416,6 @@ class SiteAdmin extends AbstractAdmin
         /** @var Site $object */
         parent::preUpdate($object);
         $this->prepareCarbonImmutables($object);
-        $this->prepareSettingsTheme($object);
     }
 
     private function prepareCarbonImmutables(Site $site): void
@@ -540,20 +436,6 @@ class SiteAdmin extends AbstractAdmin
                     : null;
                 $site->setExpireAt($expireAt);
             }
-        }
-    }
-
-    private function prepareSettingsTheme(Site $site): void
-    {
-        if ($this->hasSubject()
-            && ($form = $this->getForm())
-            && $form->has('settings')
-            && ($settingsForm = $form->get('settings'))
-            && $settingsForm->has('theme')
-            && $settingsForm->get('theme')->getData()
-            && ($theme = $this->siteThemeRepository->findOneByCode($settingsForm->get('theme')->getData()))
-        ) {
-            $site->setSiteTheme($theme);
         }
     }
 }

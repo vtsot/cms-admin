@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\EntityListener;
 
 use App\Contract\Entity\EntityListenerInterface;
-use App\CQ\Command\Site\SiteCacheClearCommand;
 use App\Entity\AbstractEntity;
-use App\Entity\Banner;
 use App\Entity\Faq\FaqGroup;
 use App\Entity\GalleryImage;
 use App\Entity\Navigation\BottomNavigation;
@@ -16,6 +14,7 @@ use App\Entity\Page\Article;
 use App\Entity\Page\Page;
 use App\Entity\Page\PageRelatedArticle;
 use App\Entity\Review\Review;
+use App\Entity\Site\SiteBanner;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -28,7 +27,7 @@ use Throwable;
 #[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: PageRelatedArticle::class)]
 #[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: Review::class)]
 #[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: GalleryImage::class)]
-#[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: Banner::class)]
+#[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: SiteBanner::class)]
 #[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: FaqGroup::class)]
 final readonly class SiteClearCacheEntityListener implements EntityListenerInterface
 {
@@ -60,7 +59,7 @@ final readonly class SiteClearCacheEntityListener implements EntityListenerInter
             $entity instanceof BottomNavigation,
             $entity instanceof Review,
             $entity instanceof GalleryImage,
-            $entity instanceof Banner,
+            $entity instanceof SiteBanner,
             $entity instanceof FaqGroup           => $entity->getSite(),
             $entity instanceof PageRelatedArticle => $entity->getPage()?->getSite(),
             default                               => null,

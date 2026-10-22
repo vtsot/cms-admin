@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Site;
 
-use App\Entity\Banner;
+use App\Entity\Site\SiteBanner;
 use App\Security\Voter\Admin\Site\SiteBannerVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class SiteBannerCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteBannerVoter::LIST,
-            [$site, Banner::class],
+            [$site, SiteBanner::class],
         );
     }
 
@@ -37,7 +37,7 @@ class SiteBannerCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteBannerVoter::CREATE,
-            [$site, Banner::class],
+            [$site, SiteBanner::class],
         );
     }
 

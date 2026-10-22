@@ -67,7 +67,7 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
         return $this->type;
     }
 
-    public function setType(?NavigationType $type): self
+    public function setType(?NavigationType $type): static
     {
         $this->type = $type;
 
@@ -82,18 +82,6 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
     public function setParent(?self $parent): static
     {
         $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function getSite(): ?Site
-    {
-        return $this->site;
-    }
-
-    public function setSite(?Site $site): static
-    {
-        $this->site = $site;
 
         return $this;
     }
@@ -124,6 +112,18 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
                 $child->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
 
         return $this;
     }

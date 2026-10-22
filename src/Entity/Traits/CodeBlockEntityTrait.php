@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait CodeBlockEntityTrait
 {
-    #[ORM\Column(name: 'code_block', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'code_block', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $codeBlock = null;
 
     public function getCodeBlock(): ?string

@@ -7,7 +7,7 @@ namespace App\CQ\Query\Site;
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Collection\NavigationTreeCollectionDTO;
 use App\DTO\Entity\NavigationDTO;
-use App\DTOFactory\Entity\NavigationDTOFactory;
+use App\DTOFactory\Entity\Navigation\NavigationDTOFactory;
 use App\Entity\Navigation\AbstractNavigation;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Repository\Navigation\NavigationRepository;

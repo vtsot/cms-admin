@@ -62,6 +62,18 @@ abstract class AbstractPage extends AbstractEntity implements SluggableInterface
         return implode(' ', array_filter($labels));
     }
 
+    public function isHomepage(): ?bool
+    {
+        return $this->homepage;
+    }
+
+    public function setHomepage(bool $homepage): static
+    {
+        $this->homepage = $homepage;
+
+        return $this;
+    }
+
     public function getSite(): ?Site
     {
         return $this->site;
@@ -70,18 +82,6 @@ abstract class AbstractPage extends AbstractEntity implements SluggableInterface
     public function setSite(?Site $site): static
     {
         $this->site = $site;
-
-        return $this;
-    }
-
-    public function isHomepage(): bool
-    {
-        return $this->homepage;
-    }
-
-    public function setHomepage(bool $homepage): static
-    {
-        $this->homepage = $homepage;
 
         return $this;
     }

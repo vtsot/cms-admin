@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ContentEntityTrait
 {
-    #[ORM\Column(name: 'content', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'content', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $content = null;
 
     public function getContent(): ?string

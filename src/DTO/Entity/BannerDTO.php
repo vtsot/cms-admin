@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\DTO\Entity;
 
 use App\DTO\Data\LinkDTO;
+use App\DTOFactory\Entity\Site\SiteBannerDTOFactory;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see BannerDTOFactory
+ * @see SiteBannerDTOFactory
  */
 readonly class BannerDTO
 {

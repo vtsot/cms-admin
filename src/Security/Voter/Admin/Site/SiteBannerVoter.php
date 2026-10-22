@@ -6,8 +6,8 @@ namespace App\Security\Voter\Admin\Site;
 
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
-use App\Entity\Banner;
 use App\Entity\Site\Site;
+use App\Entity\Site\SiteBanner;
 use App\Repository\Site\SiteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -33,7 +33,7 @@ class SiteBannerVoter extends Voter
     }
 
     /**
-     * @param array{0: Site, 1: string|Banner} $subject
+     * @param array{0: Site, 1: string|SiteBanner} $subject
      */
     protected function supports(string $attribute, $subject): bool
     {
@@ -41,15 +41,15 @@ class SiteBannerVoter extends Voter
             && array_key_exists(0, $subject)
             && array_key_exists(1, $subject)
             && $subject[0] instanceof Site
-            && ($subject[1] === Banner::class || $subject[1] instanceof Banner)
+            && ($subject[1] === SiteBanner::class || $subject[1] instanceof SiteBanner)
             && (
-                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === Banner::class)
-                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof Banner)
+                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === SiteBanner::class)
+                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof SiteBanner)
             );
     }
 
     /**
-     * @param array{0: Site, 1: string|Banner} $subject
+     * @param array{0: Site, 1: string|SiteBanner} $subject
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {

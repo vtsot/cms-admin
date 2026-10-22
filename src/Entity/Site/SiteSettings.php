@@ -13,7 +13,6 @@ use App\Entity\Traits\Site\SiteSettingsFaviconEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsFromEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsImageEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsSenderEntityTrait;
-use App\Entity\Traits\Site\SiteSettingsThemeColorsEntityTrait;
 use App\Repository\Site\SiteSettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
@@ -32,7 +31,6 @@ class SiteSettings extends AbstractEntity implements LinkEntityInterface
 {
     use SiteSettingsSenderEntityTrait;
     use SiteSettingsFromEntityTrait;
-    use SiteSettingsThemeColorsEntityTrait;
     use SiteSettingsImageEntityTrait;
     use LinkActiveEntityTrait;
     use LinkTitleEntityTrait;

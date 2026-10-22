@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Admin\Traits\ConfigureAdminFullTrait;
-use App\DTOFactory\Entity\BannerDTOFactory;
-use App\Entity\Banner;
+use App\DTOFactory\Entity\Site\SiteBannerDTOFactory;
+use App\Entity\Site\SiteBanner;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
- * @method Banner|null getSubject()
+ * @method SiteBanner|null getSubject()
  */
 class BannerAdmin extends AbstractAdmin
 {
@@ -101,8 +100,8 @@ class BannerAdmin extends AbstractAdmin
         $this->configureFormFieldPosition($form, 'priority', 'BANNER_ENTITY.LABEL.PRIORITY', 'BANNER_ENTITY.HELP.PRIORITY');
 
         $theme       = $this->getSubject()?->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize = BannerDTOFactory::DESKTOP_SIZE[$theme] ?? BannerDTOFactory::DESKTOP_SIZE['default'];
-        $mobileSize  = BannerDTOFactory::MOBILE_SIZE[$theme] ?? BannerDTOFactory::MOBILE_SIZE['default'];
+        $desktopSize = SiteBannerDTOFactory::DESKTOP_SIZE[$theme] ?? SiteBannerDTOFactory::DESKTOP_SIZE['default'];
+        $mobileSize  = SiteBannerDTOFactory::MOBILE_SIZE[$theme] ?? SiteBannerDTOFactory::MOBILE_SIZE['default'];
 
         $desktopImage           = $this->getSubject()?->getDesktopImage();
         $isRequiredDesktopImage = !$desktopImage;

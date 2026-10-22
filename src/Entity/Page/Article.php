@@ -55,7 +55,7 @@ class Article extends AbstractPage
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(?string $image): static
     {
         $this->image = $image;
 

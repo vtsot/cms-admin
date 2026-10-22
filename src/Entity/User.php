@@ -44,6 +44,11 @@ class User extends AbstractEntity implements UserInterface
     #[ORM\InverseJoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $sites;
 
+    public function __construct()
+    {
+        $this->sites = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
         $labels   = [];
@@ -58,11 +63,6 @@ class User extends AbstractEntity implements UserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
-    }
-
-    public function __construct()
-    {
-        $this->sites = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -85,7 +85,7 @@ class User extends AbstractEntity implements UserInterface
         return $this->sites;
     }
 
-    public function addSite(Site $site): self
+    public function addSite(Site $site): static
     {
         if (!$this->sites->contains($site)) {
             $this->sites->add($site);
@@ -94,7 +94,7 @@ class User extends AbstractEntity implements UserInterface
         return $this;
     }
 
-    public function removeSite(Site $site): self
+    public function removeSite(Site $site): static
     {
         $this->sites->removeElement($site);
 

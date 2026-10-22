@@ -7,10 +7,10 @@ namespace App\CQ\Query\Site;
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Data\RandomItemDTO;
 use App\DTO\Entity\BannerDTO;
-use App\DTOFactory\Entity\BannerDTOFactory;
-use App\Entity\Banner;
+use App\DTOFactory\Entity\Site\SiteBannerDTOFactory;
+use App\Entity\Site\SiteBanner;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Repository\BannerRepository;
+use App\Repository\Site\SiteBannerRepository;
 use App\Service\RandomizeService;
 use Ramsey\Uuid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -20,8 +20,8 @@ readonly class GetSiteRandomBannerHandler implements QueryHandlerInterface
     public function __construct(
         private TranslatorInterface $translator,
         private RandomizeService $randomizeService,
-        private BannerRepository $bannerRepository,
-        private BannerDTOFactory $bannerDTOFactory,
+        private SiteBannerRepository $bannerRepository,
+        private SiteBannerDTOFactory $bannerDTOFactory,
     ) {
     }
 
@@ -37,7 +37,7 @@ readonly class GetSiteRandomBannerHandler implements QueryHandlerInterface
         return $this->bannerDTOFactory->fromEntity($banner);
     }
 
-    private function resolveRandomBanner(array $banners): ?Banner
+    private function resolveRandomBanner(array $banners): ?SiteBanner
     {
         $items = [];
 
