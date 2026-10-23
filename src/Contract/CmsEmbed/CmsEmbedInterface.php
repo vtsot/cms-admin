@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Contract\CmsEmbed;
 
+use App\Security\User\ApiSiteUser;
+
 interface CmsEmbedInterface
 {
     public const CAMPAIGN_PARAM_ID = 'campaign';
@@ -27,4 +29,6 @@ interface CmsEmbedInterface
     public function getPlaceholder(): string;
 
     public function render(array $params = []): ?string;
+
+    public function getUser(): ?ApiSiteUser;
 }

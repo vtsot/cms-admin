@@ -14,11 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: '/api/admin')]
 class CmsEmbedAdminController extends AbstractController
 {
     #[Route(
-        path: '/cms-embeds',
+        path: '/api/admin/cms-embeds',
         name: 'api.admin.cms_embed.collection',
         options: ['expose' => true],
         methods: ['GET']
@@ -39,7 +38,7 @@ class CmsEmbedAdminController extends AbstractController
     #[OA\Response(ref: '#/components/responses/unauthorized', response: '401')]
     #[OA\Response(ref: '#/components/responses/forbidden', response: '403')]
     #[OA\Tag(name: ApiDocTag::ADMIN)]
-    public function collection(
+    public function __invoke(
         MessageBusHandler $messageBusHandler,
     ): JsonResponse {
         /** @var CmsEmbedCollectionDTO $dto */
@@ -47,9 +46,7 @@ class CmsEmbedAdminController extends AbstractController
 
         return $this->json(
             data: $dto,
-            context: ['groups' => [
-                'cms_embed_collection',
-            ]],
+            context: ['groups' => ['cms_embed_collection']],
         );
     }
 }

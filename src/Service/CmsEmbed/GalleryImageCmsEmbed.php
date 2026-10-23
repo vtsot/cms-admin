@@ -10,17 +10,8 @@ use Twig\Error\SyntaxError;
 
 class GalleryImageCmsEmbed extends AbstractCmsEmbed
 {
-    public const ID    = 'gallery-images';
-    public const LABEL = 'Gallery Images';
-    public const HELP  = 'Gallery Images Embed Content';
-
-    /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function render(array $params = []): ?string
-    {
-        return $this->twig->render($this->resolveRenderTemplate());
-    }
+    public const string ID    = 'gallery-images';
+    public const string LABEL = 'Gallery Images';
+    public const string HELP  = 'Gallery Images Embed Content';
+    public const bool ACTIVE  = false;
 }

@@ -15,9 +15,10 @@ use const SORT_STRING;
 
 class FaqGroupCmsEmbed extends AbstractCmsEmbed
 {
-    public const ID    = 'faq-group';
-    public const LABEL = 'FAQs';
-    public const HELP  = '';
+    public const string ID    = 'faq-group';
+    public const string LABEL = 'FAQs';
+    public const string HELP  = '';
+    public const bool ACTIVE  = false;
 
     public function __construct(
         private readonly MessageBusHandler $messageBusHandler,
@@ -60,18 +61,18 @@ class FaqGroupCmsEmbed extends AbstractCmsEmbed
         ];
     }
 
-    public function render(array $params = []): ?string
-    {
-        // nothing to display, required parameter not found
-        if (empty($params['faq-group-id']) || !Uuid::isValid($params['faq-group-id'])
-        ) {
-            return null;
-        }
-
-        $template = $this->resolveRenderTemplate();
-
-        return $this->twig->render($template, [
-            'id' => $params['faq-group-id'],
-        ]);
-    }
+    //    public function render(array $params = []): ?string
+    //    {
+    //        // nothing to display, required parameter not found
+    //        if (empty($params['faq-group-id']) || !Uuid::isValid($params['faq-group-id'])
+    //        ) {
+    //            return null;
+    //        }
+    //
+    //        $template = $this->resolveRenderTemplate();
+    //
+    //        return $this->twig->render($template, [
+    //            'id' => $params['faq-group-id'],
+    //        ]);
+    //    }
 }

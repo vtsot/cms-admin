@@ -10,17 +10,8 @@ use Twig\Error\SyntaxError;
 
 class ContactCmsEmbed extends AbstractCmsEmbed
 {
-    public const ID    = 'contact';
-    public const LABEL = 'Contact Us';
-    public const HELP  = 'Contact Us Form Embed Content';
-
-    /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function render(array $params = []): ?string
-    {
-        return $this->twig->render($this->resolveRenderTemplate());
-    }
+    public const string ID    = 'contact';
+    public const string LABEL = 'Contact Us';
+    public const string HELP  = 'Contact Us Form Embed Content';
+    public const bool ACTIVE  = false;
 }

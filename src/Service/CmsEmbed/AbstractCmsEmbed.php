@@ -6,9 +6,13 @@ namespace App\Service\CmsEmbed;
 
 use App\Contract\CmsEmbed\CmsEmbedInterface;
 use App\Exception\Validation\UnprocessableEntityException;
+use App\Security\User\ApiSiteUser;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 use Twig\Environment;
 use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 use function preg_replace;
 use function sprintf;
@@ -17,20 +21,23 @@ use function trim;
 
 abstract class AbstractCmsEmbed implements CmsEmbedInterface
 {
-    public const ID          = '';
-    public const LABEL       = '';
-    public const HELP        = '';
-    public const PLACEHOLDER = 'cms-embed/placeholder.html.twig';
-    public const ACTIVE      = true;
-    public const PARAMS      = [];
+    public const string ID          = '';
+    public const string LABEL       = '';
+    public const string HELP        = '';
+    public const string PLACEHOLDER = 'cms-embed/placeholder.html.twig';
+    public const bool ACTIVE        = true;
+    public const array PARAMS       = [];
 
     protected Environment $twig;
+    protected TokenStorageInterface $tokenStorage;
 
     #[Required]
     public function initDependencies(
         Environment $twig,
+        TokenStorageInterface $tokenStorage,
     ): void {
-        $this->twig = $twig;
+        $this->twig         = $twig;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function getId(): string
@@ -79,7 +86,7 @@ abstract class AbstractCmsEmbed implements CmsEmbedInterface
         try {
             $template = 'cms-embed/' . $this->getId() . '/index.html.twig';
             $this->twig->load($template);
-        } catch (LoaderError $e) {
+        } catch (LoaderError|RuntimeError|SyntaxError $e) {
             throw new UnprocessableEntityException(sprintf('Undefined cms-embed "%s" render template.', $template));
         }
 
@@ -87,6 +94,11 @@ abstract class AbstractCmsEmbed implements CmsEmbedInterface
         return $template;
     }
 
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     public function getPlaceholder(): string
     {
         // generate placeholder content
@@ -111,14 +123,28 @@ abstract class AbstractCmsEmbed implements CmsEmbedInterface
         $result = $this->twig->render($placeholderTemplate, $params);
         $result = str_replace(["\r\n", "\n"], ' ', $result);
         $result = preg_replace('/  +/', ' ', $result);
-        $result = trim($result);
 
         // return placeholder content
-        return $result;
+        return trim($result);
     }
 
+    public function getUser(): ?ApiSiteUser
+    {
+        /** @var ApiSiteUser|null $user */
+        $user = $this->tokenStorage->getToken()?->getUser();
+
+        return $user;
+    }
+
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     public function render(array $params = []): ?string
     {
-        return null;
+        // by default, randed is equal to Placeholder
+        // rendering runs on the client site
+        return $this->getPlaceholder();
     }
 }

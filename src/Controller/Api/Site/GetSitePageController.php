@@ -6,6 +6,7 @@ namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\CQ\Query\Site\Page\GetPageQuery;
+use App\DTO\Entity\Page\ArticleDTO;
 use App\DTO\Entity\Page\PageDTO;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
@@ -51,7 +52,7 @@ class GetSitePageController extends AbstractController
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {
-        /** @var PageDTO $dto */
+        /** @var PageDTO|ArticleDTO $dto */
         $dto = $messageBusHandler->handleQuery(
             new GetPageQuery(
                 siteId: $id,

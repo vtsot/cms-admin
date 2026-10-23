@@ -6,16 +6,16 @@ namespace App\Service\CmsEmbed;
 
 class ExampleAdvancedCmsEmbed extends AbstractCmsEmbed
 {
-    public const ID     = 'example-advanced';
-    public const LABEL  = 'Example Advanced CmsEmbed';
-    public const HELP   = '';
-    public const ACTIVE = false;
+    public const string ID    = 'example-advanced';
+    public const string LABEL = 'Example Advanced CmsEmbed';
+    public const string HELP  = '';
+    // public const bool   ACTIVE = false;
 
     /**
      * @see https://ckeditor.com/docs/ckeditor4/latest/guide/dev_howtos_dialog_windows.html
      * @see https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_dialog_definition.html
      */
-    public const PARAMS = [
+    public const array PARAMS = [
         [
             'id'           => 'example-advanced-param-1',
             'type'         => 'select',

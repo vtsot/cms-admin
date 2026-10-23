@@ -1,5 +1,7 @@
 /* globals CKEDITOR */
 
+const DEFAULT_LOCALE = 'en_GB';
+
 /** @var Object : {} as {[cmsEmbedKey: string] : cmsEmbed[]} */
 let CMS_EMBEDS = {};
 
@@ -9,21 +11,20 @@ CKEDITOR.plugins.add('cms-embed', {
     init: function (editor) {
         'use strict';
 
+        let locale = getLocale(editor);
         let cmsEmbedKey = getCmsEmbedKey(editor);
 
         CMS_EMBEDS[cmsEmbedKey] = [];
 
-        let url    = '/api/admin/cms-embeds',
-            siteId = getSiteId();
-
-        if (siteId) {
-            url += '?site=' + siteId;
-        }
+        let siteId = getSiteId();
+        let url = '/api/admin/cms-embeds' + (siteId ? '?site=' + siteId : '');
 
         // load cms-embeds
         let xhr = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.setRequestHeader('accept', 'application/json');
+        xhr.setRequestHeader('Accept-Language', locale);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token') );
         // xhr.addEventListener('loaded', editor.setMode('wysiwyg'));
         xhr.send();
 
@@ -91,6 +92,24 @@ const initCmsEmbedsRichCombo = (editor, cmsEmbeds, cmsEmbedKey) => {
             editor.execCommand(cmsEmbedKey);
         },
     });
+};
+
+
+/**
+ * @param {Object} editor
+ */
+const getLocale = (editor) => {
+    let name = editor.element.$.name.replaceAll('[', '-').replaceAll(']', '-').replaceAll('--', '-').slice(0, -1);
+
+    let nameParts = name.split('-').reverse();
+
+    if (typeof (nameParts[1]) === 'undefined') {
+        console.error('Unable to resolve locale from the editor name.', editor.element.$.name);
+    }
+
+    return typeof (nameParts[1]) !== 'undefined'
+        ? nameParts[1]
+        : DEFAULT_LOCALE;
 };
 
 /**

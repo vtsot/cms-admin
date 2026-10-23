@@ -6,7 +6,10 @@ namespace App\DTOFactory\Entity\Page;
 
 use App\DTO\Entity\Page\ArticleDTO;
 use App\Entity\Page\Article;
+use App\Service\CmsEmbed\Helper\CmsEmbedRenderer;
 use Symfony\Component\Routing\RouterInterface;
+
+use function trim;
 
 readonly class ArticleDTOFactory
 {
@@ -18,11 +21,16 @@ readonly class ArticleDTOFactory
 
     public function __construct(
         private RouterInterface $routeGenerator,
+        private CmsEmbedRenderer $cmsEmbedRenderer,
     ) {
     }
 
     public function fromEntity(Article $article): ArticleDTO
     {
+        $content = $article->getContent()
+            ? $this->cmsEmbedRenderer->render($article->getContent())
+            : null;
+
         $desktopSize  = self::DESKTOP_SIZE['default'];
         $desktopImage = $this->getImageUrl($article->getImage(), 'resize', $desktopSize['width'], $desktopSize['height']);
 
@@ -33,7 +41,7 @@ readonly class ArticleDTOFactory
             imageAlt: $article->getImageAlt(),
             image: $desktopImage,
             description: $article->getDescription(),
-            content: $article->getContent(),
+            content: $content ? trim($content) : null,
             sources: $article->getSources(),
             redirect: $article->getRedirect(),
             codeBlock: $article->getCodeBlock(),

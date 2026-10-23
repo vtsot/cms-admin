@@ -47,7 +47,7 @@ readonly class CmsEmbedRenderer
                 $html = $cmsEmbed->render($parsedParams) ?? '';
             }
 
-            // replace cms embed placeholder to html rendered result
+            // replace cms-embed placeholder to html rendered result
             $source  = html_entity_decode($crawler->outerHtml());
             $content = str_replace($source, $html, $content);
         });

@@ -20,12 +20,16 @@ readonly class PageDTOFactory
 
     public function fromEntity(AbstractPage $page, array $context = []): PageDTO
     {
+        $content = $page->getContent()
+            ? $this->cmsEmbedRenderer->render($page->getContent())
+            : null;
+
         return new PageDTO(
             id: $page->getId(),
             slug: $page->getSlug(),
             isHomepage: $page->isHomepage(),
             title: $page->getTitle(),
-            content: $page->getContent(),// $this->cmsEmbedRenderer->render($page->getContent()),
+            content: $content ? trim($content) : null,
             relatedArticlesTitle: $context[self::CONTEXT_RELATED_ARTICLES_TITLE] ?? null,
             relatedArticles: $context[self::CONTEXT_RELATED_ARTICLES_ITEMS] ?? [],
             sources: $page->getSources(),

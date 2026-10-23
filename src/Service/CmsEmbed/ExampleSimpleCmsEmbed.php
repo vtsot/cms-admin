@@ -6,8 +6,8 @@ namespace App\Service\CmsEmbed;
 
 class ExampleSimpleCmsEmbed extends AbstractCmsEmbed
 {
-    public const ID     = 'example-simple';
-    public const LABEL  = 'Example Simple CmsEmbed';
-    public const HELP   = 'Example Simple CmsEmbed Description Text';
-    public const ACTIVE = false;
+    public const string ID    = 'example-simple';
+    public const string LABEL = 'Example Simple CmsEmbed';
+    public const string HELP  = 'Example Simple CmsEmbed Description Text';
+    // public const bool   ACTIVE = ;
 }

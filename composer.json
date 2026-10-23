@@ -24,6 +24,8 @@
         "sonata-project/google-authenticator": "^2.3",
         "stof/doctrine-extensions-bundle": "^1.15",
         "symfony/console": "8.1.*",
+        "symfony/css-selector": "8.1.*",
+        "symfony/dom-crawler": "8.1.*",
         "symfony/dotenv": "8.1.*",
         "symfony/flex": "^2.11",
         "symfony/framework-bundle": "8.1.*",
