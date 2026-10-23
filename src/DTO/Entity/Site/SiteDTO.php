@@ -8,7 +8,7 @@ use App\DTO\Entity\NavigationDTO;
 use App\DTOFactory\Entity\Site\SiteDTOFactory;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -23,9 +23,6 @@ readonly class SiteDTO
 
         #[Groups(['site_collection', 'site_details'])]
         public string $domain,
-
-        #[Groups(['site_collection', 'site_details'])]
-        public ?SiteThemeDTO $theme,
 
         #[Groups(['site_collection', 'site_details'])]
         public ?string $title,

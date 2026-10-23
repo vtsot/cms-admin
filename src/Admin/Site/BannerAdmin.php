@@ -8,8 +8,8 @@ use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureFilterTrait;
 use App\Admin\Traits\ConfigureListTrait;
 use App\Admin\Traits\RelatedToSite\ConfigureFormFieldLinkEntityRelatedToSiteTrait;
-use App\DTOFactory\Entity\Site\SiteBannerDTOFactory;
-use App\Entity\Site\SiteBanner;
+use App\DTOFactory\Entity\Site\BannerDTOFactory;
+use App\Entity\Site\Banner;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -17,9 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
- * @method SiteBanner|null getSubject()
+ * @method Banner|null getSubject()
  */
-class SiteBannerAdmin extends AbstractAdmin
+class BannerAdmin extends AbstractAdmin
 {
     use ConfigureFilterTrait;
     use ConfigureListTrait;
@@ -105,8 +105,8 @@ class SiteBannerAdmin extends AbstractAdmin
         $this->configureFormFieldPosition($form, 'priority', 'BANNER_ENTITY.LABEL.PRIORITY', 'BANNER_ENTITY.HELP.PRIORITY');
 
         // $theme       = $this->getSubject()?->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize = SiteBannerDTOFactory::DESKTOP_SIZE['default'];
-        $mobileSize  = SiteBannerDTOFactory::MOBILE_SIZE['default'];
+        $desktopSize = BannerDTOFactory::DESKTOP_SIZE['default'];
+        $mobileSize  = BannerDTOFactory::MOBILE_SIZE['default'];
 
         $desktopImage           = $this->getSubject()?->getDesktopImage();
         $isRequiredDesktopImage = !$desktopImage;

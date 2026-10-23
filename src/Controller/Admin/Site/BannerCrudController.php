@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Site;
 
-use App\Entity\Site\SiteBanner;
+use App\Entity\Site\Banner;
 use App\Security\Voter\Admin\Site\SiteBannerVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SiteBannerCrudController extends AbstractSiteRootCrudController
+class BannerCrudController extends AbstractSiteRootCrudController
 {
     protected function preList(Request $request): ?Response
     {
@@ -17,7 +17,7 @@ class SiteBannerCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteBannerVoter::LIST,
-            [$site, SiteBanner::class],
+            [$site, Banner::class],
         );
     }
 
@@ -37,7 +37,7 @@ class SiteBannerCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteBannerVoter::CREATE,
-            [$site, SiteBanner::class],
+            [$site, Banner::class],
         );
     }
 

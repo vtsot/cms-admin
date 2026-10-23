@@ -5,56 +5,56 @@ declare(strict_types=1);
 namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\CQ\Query\Site\Image\GetSiteRandomBannerQuery;
-use App\DTO\Entity\BannerDTO;
-use App\DTO\Entity\Site\SiteDTO;
+use App\CQ\Query\Site\Banner\GetBannerRandomQuery;
+use App\DTO\Entity\Site\BannerDTO;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Uid\Uuid;
 
-#[Route(
-    path: '/api/sites/{siteId}/banners',
-    requirements: ['siteId' => Requirement::UUID]
-)]
-class SiteBannerController extends AbstractController
+class GetBannerRandomController extends AbstractController
 {
     #[Route(
-        path: '/random',
+        path: '/api/sites/{id}/banners/random',
         name: 'api.site.banner.get-random',
+        requirements: ['id' => Requirement::UUID],
         options: ['expose' => true],
         methods: ['GET']
     )]
+    #[OA\Parameter(ref: '#/components/parameters/accept_language')]
+    #[OA\Response(ref: '#/components/responses/error', response: Response::HTTP_UNPROCESSABLE_ENTITY)]
+    #[OA\Response(ref: '#/components/responses/invalid_json', response: Response::HTTP_BAD_REQUEST)]
+    #[OA\Response(ref: '#/components/responses/invalid_credentials', response: Response::HTTP_UNAUTHORIZED)]
+    #[OA\Response(ref: '#/components/responses/forbidden', response: Response::HTTP_FORBIDDEN)]
+    #[OA\Response(ref: '#/components/responses/not_found', response: Response::HTTP_NOT_FOUND)]
     #[OA\Response(
-        response: 200,
+        response: Response::HTTP_OK,
         description: 'Return site random banner',
         content: new OA\JsonContent(
             ref: new Model(
-                type: SiteDTO::class,
+                type:   BannerDTO::class,
                 groups: ['banner_details', 'link_details'],
             )
         )
     )]
-    #[OA\Response(ref: '#/components/responses/unauthorized', response: '401')]
-    #[OA\Response(ref: '#/components/responses/forbidden', response: '403')]
-    #[OA\Response(ref: '#/components/responses/not_found', response: '404')]
     #[OA\Tag(name: ApiDocTag::SITES)]
-    public function getRandom(
-        string $siteId,
+    public function __invoke(
+        Uuid $id,
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] UserInterface $user,
     ): JsonResponse {
         /** @var BannerDTO $dto */
         $dto = $messageBusHandler->handleQuery(
-            new GetSiteRandomBannerQuery(
+            new GetBannerRandomQuery(
+                siteId: $id,
                 siteToken: $user->getUserIdentifier(),
-                siteId: Uuid::fromString($siteId),
             )
         );
 

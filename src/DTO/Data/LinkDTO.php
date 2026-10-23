@@ -7,7 +7,7 @@ namespace App\DTO\Data;
 use App\Contract\Dictionary\Link\LinkTarget;
 use App\Contract\Dictionary\Link\LinkType;
 use App\DTOFactory\Data\LinkDTOFactory;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @see LinkDTOFactory

@@ -7,7 +7,7 @@ namespace App\Security\Voter\Admin\Site;
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
 use App\Entity\Site\Site;
-use App\Entity\Site\SiteBanner;
+use App\Entity\Site\Banner;
 use App\Repository\Site\SiteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -20,11 +20,11 @@ use function is_array;
 
 class SiteBannerVoter extends Voter
 {
-    public const LIST   = 'SITE_BANNER_LIST';
-    public const VIEW   = 'SITE_BANNER_VIEW';
-    public const CREATE = 'SITE_BANNER_CREATE';
-    public const UPDATE = 'SITE_BANNER_UPDATE';
-    public const DELETE = 'SITE_BANNER_DELETE';
+    public const string LIST   = 'SITE_BANNER_LIST';
+    public const string VIEW   = 'SITE_BANNER_VIEW';
+    public const string CREATE = 'SITE_BANNER_CREATE';
+    public const string UPDATE = 'SITE_BANNER_UPDATE';
+    public const string DELETE = 'SITE_BANNER_DELETE';
 
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
@@ -33,7 +33,7 @@ class SiteBannerVoter extends Voter
     }
 
     /**
-     * @param array{0: Site, 1: string|SiteBanner} $subject
+     * @param array{0: Site, 1: string|Banner} $subject
      */
     protected function supports(string $attribute, $subject): bool
     {
@@ -41,15 +41,15 @@ class SiteBannerVoter extends Voter
             && array_key_exists(0, $subject)
             && array_key_exists(1, $subject)
             && $subject[0] instanceof Site
-            && ($subject[1] === SiteBanner::class || $subject[1] instanceof SiteBanner)
+            && ($subject[1] === Banner::class || $subject[1] instanceof Banner)
             && (
-                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === SiteBanner::class)
-                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof SiteBanner)
+                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === Banner::class)
+                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof Banner)
             );
     }
 
     /**
-     * @param array{0: Site, 1: string|SiteBanner} $subject
+     * @param array{0: Site, 1: string|Banner} $subject
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {

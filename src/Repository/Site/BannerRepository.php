@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Site;
 
 use App\Contract\Repository\FindByIdInterface;
-use App\Entity\Site\SiteBanner;
+use App\Entity\Site\Banner;
 use App\Repository\Traits\PositionRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
@@ -13,23 +13,23 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @extends ServiceEntityRepository<SiteBanner>
+ * @extends ServiceEntityRepository<Banner>
  *
- * @method SiteBanner|null find($id, $lockMode = null, $lockVersion = null)
- * @method SiteBanner|null findOneBy(array $criteria, array $orderBy = null)
- * @method SiteBanner[]    findAll()
- * @method SiteBanner[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Banner|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Banner|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Banner[]    findAll()
+ * @method Banner[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SiteBannerRepository extends ServiceEntityRepository implements FindByIdInterface
+class BannerRepository extends ServiceEntityRepository implements FindByIdInterface
 {
     use PositionRepositoryTrait;
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SiteBanner::class);
+        parent::__construct($registry, Banner::class);
     }
 
-    public function findOneById(Uuid $id): ?SiteBanner
+    public function findOneById(Uuid $id): ?Banner
     {
         return $this->find($id);
     }
@@ -59,7 +59,7 @@ class SiteBannerRepository extends ServiceEntityRepository implements FindByIdIn
         $result = [];
 
         foreach ($data as $item) {
-            $result[$item['id']] = [
+            $result[Uuid::fromBinary($item['id'])->toString()] = [
                 'id'       => $item['id'],
                 'priority' => $item['priority'] ?: 1,
             ];

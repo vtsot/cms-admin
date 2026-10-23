@@ -50,7 +50,7 @@ class Site extends AbstractEntity
     #[ORM\OneToOne(targetEntity: SiteSettings::class, mappedBy: 'site', cascade: ['persist'])]
     private ?SiteSettings $settings = null;
 
-    #[ORM\OneToMany(targetEntity: SiteBanner::class, mappedBy: 'site', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Banner::class, mappedBy: 'site', orphanRemoval: true)]
     private Collection $banners;
 
     public function __construct()
@@ -173,14 +173,14 @@ class Site extends AbstractEntity
     }
 
     /**
-     * @return Collection<int, SiteBanner>
+     * @return Collection<int, Banner>
      */
     public function getBanners(): Collection
     {
         return $this->banners;
     }
 
-    public function addBanner(SiteBanner $banner): static
+    public function addBanner(Banner $banner): static
     {
         if (!$this->banners->contains($banner)) {
             $this->banners->add($banner);
@@ -190,7 +190,7 @@ class Site extends AbstractEntity
         return $this;
     }
 
-    public function removeBanner(SiteBanner $banner): static
+    public function removeBanner(Banner $banner): static
     {
         if ($this->banners->removeElement($banner)) {
             // set the owning side to null (unless already changed)

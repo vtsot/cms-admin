@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Site;
 
-use App\DTO\Entity\BannerDTO;
+use App\DTO\Entity\Site\BannerDTO;
 use App\DTOFactory\Data\LinkDTOFactory;
-use App\Entity\Site\SiteBanner;
+use App\Entity\Site\Banner;
 use Symfony\Component\Routing\RouterInterface;
 
-readonly class SiteBannerDTOFactory
+readonly class BannerDTOFactory
 {
     /** @var array<string, array{width: int, height: int}> */
     public const array DESKTOP_SIZE = [
@@ -30,11 +30,10 @@ readonly class SiteBannerDTOFactory
     }
 
     public function fromEntity(
-        SiteBanner $banner,
+        Banner $banner,
     ): BannerDTO {
-        $theme       = $banner->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize = self::DESKTOP_SIZE[$theme] ?? self::DESKTOP_SIZE['default'];
-        $mobileSize  = self::MOBILE_SIZE[$theme] ?? self::MOBILE_SIZE['default'];
+        $desktopSize = self::DESKTOP_SIZE['default'];
+        $mobileSize  = self::MOBILE_SIZE['default'];
 
         $desktopImage = $this->getImageUrl($banner->getDesktopImage(), 'resize', $desktopSize['width'], $desktopSize['height']);
         $mobileImage  = $this->getImageUrl($banner->getMobileImage(), 'resize', $mobileSize['width'], $mobileSize['height']);
@@ -45,8 +44,8 @@ readonly class SiteBannerDTOFactory
 
         return new BannerDTO(
             id: $banner->getId(),
-            name: $banner->getName(),
-            alt: $banner->getAlt(),
+            title: $banner->getTitle(),
+            imageAlt: $banner->getImageAlt(),
             desktopImage: $desktopImage,
             mobileImage: $mobileImage,
             link: $link,

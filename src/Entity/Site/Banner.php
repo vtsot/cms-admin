@@ -11,7 +11,7 @@ use App\Entity\Traits\ImageAltEntityTrait;
 use App\Entity\Traits\LinkEntityTrait;
 use App\Entity\Traits\PriorityEntityTrait;
 use App\Entity\Traits\TitleEntityTrait;
-use App\Repository\Site\SiteBannerRepository;
+use App\Repository\Site\BannerRepository;
 use Carbon\CarbonImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,8 +28,8 @@ use function implode;
 #[ORM\Index(name: 'fk_link_page', columns: ['link_page_id'])]
 #[ORM\Index(name: 'fk_link_article_id', columns: ['link_article_id'])]
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: SiteBannerRepository::class)]
-class SiteBanner extends AbstractEntity implements LinkEntityInterface
+#[ORM\Entity(repositoryClass: BannerRepository::class)]
+class Banner extends AbstractEntity implements LinkEntityInterface
 {
     use ActiveEntityTrait;
     use TitleEntityTrait;

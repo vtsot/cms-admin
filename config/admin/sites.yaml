@@ -140,14 +140,14 @@ services:
               show_in_dashboard: false
 
     admin.site.banner:
-        class: 'App\Admin\Site\SiteBannerAdmin'
+        class: 'App\Admin\Site\BannerAdmin'
         calls:
             - [ setBaseRouteName,       [ 'admin.site.banner' ] ]
             - [ setBaseRoutePattern,    [ 'site-banner' ] ]
         tags:
             - name: sonata.admin
-              model_class: 'App\Entity\Site\SiteBanner'
-              controller: 'App\Controller\Admin\Site\SiteBannerCrudController'
+              model_class: 'App\Entity\Site\Banner'
+              controller: 'App\Controller\Admin\Site\BannerCrudController'
               manager_type: orm
               group: MENU_GROUP.SITE
               label: MENU.SITE_BANNER

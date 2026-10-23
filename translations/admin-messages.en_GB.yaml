@@ -319,7 +319,7 @@ BANNER_ENTITY:
     LABEL:
         PRIORITY: 'Priority'
         TITLE: 'Title'
-        IMAGE_ALT: 'Alt'
+        IMAGE_ALT: 'Image Alt'
         BANNER: 'Banner Image'
         DESKTOP_IMAGE: 'Desktop Image'
         MOBILE_IMAGE: 'Mobile Image'

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Entity;
+namespace App\DTO\Entity\Site;
 
 use App\DTO\Data\LinkDTO;
-use App\DTOFactory\Entity\Site\SiteBannerDTOFactory;
+use App\DTOFactory\Entity\Site\BannerDTOFactory;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see SiteBannerDTOFactory
+ * @see BannerDTOFactory
  */
 readonly class BannerDTO
 {
@@ -21,10 +21,10 @@ readonly class BannerDTO
         public Uuid $id,
 
         #[Groups(['banner_collection', 'banner_details'])]
-        public ?string $name,
+        public ?string $title,
 
         #[Groups(['banner_collection', 'banner_details'])]
-        public ?string $alt,
+        public ?string $imageAlt,
 
         #[Groups(['banner_collection', 'banner_details'])]
         public ?string $desktopImage,

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Site\Image;
+namespace App\CQ\Query\Site\Banner;
 
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see GetSiteRandomBannerHandler
+ * @see GetBannerRandomHandler
  */
-class GetSiteRandomBannerQuery
+class GetBannerRandomQuery
 {
     public function __construct(
-        public string $siteToken,
         public Uuid $siteId,
+        public string $siteToken,
     ) {
     }
 }
