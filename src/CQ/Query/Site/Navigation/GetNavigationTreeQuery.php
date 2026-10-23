@@ -8,13 +8,13 @@ use App\Contract\Dictionary\NavigationType;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see GetSiteNavigationTreeHandler
+ * @see GetNavigationTreeHandler
  */
-readonly class GetSiteNavigationTreeQuery
+readonly class GetNavigationTreeQuery
 {
     public function __construct(
-        public string $siteToken,
         public Uuid $siteId,
+        public string $token,
         public NavigationType $type,
     ) {
     }

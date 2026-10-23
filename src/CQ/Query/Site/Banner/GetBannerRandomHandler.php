@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\CQ\Query\Site\Banner;
 
-use App\Application\Security\Voter\VacancyNoteVoter;
 use App\Contract\MessageHandler\QueryHandlerInterface;
-use App\Domain\Note\Entity\Note;
 use App\DTO\Data\RandomItemDTO;
 use App\DTO\Entity\Site\BannerDTO;
 use App\DTOFactory\Entity\Site\BannerDTOFactory;
@@ -14,7 +12,8 @@ use App\Entity\Site\Banner;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Repository\Site\BannerRepository;
-use App\Security\Voter\Api\BannerVoter;
+use App\Security\Voter\ApiSite\BannerVoter;
+use App\Security\Voter\VoterSubject;
 use App\Service\RandomizeService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Uid\Uuid;
@@ -37,7 +36,7 @@ readonly class GetBannerRandomHandler implements QueryHandlerInterface
             throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(BannerVoter::VIEW, [$query->siteId, $banner])) {
+        if (!$this->security->isGranted(BannerVoter::VIEW, new VoterSubject($query->siteId, $banner))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 
@@ -48,7 +47,7 @@ readonly class GetBannerRandomHandler implements QueryHandlerInterface
     {
         $items   = [];
         $banners = $this->bannerRepository
-            ->findAllActivePriorityBannersByActiveSiteIdAndSiteToken($query->siteId, $query->siteToken);
+            ->findAllActivePriorityBannersByActiveSiteIdAndToken($query->siteId, $query->token);
 
         foreach ($banners as $banner) {
             $items[] = new RandomItemDTO($banner['id'], $banner['priority']);

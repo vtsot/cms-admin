@@ -1,0 +1,11 @@
+@id=01a16459-7d94-7436-bef8-491f292baedf
+@slug=page-1
+#@slug=article-1
+GET https://cms-admin.local/api/sites/{{id}}/pages/{{slug}}
+Accept: application/json
+Accept-Language: en_GB
+Content-Type: application/json
+Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
+
+{
+}

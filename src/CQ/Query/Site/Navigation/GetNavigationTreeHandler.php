@@ -9,16 +9,22 @@ use App\DTO\Collection\NavigationTreeCollectionDTO;
 use App\DTO\Entity\NavigationDTO;
 use App\DTOFactory\Entity\Navigation\NavigationDTOFactory;
 use App\Entity\Navigation\AbstractNavigation;
+use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Repository\Navigation\NavigationRepository;
 use App\Repository\Site\SiteRepository;
+use App\Security\Voter\ApiSite\NavigationVoter;
+use App\Security\Voter\VoterSubject;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Uid\NilUlid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function array_key_exists;
 
-readonly class GetSiteNavigationTreeHandler implements QueryHandlerInterface
+readonly class GetNavigationTreeHandler implements QueryHandlerInterface
 {
     public function __construct(
+        private Security $security,
         private TranslatorInterface $translator,
         private SiteRepository $siteRepository,
         private NavigationRepository $navigationRepository,
@@ -26,26 +32,29 @@ readonly class GetSiteNavigationTreeHandler implements QueryHandlerInterface
     ) {
     }
 
-    public function __invoke(GetSiteNavigationTreeQuery $query): NavigationTreeCollectionDTO
+    public function __invoke(GetNavigationTreeQuery $query): NavigationTreeCollectionDTO
     {
-        $site = $this->siteRepository->findOneActiveByTokenAndId($query->siteToken, $query->siteId);
-
-        if ($site === null) {
-            throw new EntityNotFoundException($this->translator->trans('SITE.NOT_FOUND'));
+        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
+            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
         }
 
-        $navigations = $this->navigationRepository->findAllBySiteTokenAndSiteIdAndType($query->siteToken, $query->siteId, $query->type);
+        if (!$this->security->isGranted(NavigationVoter::LIST, new VoterSubject($query->siteId, AbstractNavigation::class))) {
+            throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
+        }
 
-        $items = [];
+        $items       = [];
+        $nil         = new NilUlid()->toString();
+        $navigations = $this->navigationRepository
+            ->findAllActiveBySiteIdAndTokenAndType($query->siteId, $query->token, $query->type);
 
         // determine root entries and children entries
         foreach ($navigations as $item) {
-            $parentId           = $item->getParent()?->getId() ? (string) $item->getParent()?->getId() : 0;
+            $parentId           = $item->getParent()?->getId()?->toString() ?? $nil;
             $items[$parentId][] = $item;
         }
 
         // resolve tree with pass root items as a parameter
-        $tree = $this->resolveNavigationTree($items, $items[0] ?? []);
+        $tree = $this->resolveNavigationTree($items, $items[$nil] ?? []);
 
         return new NavigationTreeCollectionDTO($tree);
     }
@@ -75,10 +84,7 @@ readonly class GetSiteNavigationTreeHandler implements QueryHandlerInterface
                 );
             }
 
-            $tree[] = $this->navigationDTOFactory->fromEntity(
-                $item,
-                $childrenCollectionDTO
-            );
+            $tree[] = $this->navigationDTOFactory->fromEntity($item, $childrenCollectionDTO);
         }
 
         return $tree;

@@ -28,19 +28,7 @@ readonly class SiteDTO
         public ?string $title,
 
         #[Groups(['site_collection', 'site_details'])]
-        public ?string $genericNames,
-
-        #[Groups(['site_collection', 'site_details'])]
-        public ?string $commonBrands,
-
-        #[Groups(['site_collection', 'site_details'])]
-        public ?string $footerText1,
-
-        #[Groups(['site_collection', 'site_details'])]
-        public ?string $footerText2,
-
-        #[Groups(['site_collection', 'site_details'])]
-        public ?string $copyrightText,
+        public ?string $description,
 
         #[Groups(['site_collection', 'site_details'])]
         public ?string $homepage,
@@ -49,25 +37,11 @@ readonly class SiteDTO
         #[Groups(['site_collection', 'site_details'])]
         #[OA\Property(
             type: 'array',
-            items: new OA\Items(
-                ref: new Model(
-                    type: NavigationDTO::class,
-                    groups: ['navigation_collection'],
-                )),
-        )]
-        public ?array $navigationTop,
-
-        /** @var NavigationDTO[] */
-        #[Groups(['site_collection', 'site_details'])]
-        #[OA\Property(
-            type: 'array',
-            items: new OA\Items(
-                ref: new Model(
-                    type: NavigationDTO::class,
-                    groups: ['navigation_collection'],
-                )),
-        )]
-        public ?array $navigationBottom,
+            items: new OA\Items(ref: new Model(
+                type: NavigationDTO::class,
+                groups: ['navigation_collection', 'navigation_details'],
+            )))]
+        public ?array $mainNavigation,
     ) {
     }
 }

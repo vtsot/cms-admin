@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Repository\Page\Traits;
 
 use App\Entity\Page\AbstractPage;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\Query\Parameter;
 use Symfony\Component\Uid\Uuid;
 
 trait PageRepositoryTrait
@@ -22,22 +20,18 @@ trait PageRepositoryTrait
     public function findOneBySiteIdAndSlug(Uuid $siteId, string $slug, ?Uuid $exceptId = null): ?AbstractPage
     {
         $qb = $this->createQueryBuilder('p')
-            ->where('p.site = :siteId')
-            ->andWhere('p.slug = :slug')
-            ->setParameters(
-                new ArrayCollection([
-                    new Parameter('siteId', $siteId->toBinary()),
-                    new Parameter('slug', $slug),
-                ]),
-            );
+            ->where('p.site = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('p.slug = :slug')->setParameter('slug', $slug);
 
         if ($exceptId !== null) {
-            $qb->andWhere('p.id != :exceptId')
-                ->setParameter('exceptId', $exceptId->toBinary());
+            $qb
+                ->andWhere('p.id != :exceptId')
+                ->setParameter('exceptId', $exceptId->toBinary())
+                ->setMaxResults(1);
         }
 
         try {
-            return $qb->setMaxResults(1)
+            return $qb
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException|NonUniqueResultException $e) {
@@ -45,22 +39,39 @@ trait PageRepositoryTrait
         }
     }
 
-    public function findOneActiveBySiteTokenAndSiteIdAndSlug(string $siteToken, Uuid $siteId, string $slug): ?AbstractPage
+    public function findOneActiveBySiteIdAndTokenAndSlug(Uuid $siteId, string $token, string $slug): ?AbstractPage
     {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
+            ->setParameter('siteId', $siteId->toBinary())
+            ->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->andWhere('p.slug = :slug')->setParameter('slug', $slug)
+            ->andWhere('p.active = :pageActive')->setParameter('pageActive', true)
+            ->setMaxResults(1);
+
         try {
-            return $this->createQueryBuilder('p')
-                ->join('p.site', 's', Join::WITH, 's.token = :siteToken AND s.id = :siteId')
-                ->andWhere('p.slug = :slug')
-                ->andWhere('p.active = :isActive')
-                ->setParameters(
-                    new ArrayCollection([
-                        new Parameter('siteToken', $siteToken),
-                        new Parameter('siteId', $siteId->toBinary()),
-                        new Parameter('slug', $slug),
-                        new Parameter('isActive', true),
-                    ])
-                )
-                ->setMaxResults(1)
+            return $qb
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    public function findOneActiveBySiteIdAndTokenAndPageId(Uuid $siteId, string $token, Uuid $pageId): ?AbstractPage
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
+            ->setParameter('siteId', $siteId->toBinary())
+            ->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->andWhere('p.id = :pageId')->setParameter('pageId', $pageId->toBinary())
+            ->andWhere('p.active = :pageActive')->setParameter('pageActive', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException) {
@@ -70,7 +81,39 @@ trait PageRepositoryTrait
 
     public function findHomepageBySiteId(Uuid $siteId): ?AbstractPage
     {
-        return $this->findOneBy(['site' => $siteId, 'homepage' => true]);
+        // return $this->findOneBy(['site' => $siteId, 'homepage' => true]);
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.site = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('p.homepage = :homepage')->setParameter('homepage', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
+    public function findHomepageBySiteIdAndToken(Uuid $siteId, string $token): ?AbstractPage
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.site', 's')
+            ->where('p.active = :pageActive')->setParameter('pageActive', true)
+            ->andWhere('p.homepage = :homepage')->setParameter('homepage', true)
+            ->andWhere('s.id = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('s.token = :token')->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     /**
@@ -106,20 +149,17 @@ trait PageRepositoryTrait
     /**
      * @return array<int, AbstractPage>
      */
-    public function findAllActiveForIndexing(string $siteToken, Uuid $siteId): array
+    public function findAllActiveForIndexing(Uuid $siteId, string $token): array
     {
-        return $this->createQueryBuilder('p')
-            ->join('p.site', 's', Join::WITH, 's.token = :siteToken AND s.id = :siteId')
-            ->where('p.active = :active')->setParameter('active', true)
-            ->andWhere('p.indexed = :indexed')->setParameter('indexed', true)
-            ->setParameters(
-                new ArrayCollection([
-                    new Parameter('siteToken', $siteToken),
-                    new Parameter('siteId', $siteId->toBinary()),
-                    new Parameter('active', true),
-                    new Parameter('indexed', true),
-                ])
-            )
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
+            ->setParameter('siteId', $siteId->toBinary())
+            ->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->andWhere('p.active = :pageActive')->setParameter('pageActive', true)
+            ->andWhere('p.indexed = :indexed')->setParameter('indexed', true);
+
+        return $qb
             ->getQuery()
             ->getResult();
     }

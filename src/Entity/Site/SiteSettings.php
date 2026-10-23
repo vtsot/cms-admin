@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Site;
 
-use App\Contract\Entity\LinkEntityInterface;
 use App\Entity\AbstractEntity;
-use App\Entity\Traits\LinkActiveEntityTrait;
-use App\Entity\Traits\LinkEntityTrait;
-use App\Entity\Traits\LinkTitleEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsFaviconEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsFromEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsImageEntityTrait;
@@ -22,20 +18,14 @@ use function implode;
 
 #[ORM\Table(name: 'site_settings')]
 #[ORM\Index(name: 'fk_site_id', columns: ['site_id'])]
-// #[ORM\Index(name: 'idx_link_active', columns: ['link_active'])]
-// #[ORM\Index(name: 'fk_link_page', columns: ['link_page_id'])]
-// #[ORM\Index(name: 'fk_link_article_id', columns: ['link_article_id'])]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: SiteSettingsRepository::class)]
-class SiteSettings extends AbstractEntity // implements LinkEntityInterface
+class SiteSettings extends AbstractEntity
 {
     use SiteSettingsFaviconEntityTrait;
     use SiteSettingsImageEntityTrait;
     use SiteSettingsSenderEntityTrait;
     use SiteSettingsFromEntityTrait;
-    //    use LinkActiveEntityTrait;
-    //    use LinkTitleEntityTrait;
-    //    use LinkEntityTrait;
 
     #[ORM\OneToOne(targetEntity: Site::class, inversedBy: 'settings')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]

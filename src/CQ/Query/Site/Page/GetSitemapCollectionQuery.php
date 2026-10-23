@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Site;
+namespace App\CQ\Query\Site\Page;
 
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see GetSiteByTokenAndIdHandler
+ * @see GetSitemapCollectionHandler
  */
-readonly class GetSiteByTokenAndIdQuery
+readonly class GetSitemapCollectionQuery
 {
     public function __construct(
-        public string $siteToken,
         public Uuid $siteId,
+        public string $token,
     ) {
     }
 }

@@ -7,6 +7,7 @@ namespace App\Controller\Api\Site;
 use App\Contract\Dictionary\ApiDocTag;
 use App\CQ\Query\Site\Banner\GetBannerRandomQuery;
 use App\DTO\Entity\Site\BannerDTO;
+use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -15,7 +16,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
@@ -39,7 +39,7 @@ class GetBannerRandomController extends AbstractController
         description: 'Return site random banner',
         content: new OA\JsonContent(
             ref: new Model(
-                type:   BannerDTO::class,
+                type: BannerDTO::class,
                 groups: ['banner_details', 'link_details'],
             )
         )
@@ -48,13 +48,13 @@ class GetBannerRandomController extends AbstractController
     public function __invoke(
         Uuid $id,
         MessageBusHandler $messageBusHandler,
-        #[CurrentUser] UserInterface $user,
+        #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {
         /** @var BannerDTO $dto */
         $dto = $messageBusHandler->handleQuery(
             new GetBannerRandomQuery(
                 siteId: $id,
-                siteToken: $user->getUserIdentifier(),
+                token: $user->token,
             )
         );
 

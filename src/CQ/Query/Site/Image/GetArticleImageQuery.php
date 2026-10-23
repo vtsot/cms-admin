@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Site\Page;
+namespace App\CQ\Query\Site\Image;
 
 /**
  * @see GetArticleImageHandler

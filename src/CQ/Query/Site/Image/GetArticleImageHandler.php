@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CQ\Query\Site\Page;
+namespace App\CQ\Query\Site\Image;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\Service\FileManager\ArticleImageCacheFileManager;

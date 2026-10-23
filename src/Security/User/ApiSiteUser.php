@@ -7,11 +7,11 @@ namespace App\Security\User;
 use Deprecated;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ApiSiteUser implements UserInterface
+final readonly class ApiSiteUser implements UserInterface
 {
     public function __construct(
-        private readonly string $identifier,
-        private readonly array $roles,
+        public string $token,
+        public array $roles,
     ) {
     }
 
@@ -27,6 +27,6 @@ class ApiSiteUser implements UserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->identifier;
+        return $this->token;
     }
 }

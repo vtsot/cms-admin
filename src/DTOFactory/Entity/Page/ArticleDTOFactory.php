@@ -11,7 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 readonly class ArticleDTOFactory
 {
     /** @var array<string, array{width: int, height: int}> */
-    public const DESKTOP_SIZE = [
+    public const array DESKTOP_SIZE = [
         // theme code => width, height
         'default' => ['width' => 300, 'height' => 220],
     ];
@@ -21,20 +21,31 @@ readonly class ArticleDTOFactory
     ) {
     }
 
-    public function fromEntity(
-        Article $article,
-    ): ArticleDTO {
-        $theme        = $article->getSite()?->getSiteTheme()?->getCode();
-        $desktopSize  = self::DESKTOP_SIZE[$theme] ?? self::DESKTOP_SIZE['default'];
+    public function fromEntity(Article $article): ArticleDTO
+    {
+        $desktopSize  = self::DESKTOP_SIZE['default'];
         $desktopImage = $this->getImageUrl($article->getImage(), 'resize', $desktopSize['width'], $desktopSize['height']);
 
         return new ArticleDTO(
-            $article->getId(),
-            $article->getSlug(),
-            $article->getTitle(),
-            $article->getAlt(),
-            $desktopImage,
-            $article->getDescription(),
+            id: $article->getId(),
+            slug: $article->getSlug(),
+            title: $article->getTitle(),
+            imageAlt: $article->getImageAlt(),
+            image: $desktopImage,
+            description: $article->getDescription(),
+            content: $article->getContent(),
+            sources: $article->getSources(),
+            redirect: $article->getRedirect(),
+            codeBlock: $article->getCodeBlock(),
+            metaTitle: $article->getMetaTitle(),
+            metaKeywords: $article->getMetaKeywords(),
+            metaDescription: $article->getMetaDescription(),
+            ogTitle: $article->getOgTitle(),
+            ogDescription: $article->getOgDescription(),
+            ogImage: $article->getOgImage(),
+            indexed: $article->isIndexed(),
+            sitemapChangeFrequency: $article->getSitemapChangeFrequency(),
+            sitemapPriority: $article->getSitemapPriority(),
         );
     }
 

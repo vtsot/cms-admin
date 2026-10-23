@@ -13,7 +13,7 @@ class GetBannerRandomQuery
 {
     public function __construct(
         public Uuid $siteId,
-        public string $siteToken,
+        public string $token,
     ) {
     }
 }

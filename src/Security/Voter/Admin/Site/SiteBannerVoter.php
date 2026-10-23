@@ -6,8 +6,8 @@ namespace App\Security\Voter\Admin\Site;
 
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
-use App\Entity\Site\Site;
 use App\Entity\Site\Banner;
+use App\Entity\Site\Site;
 use App\Repository\Site\SiteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

@@ -5,19 +5,30 @@ declare(strict_types=1);
 namespace App\ApiRequest\Site;
 
 use App\Contract\ApiRequest\ApiRequestInterface;
+use App\ControllerRequestModifier\StripTagsModifier;
+use App\ControllerRequestModifier\TrimModifier;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class CreateSiteContactRequest implements ApiRequestInterface
+readonly class CreateContactRequest implements ApiRequestInterface
 {
     public function __construct(
+        #[TrimModifier]
+        #[StripTagsModifier]
         #[Assert\NotBlank]
+        #[Assert\Length(max: 255)]
         public ?string $name = null,
 
+        #[TrimModifier]
+        #[StripTagsModifier]
         #[Assert\NotBlank]
         #[Assert\Email]
+        #[Assert\Length(max: 255)]
         public ?string $email = null,
 
+        #[TrimModifier]
+        #[StripTagsModifier]
         #[Assert\NotBlank]
+        #[Assert\Length(max: 5000)]
         public ?string $message = null,
     ) {
     }

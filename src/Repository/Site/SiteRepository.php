@@ -35,9 +35,9 @@ class SiteRepository extends ServiceEntityRepository implements FindByIdInterfac
         return $this->find(['id' => $id]);
     }
 
-    public function findOneActiveByTokenAndId(string $token, Uuid $id): ?Site
+    public function findOneActiveBySiteIdAndToken(Uuid $siteId, string $token): ?Site
     {
-        return $this->findOneBy(['token' => $token, 'id' => $id, 'active' => true]);
+        return $this->findOneBy(['id' => $siteId, 'token' => $token, 'active' => true]);
     }
 
     public function findOneByToken(string $token): ?Site

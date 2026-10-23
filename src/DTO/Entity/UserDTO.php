@@ -6,7 +6,7 @@ namespace App\DTO\Entity;
 
 use App\DTOFactory\Entity\UserDTOFactory;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**

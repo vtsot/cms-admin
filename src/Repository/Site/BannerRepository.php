@@ -8,6 +8,8 @@ use App\Contract\Repository\FindByIdInterface;
 use App\Entity\Site\Banner;
 use App\Repository\Traits\PositionRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
@@ -34,19 +36,39 @@ class BannerRepository extends ServiceEntityRepository implements FindByIdInterf
         return $this->find($id);
     }
 
+    public function findOneActiveBySiteIdAndTokenAndBannerId(Uuid $siteId, string $token, Uuid $bannerId): ?Banner
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->join('b.site', 's')
+            ->where('b.id = :bannerId')->setParameter('bannerId', $bannerId->toBinary())
+            ->andWhere('b.active = :bannerActive')->setParameter('bannerActive', true)
+            ->andWhere('s.id = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('s.token = :token')->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     /**
      * @return array<string, array{id: string, priority: int}>
      */
-    public function findAllActivePriorityBannersByActiveSiteIdAndSiteToken(Uuid $siteId, string $siteToken): array
+    public function findAllActivePriorityBannersByActiveSiteIdAndToken(Uuid $siteId, string $token): array
     {
         $qb = $this->createQueryBuilder('b')
             ->select(
                 'b.id as id',
                 'b.priority',
             )
-            ->join('b.site', 's', Join::WITH, 's.id = :siteId AND s.token = :siteToken AND s.active = :siteActive')
+            ->join('b.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token AND s.active = :siteActive')
             ->setParameter('siteId', $siteId->toBinary())
-            ->setParameter('siteToken', $siteToken)
+            ->setParameter('token', $token)
             ->setParameter('siteActive', true)
             ->where('b.active = :active')
             ->setParameter('active', true)

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\CmsEmbed;
 
-use App\CQ\Query\Faq\GetFaqGroupBySiteTokenAndSiteIdCollectionQuery;
-use App\DTO\Collection\Faq\FaqGroupCollectionDTO;
 use App\Repository\Site\SiteRepository;
 use App\Service\MessageBusHandler;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use function array_multisort;

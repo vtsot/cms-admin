@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Page;
 
-use App\DTO\Entity\Page\SitemapPageDTO;
+use App\DTO\Entity\Page\SitemapItemDTO;
 use App\Entity\Page\AbstractPage;
-use Ramsey\Uuid\Uuid;
 
-readonly class SitemapPageDTOFactory
+readonly class SitemapDTOFactory
 {
-    public function fromEntity(AbstractPage $page): SitemapPageDTO
+    public function fromEntity(AbstractPage $page): SitemapItemDTO
     {
-        $id = $page->getId() ?? Uuid::fromString(Uuid::NIL);
-
-        return new SitemapPageDTO(
-            $id,
+        return new SitemapItemDTO(
+            $page->getId(),
             $page->getSlug(),
             $page->isHomepage(),
             $page->isIndexed(),

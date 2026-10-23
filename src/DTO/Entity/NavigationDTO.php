@@ -7,7 +7,7 @@ namespace App\DTO\Entity;
 use App\DTO\Data\LinkDTO;
 use App\DTOFactory\Entity\Navigation\NavigationDTOFactory;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**

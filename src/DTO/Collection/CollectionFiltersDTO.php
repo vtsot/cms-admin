@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\DTO\Collection;
 
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 readonly class CollectionFiltersDTO
 {

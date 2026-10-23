@@ -34,8 +34,9 @@ abstract class AbstractNavigationRepository extends ServiceEntityRepository impl
         ?string $indexBy = null,
     ): QueryBuilder {
         return $this->createQueryBuilder($alias, $indexBy)
-            ->select($alias, 'linkPage')
+            ->select($alias, 'linkPage', 'linkArticle')
             ->leftJoin($alias . '.linkPage', 'linkPage')
+            ->leftJoin($alias . '.linkArticle', 'linkArticle')
             ->where($alias . '.active = :active')
             ->setParameter('active', true)
             ->orderBy($alias . '.position');
@@ -55,15 +56,38 @@ abstract class AbstractNavigationRepository extends ServiceEntityRepository impl
     /**
      * @return array<int, AbstractNavigation>
      */
-    public function findAllBySiteTokenAndSiteIdAndType(string $siteToken, Uuid $siteId, NavigationType $type): array
+    public function findAllActiveBySiteIdAndTokenAndType(Uuid $siteId, string $token, NavigationType $type): array
     {
-        $qb = $this->createBaseQuery('q');
-        $qb->andWhere('q.type = :type')->setParameter('type', $type);
-        $qb->join('q.site', 's', Join::WITH, 's.token = :siteToken AND s.id = :siteId')
-            ->setParameter('siteToken', $siteToken)
-            ->setParameter('siteId', $siteId->toBinary());
+        $qb = $this->createBaseQuery('n')
+            ->join('n.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
+            ->setParameter('siteId', $siteId->toBinary())
+            ->setParameter('token', $token)
+            ->andWhere('n.type = :type')->setParameter('type', $type)
+            ->andWhere('n.active = :navActive')->setParameter('navActive', true)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function findOneActiveBySiteIdAndTokenAndNavigationId(Uuid $siteId, string $token, Uuid $navigationId): ?AbstractNavigation
+    {
+        $qb = $this->createBaseQuery('n')
+            ->join('n.site', 's', Join::WITH, 's.id = :siteId AND s.token = :siteToken')
+            ->setParameter('siteId', $siteId->toBinary())
+            ->setParameter('siteToken', $token)
+            ->andWhere('n.id = :navId')->setParameter('navId', $navigationId->toBinary())
+            ->andWhere('n.active = :navActive')->setParameter('navActive', true)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     public function getMaximumPositionForActiveItemsBySiteIdAndParent(Uuid $siteId, ?Uuid $parentId): int

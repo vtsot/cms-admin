@@ -20,6 +20,8 @@ use Symfony\Component\Uid\Uuid;
  * @method Article|null findOneBySiteIdAndSlug(Uuid $siteId, string $slug, ?Uuid $exceptId = null)
  * @method Article|null findOneActiveBySiteTokenAndSiteIdAndSlug(string $siteToken, Uuid $siteId, string $slug)
  * @method Article|null findHomepageBySiteId(Uuid $siteId)
+ * @method Article|null findHomepageBySiteIdAndToken(Uuid $siteId, string $token)
+ * @method Article|null findOneActiveBySiteIdAndTokenAndSlug(Uuid $siteId, string $token, string $slug)
  * @method Article[]    findAllBySiteId(Uuid $siteId)
  * @method Article[]    getChoiceListBySiteId(Uuid $siteId)
  * @method Article[]    findAllActiveForIndexing(string $siteToken, Uuid $siteId)

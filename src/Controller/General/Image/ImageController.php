@@ -6,8 +6,8 @@ namespace App\Controller\General\Image;
 
 use App\Controller\AbstractController;
 use App\CQ\Query\Site\Banner\GetBannerImageQuery;
+use App\CQ\Query\Site\Image\GetArticleImageQuery;
 use App\CQ\Query\Site\Image\GetSiteImageQuery;
-use App\CQ\Query\Site\Page\GetArticleImageQuery;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
