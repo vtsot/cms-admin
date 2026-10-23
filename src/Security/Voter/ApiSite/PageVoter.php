@@ -34,15 +34,6 @@ class PageVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        //        dd(
-        //            $subject instanceof VoterSubject,
-        //            ($subject->entry === AbstractPage::class || $subject->entry instanceof AbstractPage)
-        // //            && (
-        // //                (in_array($attribute, [self::LIST, self::CREATE], true) && ($subject->entry === AbstractPage::class))
-        // //                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject->entry instanceof AbstractPage)
-        // //            )
-        //        );
-
         return $subject instanceof VoterSubject
             && ($subject->entry === AbstractPage::class || $subject->entry instanceof AbstractPage)
             && (
