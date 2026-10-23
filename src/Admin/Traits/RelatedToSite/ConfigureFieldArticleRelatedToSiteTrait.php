@@ -16,6 +16,7 @@ use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Contracts\Service\Attribute\Required;
 
+use function array_merge;
 use function sprintf;
 
 trait ConfigureFieldArticleRelatedToSiteTrait
@@ -77,45 +78,45 @@ trait ConfigureFieldArticleRelatedToSiteTrait
             );
         }
 
-        //        // resolve DatagridMapper
-        //        if ($form instanceof DatagridMapper) {
-        //            $form->add(
-        //                $name,
-        //                ChoiceFilter::class,
-        //                array_merge(
-        //                    [
-        //                        'field_type'    => ChoiceType::class,
-        //                        'field_options' => [
-        //                            'choice_loader'      => $articleChoiceLoader,
-        //                            'translation_domain' => $this->getTranslationDomain(),
-        //                        ],
-        //                    ], $options
-        //                ),
-        //                [
-        //                    'admin_code' => 'admin.site.page.related_article.inline',
-        //                ]
-        //            );
-        //
-        //            return;
-        //        }
+        // resolve DatagridMapper
+        if ($form instanceof DatagridMapper) {
+            $form->add(
+                $name,
+                ChoiceFilter::class,
+                array_merge(
+                    [
+                        'field_type'    => ChoiceType::class,
+                        'field_options' => [
+                            'choice_loader'      => $articleChoiceLoader,
+                            'translation_domain' => $this->getTranslationDomain(),
+                        ],
+                    ], $options
+                ),
+                [
+                    'admin_code' => 'admin.site.page.article.related.inline',
+                ]
+            );
 
-        //        // resolve FormMapper
-        //        $form->add(
-        //            $name,
-        //            ModelType::class,
-        //            array_merge(
-        //                [
-        //                    'attr'          => ['data-sonata-select2-allow-clear' => 'true'],
-        //                    'required'      => $options['required'] ?? false,
-        //                    'btn_add'       => false,
-        //                    'empty_data'    => [],
-        //                    'multiple'      => false,
-        //                    'choice_loader' => $articleChoiceLoader,
-        //                ], $options,
-        //            ),
-        //            [
-        //                'admin_code' => 'admin.site.page.related_article.inline',
-        //            ],
-        //        );
+            return;
+        }
+
+        // resolve FormMapper
+        $form->add(
+            $name,
+            ModelType::class,
+            array_merge(
+                [
+                    'attr'          => ['data-sonata-select2-allow-clear' => 'true'],
+                    'required'      => $options['required'] ?? false,
+                    'btn_add'       => false,
+                    'empty_data'    => [],
+                    'multiple'      => false,
+                    'choice_loader' => $articleChoiceLoader,
+                ], $options,
+            ),
+            [
+                'admin_code' => 'admin.site.page.article.related.inline',
+            ],
+        );
     }
 }

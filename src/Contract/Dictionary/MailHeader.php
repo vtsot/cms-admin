@@ -6,5 +6,5 @@ namespace App\Contract\Dictionary;
 
 abstract class MailHeader
 {
-    public const SITE_ID = 'x-site-id';
+    public const string SITE_ID = 'x-site-id';
 }

@@ -32,21 +32,6 @@ fos_ck_editor:
             startupMode: 'source'
             # enterMode: CKEDITOR.ENTER_BR
             versionCheck: false
-        faq-config:
-            toolbar: toolbar_faq
-            removeButtons: [ 'About', 'Source' ]
-            uiColor: "#ffffff"
-            height: 300px
-            forcePasteAsPlainText: true
-            filebrowserBrowseRoute: 'elfinder'
-            filebrowserBrowseRouteType: 0
-            contentsCss: 'assets/css/admin-editor.css'
-            extraAllowedContent: '*[*]{*}(*)'
-            disallowedContent: 'h1;h2;h3;h4;pre;address;div'
-            autoParagraph: true
-            # startupMode: 'source'
-            # enterMode: CKEDITOR.ENTER_BR
-            versionCheck: false
         description:
             toolbar: toolbar_description
             removeButtons: [ 'About', 'Source' ]
@@ -75,19 +60,6 @@ fos_ck_editor:
             extraAllowedContent: '*[*]{*}(*)'
             autoParagraph: true
             versionCheck: false
-        email-template-site-expiration:
-            toolbar: toolbar_email_template
-            removeButtons: [ 'About', 'Source' ]
-            uiColor: "#ffffff"
-            height: 300px
-            forcePasteAsPlainText: true
-            filebrowserBrowseRoute: 'elfinder'
-            filebrowserBrowseRouteType: 0
-            contentsCss: 'assets/css/admin-editor.css'
-            extraPlugins: 'email-template-site-expiration'
-            extraAllowedContent: '*[*]{*}(*)'
-            autoParagraph: true
-            versionCheck: false
 
     plugins:
         cms-embed:
@@ -110,9 +82,6 @@ fos_ck_editor:
             filename: 'plugin.js'
         email-template-site-contact:
             path: 'assets/ckeditor-plugins/email-template-site-contact/'
-            filename: 'plugin.js'
-        email-template-site-expiration:
-            path: 'assets/ckeditor-plugins/email-template-site-expiration/'
             filename: 'plugin.js'
 
     toolbars:

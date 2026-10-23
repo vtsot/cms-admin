@@ -133,7 +133,6 @@ class PageAdmin extends AbstractPageAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        // see parent::configureFormFields($form); added configureFormSectionRelatedArticles
         $this->configureFormSectionContent($form);
         $this->configureFormSectionSettings($form);
         $this->configureFormSectionSitemap($form);
@@ -144,11 +143,7 @@ class PageAdmin extends AbstractPageAdmin
 
     private function configureFormSectionRelatedArticles(FormMapper $form): void
     {
-        //        if ($form->has('relatedArticlesTitle')) {
-        //            $form->remove('relatedArticlesTitle');
-        //        }
-
-        $form->with('PAGE_ENTITY.SECTION.RELATED_ARTICLES', ['class' => 'col-md-9']);
+        $form->with($this->trans('PAGE_ENTITY.SECTION.RELATED_ARTICLES'), ['class' => 'col-md-9']);
 
         $form->add(
             'relatedArticlesTitle',

@@ -34,21 +34,21 @@ class FaqGroupCmsEmbed extends AbstractCmsEmbed
         $items  = [];
         $labels = [];
 
-        if ($siteId = $this->requestStack->getMainRequest()?->get('site')) {
-            $siteId = Uuid::fromString($siteId);
-
-            if ($siteToken = $this->siteRepository->findOneById($siteId)?->getToken()) {
-                /* @var FaqGroupCollectionDTO $collection */
-                $collection = $this->messageBusHandler->handleQuery(new GetFaqGroupBySiteTokenAndSiteIdCollectionQuery($siteToken, $siteId));
-
-                foreach ($collection->items as $faqGroupDTO) {
-                    $items[]  = [$faqGroupDTO->title, (string) $faqGroupDTO->id];
-                    $labels[] = $faqGroupDTO->title;
-                }
-
-                // sort by label
-                array_multisort($labels, SORT_STRING, SORT_ASC, $items);
-            }
+        if ($siteId = $this->requestStack->getMainRequest()?->query?->get('site')) {
+            //            $siteId = Uuid::fromString($siteId);
+            //
+            //            if ($siteToken = $this->siteRepository->findOneById($siteId)?->getToken()) {
+            //                /* @var FaqGroupCollectionDTO $collection */
+            //                $collection = $this->messageBusHandler->handleQuery(new GetFaqGroupBySiteTokenAndSiteIdCollectionQuery($siteToken, $siteId));
+            //
+            //                foreach ($collection->items as $faqGroupDTO) {
+            //                    $items[]  = [$faqGroupDTO->title, (string) $faqGroupDTO->id];
+            //                    $labels[] = $faqGroupDTO->title;
+            //                }
+            //
+            //                // sort by label
+            //                array_multisort($labels, SORT_STRING, SORT_ASC, $items);
+            //            }
         }
 
         return [

@@ -6,6 +6,7 @@ namespace App\CQ\Query\Site;
 
 use App\Contract\Dictionary\NavigationType;
 use App\Contract\MessageHandler\QueryHandlerInterface;
+use App\CQ\Query\Site\Navigation\GetSiteNavigationTreeQuery;
 use App\DTO\Collection\NavigationTreeCollectionDTO;
 use App\DTO\Entity\Site\SiteDTO;
 use App\DTOFactory\Data\LinkDTOFactory;

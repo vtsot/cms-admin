@@ -12,13 +12,13 @@ use Symfony\Component\Routing\RouterInterface;
 readonly class SiteBannerDTOFactory
 {
     /** @var array<string, array{width: int, height: int}> */
-    public const DESKTOP_SIZE = [
+    public const array DESKTOP_SIZE = [
         // theme code => width, height
         'default' => ['width' => 728, 'height' => 90],
     ];
 
     /** @var array<string, array{width: int, height: int}> */
-    public const MOBILE_SIZE = [
+    public const array MOBILE_SIZE = [
         // theme code => width, height
         'default' => ['width' => 300, 'height' => 50],
     ];

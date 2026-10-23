@@ -57,7 +57,7 @@ class SiteBanner extends AbstractEntity implements LinkEntityInterface
     {
         $labels   = [];
         $labels[] = $this->getCreatedAt() === null ? 'New Entity' : null;
-        $labels[] = $this->getTitle();
+        $labels[] = $this->getTitle() ?? $this->getImageAlt();
 
         return implode(' ', array_filter($labels));
     }

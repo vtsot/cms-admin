@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\General\Image;
 
 use App\Controller\AbstractController;
-use App\CQ\Query\Site\GetSiteFaviconQuery;
+use App\CQ\Query\Site\Image\GetSiteFaviconQuery;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +28,7 @@ class FaviconController extends AbstractController
         MessageBusHandler $messageBusHandler,
         string $image,
     ): Response {
-        $imageFile = $messageBusHandler->handleQuery(new GetSiteFaviconQuery($image));
-
-        if ($imageFile) {
+        if ($imageFile = $messageBusHandler->handleQuery(new GetSiteFaviconQuery($image))) {
             return $this->handleFileResponse($request, $imageFile);
         }
 

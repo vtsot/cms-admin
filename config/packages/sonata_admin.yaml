@@ -5,8 +5,8 @@ sonata_admin:
     persist_filters: true
 
     security:
-        handler: sonata.admin.security.handler.noop
-        # handler: sonata.admin.security.handler.role
+        # handler: sonata.admin.security.handler.noop
+        handler: sonata.admin.security.handler.role
         role_admin: ROLE_ADMIN
         role_super_admin: ROLE_SUPERVISOR
 

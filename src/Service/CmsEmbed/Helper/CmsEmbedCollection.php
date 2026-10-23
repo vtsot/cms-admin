@@ -5,33 +5,23 @@ declare(strict_types=1);
 namespace App\Service\CmsEmbed\Helper;
 
 use App\Contract\CmsEmbed\CmsEmbedInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
+use function array_find;
 use function array_multisort;
 
-class CmsEmbedCollection
+use const SORT_ASC;
+use const SORT_STRING;
+
+/**
+ * @var array<int, CmsEmbedInterface> $cmsEmbed
+ */
+final readonly class CmsEmbedCollection
 {
-    /**
-     * @var array<int, CmsEmbedInterface>
-     */
-    private array $cmsEmbeds;
-
     public function __construct(
-        //        iterable $cmsEmbedItems
+        #[AutowireIterator('app.cms_embed')]
+        private iterable $cmsEmbed,
     ) {
-        $cmsEmbeds = [];
-        $labels    = [];
-
-        //        /** @var CmsEmbedInterface[] $cmsEmbedItems */
-        //        foreach ($cmsEmbedItems as $cmsEmbed) {
-        //            if ($cmsEmbed->isActive()) {
-        //                $cmsEmbeds[] = $cmsEmbed;
-        //                $labels[]    = $cmsEmbed->getLabel();
-        //            }
-        //        }
-        //
-        //        // sort by labels
-        //        array_multisort($labels, SORT_STRING, SORT_ASC, $cmsEmbeds);
-        $this->cmsEmbeds = $cmsEmbeds;
     }
 
     /**
@@ -41,25 +31,26 @@ class CmsEmbedCollection
      */
     public function getCmsEmbeds(): array
     {
-        return $this->cmsEmbeds;
+        $cmsEmbed = [];
+        $labels   = [];
+
+        foreach ($this->cmsEmbed as $item) {
+            if ($item->isActive()) {
+                $cmsEmbed[] = $item;
+                $labels[]   = $item->getLabel();
+            }
+        }
+
+        // sort by labels
+        array_multisort($labels, SORT_STRING, SORT_ASC, $cmsEmbed);
+
+        return $cmsEmbed;
     }
 
     public function getOneById(string $id): ?CmsEmbedInterface
     {
-        foreach ($this->cmsEmbeds as $cmsEmbed) {
-            if ($cmsEmbed->getId() === $id) {
-                return $cmsEmbed;
-            }
-        }
+        $cmsEmbed = $this->getCmsEmbeds();
 
-        // not found
-        return null;
-    }
-
-    public function getCmsEmbedIds(): array
-    {
-        return array_map(static function (CmsEmbedInterface $cmsEmbed) {
-            return $cmsEmbed->getId();
-        }, $this->cmsEmbeds);
+        return array_find($cmsEmbed, static fn (CmsEmbedInterface $cmsEmbed) => $cmsEmbed->getId() === $id);
     }
 }

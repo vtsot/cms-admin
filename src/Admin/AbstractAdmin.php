@@ -22,10 +22,8 @@ use function is_object;
  */
 abstract class AbstractAdmin extends BaseAbstractAdmin
 {
-    protected const string CK_EDITOR_BASE_CONFIG        = 'base-config';
-    protected const string CK_EDITOR_CMS_CONFIG         = 'cms-config';
-    protected const string CK_EDITOR_FAQ_CONFIG         = 'faq-config';
-    protected const string CK_EDITOR_DESCRIPTION_CONFIG = 'description';
+    protected const string CK_EDITOR_BASE_CONFIG = 'base-config';
+    protected const string CK_EDITOR_CMS_CONFIG  = 'cms-config';
 
     protected TokenStorageInterface $tokenStorage;
     protected ParameterBagInterface $parameterBag;

@@ -7,7 +7,7 @@ namespace App\CQ\Query\CmsEmbed;
 /**
  * @see GetCmsEmbedCollectionHandler
  */
-class GetCmsEmbedCollectionQuery
+readonly class GetCmsEmbedCollectionQuery
 {
     public function __construct(
     ) {

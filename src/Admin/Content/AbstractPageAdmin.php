@@ -31,7 +31,7 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected AbstractPageRepository $pageRepository;
 
-    protected const SITEMAP_PRIORITY_CHOICES = [
+    protected const array SITEMAP_PRIORITY_CHOICES = [
         '0.1' => 0.1,
         '0.2' => 0.2,
         '0.3' => 0.3,
@@ -44,7 +44,7 @@ class AbstractPageAdmin extends AbstractAdmin
         '1.0' => 1.0,
     ];
 
-    protected const SITEMAP_CHANGE_FREQUENCY_CHOICES = [
+    protected const array SITEMAP_CHANGE_FREQUENCY_CHOICES = [
         'FREQUENCY.CHOICE.ALWAYS'  => 'always',
         'FREQUENCY.CHOICE.HOURLY'  => 'hourly',
         'FREQUENCY.CHOICE.DAILY'   => 'daily',
@@ -111,7 +111,7 @@ class AbstractPageAdmin extends AbstractAdmin
     {
         $page           = $this->getSubject();
         $slugIsReadonly = $page && $page->isHomepage();
-        $form->with('PAGE_ENTITY.SECTION.CONTENT', ['class' => 'col-md-9']);
+        $form->with($this->trans('PAGE_ENTITY.SECTION.CONTENT'), ['class' => 'col-md-9']);
 
         $form->add(
             'slug',
@@ -150,16 +150,6 @@ class AbstractPageAdmin extends AbstractAdmin
             ],
         );
 
-        //        $form->add(
-        //            'relatedArticlesTitle',
-        //            TextType::class,
-        //            [
-        //                'required' => false,
-        //                'label'    => 'PAGE_ENTITY.LABEL.RELATED_ARTICLE_TITLE',
-        //                'help'     => 'PAGE_ENTITY.HELP.RELATED_ARTICLE_TITLE',
-        //            ],
-        //        );
-
         $form->add(
             'sources',
             CKEditorType::class,
@@ -177,7 +167,7 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSeo(FormMapper $form): void
     {
-        $form->with('PAGE_ENTITY.SECTION.SEO');
+        $form->with($this->trans('PAGE_ENTITY.SECTION.SEO'));
 
         $form->add(
             'metaTitle',
@@ -247,7 +237,7 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSettings(FormMapper $form): void
     {
-        $form->with('PAGE_ENTITY.SECTION.SETTINGS', ['class' => 'col-md-3']);
+        $form->with($this->trans('PAGE_ENTITY.SECTION.SETTINGS'), ['class' => 'col-md-3']);
 
         $this->configureFormFieldActive($form);
 
@@ -274,7 +264,7 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSitemap(FormMapper $form): void
     {
-        $form->with('PAGE_ENTITY.SECTION.INDEXING', ['class' => 'col-md-3']);
+        $form->with($this->trans('PAGE_ENTITY.SECTION.INDEXING'), ['class' => 'col-md-3']);
 
         $form->add(
             'indexed',
@@ -318,7 +308,7 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionCodeBlock(FormMapper $form): void
     {
-        $form->with('PAGE_ENTITY.SECTION.CODE_BLOCK');
+        $form->with($this->trans('PAGE_ENTITY.SECTION.CODE_BLOCK'));
 
         $this->configureFormFieldTextarea(
             $form,

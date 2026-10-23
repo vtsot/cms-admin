@@ -6,14 +6,17 @@
 
     <div>
         <strong>{{ 'SITE_ENTITY.LABEL.ID'|trans({}, 'admin-messages') }}:</strong>
+    </div>
+    <div style="margin-bottom: 15px">
         {{ object.id }}
     </div>
-    <div>&nbsp;</div>
+
     <div>
         <strong>{{ 'SITE_ENTITY.LABEL.TOKEN'|trans({}, 'admin-messages') }}:</strong>
+    </div>
+    <div style="margin-bottom: 15px">
         {{ object.token ?? 'SITE_ENTITY.LABEL.NO_TOKEN'|trans({}, 'admin-messages') }}
     </div>
-    <p></p>
 
     {% if admin.hasAccess('token-reset', object) and admin.hasRoute('token-reset') %}
         <div>
@@ -77,30 +80,6 @@
                     </span>
             {% endif %}
         </a>
-    {% endif %}
-
-    {# @var \App\Admin\Site\SiteEmailTemplateAdmin siteEmailTemplateAdmin #}
-    {% set siteEmailTemplateAdmin = admin.hasChild('admin.site.email_template') ? admin.getChild('admin.site.email_template') : null %}
-    {% if siteEmailTemplateAdmin and siteEmailTemplateAdmin.hasRoute('list') %}
-        <div>
-            {% set button_content = sonata_config.getOption('list_action_button_content') %}
-            <a
-                    href="{{ admin.generateChildListUrl(siteEmailTemplateAdmin, object) }}?filters=reset"
-                    class="btn btn-sm btn-default edit_link"
-                    title="{{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}"
-            >
-                {% if button_content == 'icon' or button_content == 'all' %}
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                {% endif %}
-                {% if button_content == 'text' or button_content == 'all' %}
-                    {{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}
-                {% else %}
-                    <span class="sr-only">
-                        {{ siteEmailTemplateAdmin.label|trans({}, 'admin-messages') }}
-                    </span>
-                {% endif %}
-            </a>
-        </div>
     {% endif %}
 
 {% endblock %}

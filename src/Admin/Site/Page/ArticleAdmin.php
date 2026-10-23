@@ -28,7 +28,7 @@ class ArticleAdmin extends AbstractPageAdmin
     {
         $this->configureFilterFieldText($filter, 'slug', 'PAGE_ENTITY.LABEL.SLUG');
         $this->configureFilterFieldText($filter, 'title', 'PAGE_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldText($filter, 'alt', 'ARTICLE_ENTITY.LABEL.ALT');
+        $this->configureFilterFieldText($filter, 'imageAlt', 'ARTICLE_ENTITY.LABEL.IMAGE_ALT');
         $this->configureFilterFieldText($filter, 'content', 'PAGE_ENTITY.LABEL.CONTENT');
         $this->configureFilterFieldText($filter, 'description', 'PAGE_ENTITY.LABEL.DESCRIPTION');
 
@@ -80,7 +80,7 @@ class ArticleAdmin extends AbstractPageAdmin
     {
         $page           = $this->getSubject();
         $slugIsReadonly = $page && $page->isHomepage();
-        $form->with('PAGE_ENTITY.SECTION.CONTENT', ['class' => 'col-md-9']);
+        $form->with($this->trans('PAGE_ENTITY.SECTION.CONTENT'), ['class' => 'col-md-9']);
 
         $form->add(
             'slug',
@@ -142,9 +142,9 @@ class ArticleAdmin extends AbstractPageAdmin
                 'required'    => false,
                 'label'       => 'ARTICLE_ENTITY.LABEL.DESCRIPTION',
                 'help'        => 'ARTICLE_ENTITY.HELP.DESCRIPTION',
-                'config_name' => self::CK_EDITOR_DESCRIPTION_CONFIG,
+                'config_name' => self::CK_EDITOR_BASE_CONFIG,
                 'trim'        => true,
-                'config'      => [],
+                'config'      => ['height' => 150],
             ],
         );
 

@@ -35,6 +35,7 @@ class PageRelatedArticle extends AbstractEntity
     {
         $labels   = [];
         $labels[] = $this->getCreatedAt() === null ? 'New Entity' : null;
+        $labels[] = $this->getPage()?->getTitle() ?? 'Page';
         $labels[] = $this->getArticle()?->getTitle() ?? 'Related Article';
 
         return implode(' ', array_filter($labels));

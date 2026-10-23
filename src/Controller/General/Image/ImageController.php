@@ -6,6 +6,7 @@ namespace App\Controller\General\Image;
 
 use App\Controller\AbstractController;
 use App\CQ\Query\Site\Banner\GetBannerImageQuery;
+use App\CQ\Query\Site\Image\GetSiteImageQuery;
 use App\CQ\Query\Site\Page\GetArticleImageQuery;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class ImageController extends AbstractController
         path: '/images/{type}/{crop}/{width}x{height}/{image}',
         name: 'general.image',
         requirements: [
-            'type'   => 'site|banner|article',
+            'type'   => 'site|favicon|banner|article',
             'crop'   => 'fit|resize',
             'width'  => Requirement::DIGITS,
             'height' => Requirement::DIGITS,
@@ -37,15 +38,17 @@ class ImageController extends AbstractController
         int $height,
         string $image,
     ): Response {
-        $imageFile = $messageBusHandler->handleQuery(
-            match ($type) {
-                //                'gallery' => new GetGalleryImageQuery($image, $crop, $width, $height),
-                'banner'  => new GetBannerImageQuery($image, $crop, $width, $height),
-                'article' => new GetArticleImageQuery($image, $crop, $width, $height),
-                //                'site'    => new GetSiteImageQuery($image, $crop, $width, $height),
-            },
-        );
+        $imageFile = match ($type) {
+            'site'    => $messageBusHandler->handleQuery(new GetSiteImageQuery($image, $crop, $width, $height)),
+            'article' => $messageBusHandler->handleQuery(new GetArticleImageQuery($image, $crop, $width, $height)),
+            'banner'  => $messageBusHandler->handleQuery(new GetBannerImageQuery($image, $crop, $width, $height)),
+            default   => null,
+        };
 
-        return $this->handleFileResponse($request, $imageFile);
+        if ($imageFile) {
+            return $this->handleFileResponse($request, $imageFile);
+        }
+
+        throw $this->createNotFoundException();
     }
 }

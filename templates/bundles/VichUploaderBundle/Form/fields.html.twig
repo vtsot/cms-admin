@@ -11,15 +11,26 @@
             {{- form_row(form.delete) -}}
         {%- endif -%}
 
+        {% set width = attr.width ?? null %}
+        {% set height = attr.height ?? null %}
+        {% set download = not (attr['no-download'] ?? false) %}
+
         {%- if image_uri -%}
-            <a href="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}" download>
+            <a href="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}"
+                {{ download ? ' download ' : ' target="_blank" ' }}
+            >
                 <img src="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}" alt=""
-                     style="max-width: 100%;"/>
+                     style="max-width: 100%;"
+                    {% if width %} width="{{ width }}"{% endif %}
+                    {% if height %} width="{{ height }}"{% endif %}
+                />
             </a>
         {%- endif -%}
         {%- if download_uri -%}
             <div>
-                <a href="{{ asset_helper is same as(true) ? asset(download_uri) : download_uri }}" download>
+                <a href="{{ asset_helper is same as(true) ? asset(download_uri) : download_uri }}"
+                    {{ download ? ' download ' : ' target="_blank" ' }}
+                >
                     {{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}
                 </a>
             </div>

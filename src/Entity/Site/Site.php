@@ -7,6 +7,7 @@ namespace App\Entity\Site;
 use App\Entity\AbstractEntity;
 use App\Entity\Page\Page;
 use App\Entity\Traits\ActiveEntityTrait;
+use App\Entity\Traits\DescriptionEntityTrait;
 use App\Entity\Traits\Site\SiteDomainRegistrationTrait;
 use App\Entity\Traits\TitleEntityTrait;
 use App\Entity\User;
@@ -31,6 +32,7 @@ class Site extends AbstractEntity
 {
     use ActiveEntityTrait;
     use TitleEntityTrait;
+    use DescriptionEntityTrait;
     use SiteDomainRegistrationTrait;
 
     #[ORM\Column(name: 'domain', type: Types::STRING, length: 255, unique: true, nullable: false)]

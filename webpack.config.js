@@ -111,6 +111,12 @@ Encore
     )
 ;
 
+if (fs.existsSync(dirname + '/assets/js/admin')) {
+    let jsFiles = getFiles(dirname + '/assets/js/admin', [], 'js');
+    _.forEach(jsFiles, (fileName) => {
+        Encore.addEntry('js/admin/' + fileName, ['./assets/js/admin/' + fileName + '.js']);
+    });
+}
 
 if (fs.existsSync(dirname + '/assets/scss')) {
     let scssFiles = getFiles(dirname + '/assets/scss', [], 'scss');

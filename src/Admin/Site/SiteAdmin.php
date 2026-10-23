@@ -13,10 +13,12 @@ use App\Entity\Site\Site;
 use App\Repository\Site\SiteRepository;
 use Carbon\CarbonImmutable;
 use Doctrine\ORM\QueryBuilder;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -133,7 +135,7 @@ class SiteAdmin extends AbstractAdmin
                 'virtual_field' => true,
                 'sortable'      => false,
                 'template'      => 'admin/CRUD/site/list__settings.html.twig',
-                'header_style'  => 'width:235px;',
+                'header_style'  => 'width:300px;',
             ]
         );
 
@@ -146,7 +148,7 @@ class SiteAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with('SITE_ENTITY.SECTION.MAIN', ['class' => 'col-md-9']);
+        $form->with($this->trans('SITE_ENTITY.SECTION.MAIN'), ['class' => 'col-md-9']);
 
         $form->add(
             'domain',
@@ -176,16 +178,52 @@ class SiteAdmin extends AbstractAdmin
             ]
         );
 
+        $form->add(
+            'description',
+            CKEditorType::class,
+            [
+                'required'    => false,
+                'label'       => 'SITE_ENTITY.LABEL.DESCRIPTION',
+                'help'        => 'SITE_ENTITY.HELP.DESCRIPTION',
+                'config_name' => self::CK_EDITOR_BASE_CONFIG,
+                'trim'        => true,
+                'config'      => ['height' => 150],
+            ],
+        );
+
         $this->configureFormFieldAutocompleteUsers($form);
 
         $form->end();
 
         $this->configureFormSectionSiteDomainRegistration($form);
+
+        $this->configureFormSectionSiteSettings($form);
+    }
+
+    private function configureFormSectionSiteSettings(FormMapper $form): void
+    {
+        $form->with($this->trans('SITE_ENTITY.SECTION.SETTINGS'), ['class' => 'col-md-9']);
+
+        $form
+            ->add(
+                'settings',
+                AdminType::class,
+                [
+                    'required' => false,
+                    'label'    => 'SITE_ENTITY.SECTION.SETTINGS',
+                    'help'     => '',
+                ],
+                [
+                    'admin_code' => 'admin.site.settings.inline',
+                ],
+            );
+
+        $form->end();
     }
 
     private function configureFormSectionSiteDomainRegistration(FormMapper $form): void
     {
-        $form->with('SITE_ENTITY.SECTION.DOMAIN_REGISTRATION', ['class' => 'col-md-3']);
+        $form->with($this->trans('SITE_ENTITY.SECTION.DOMAIN_REGISTRATION'), ['class' => 'col-md-3']);
 
         $form->add(
             'registrarEmail',

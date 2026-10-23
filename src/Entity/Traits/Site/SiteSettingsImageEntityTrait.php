@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits\Site;
 
-use App\Contract\Dictionary\Site\SiteSettingsImagePosition;
 use Carbon\CarbonImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,15 +11,10 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
-use function is_string;
-
 trait SiteSettingsImageEntityTrait
 {
     #[ORM\Column(name: 'image_title', type: Types::STRING, length: 255, nullable: true)]
     private ?string $imageTitle = null;
-
-    #[ORM\Column(name: 'image_position', type: Types::STRING, length: 255, nullable: true, enumType: SiteSettingsImagePosition::class)]
-    private ?SiteSettingsImagePosition $imagePosition = null;
 
     #[ORM\Column(name: 'desktop_image', type: Types::STRING, length: 255, nullable: true)]
     private ?string $desktopImage = null;
@@ -43,23 +37,6 @@ trait SiteSettingsImageEntityTrait
     public function setImageTitle(?string $imageTitle): static
     {
         $this->imageTitle = $imageTitle;
-
-        return $this;
-    }
-
-    // imagePosition getters/setters
-    public function getImagePosition(): ?SiteSettingsImagePosition
-    {
-        return $this->imagePosition;
-    }
-
-    public function setImagePosition(SiteSettingsImagePosition|string|null $imagePosition): static
-    {
-        if (is_string($imagePosition)) {
-            $this->imagePosition = SiteSettingsImagePosition::from($imagePosition);
-        } else {
-            $this->imagePosition = $imagePosition;
-        }
 
         return $this;
     }

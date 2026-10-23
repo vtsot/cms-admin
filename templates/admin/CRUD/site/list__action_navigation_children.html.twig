@@ -11,7 +11,7 @@
             <a href="{{ path(child.getChildListRoute, {'id': object.site.id.toString, 'childId': object.id.toString}) }}"
                class="btn btn-sm btn-default child-link"
             >
-                <i class="fa fa-edit"></i> {{ child.label|trans({}, admin.translationDomain) }}
+                <i class="fa fa-edit"></i> {{ 'MENU.SITE_NAVIGATION_CHILDREN'|trans({}, 'admin-messages') }}
             </a>
         {% endif %}
     {% endfor %}

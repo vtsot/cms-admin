@@ -7,7 +7,7 @@ namespace App\DTO\Collection;
 use App\DTO\CmsEmbed\CmsEmbedDTO;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 readonly class CmsEmbedCollectionDTO
 {

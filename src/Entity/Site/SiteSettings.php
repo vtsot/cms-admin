@@ -22,20 +22,20 @@ use function implode;
 
 #[ORM\Table(name: 'site_settings')]
 #[ORM\Index(name: 'fk_site_id', columns: ['site_id'])]
-#[ORM\Index(name: 'idx_link_active', columns: ['link_active'])]
-#[ORM\Index(name: 'fk_link_page', columns: ['link_page_id'])]
-#[ORM\Index(name: 'fk_link_article_id', columns: ['link_article_id'])]
+// #[ORM\Index(name: 'idx_link_active', columns: ['link_active'])]
+// #[ORM\Index(name: 'fk_link_page', columns: ['link_page_id'])]
+// #[ORM\Index(name: 'fk_link_article_id', columns: ['link_article_id'])]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: SiteSettingsRepository::class)]
-class SiteSettings extends AbstractEntity implements LinkEntityInterface
+class SiteSettings extends AbstractEntity // implements LinkEntityInterface
 {
+    use SiteSettingsFaviconEntityTrait;
+    use SiteSettingsImageEntityTrait;
     use SiteSettingsSenderEntityTrait;
     use SiteSettingsFromEntityTrait;
-    use SiteSettingsImageEntityTrait;
-    use LinkActiveEntityTrait;
-    use LinkTitleEntityTrait;
-    use LinkEntityTrait;
-    use SiteSettingsFaviconEntityTrait;
+    //    use LinkActiveEntityTrait;
+    //    use LinkTitleEntityTrait;
+    //    use LinkEntityTrait;
 
     #[ORM\OneToOne(targetEntity: Site::class, inversedBy: 'settings')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]

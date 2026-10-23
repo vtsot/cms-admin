@@ -54,7 +54,7 @@ class SiteSettingsAdmin extends AbstractAdmin
 
     private function configureFormSectionSender(FormMapper $form): void
     {
-        $form->with('SITE_SETTINGS_ENTITY.SECTION.SENDER');
+        $form->with($this->trans('SITE_SETTINGS_ENTITY.SECTION.SENDER'));
 
         $this->configureFormFieldText(
             $form,

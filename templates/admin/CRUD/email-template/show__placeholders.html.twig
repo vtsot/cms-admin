@@ -1,7 +1,0 @@
-{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
-{# @var \App\Admin\Site\SiteEmailTemplateAdmin admin #}
-{# @var \App\Entity\EmailTemplate object #}
-
-{% block field %}
-    {{ admin.resolvePlaceholders|join(', ') }}
-{% endblock %}

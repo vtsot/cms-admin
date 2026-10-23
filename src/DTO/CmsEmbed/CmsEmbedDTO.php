@@ -6,7 +6,7 @@ namespace App\DTO\CmsEmbed;
 
 use App\DTOFactory\CmsEmbed\CmsEmbedDTOFactory;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @see CmsEmbedDTOFactory

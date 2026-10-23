@@ -54,16 +54,20 @@ class ArticleRelatedAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
+        $form->with($this->trans('PAGE_RELATED_ARTICLE_ENTITY.SECTION.MAIN'), ['class' => 'col-md-12']);
         $this->configureFormFieldPosition($form);
-        $this->configureFormFieldActive($form);
 
         $this->configureFormFieldArticleRelatedToSite(form: $form, options: [
             'label'       => 'PAGE_RELATED_ARTICLE_ENTITY.LABEL.ARTICLE',
             'help'        => 'PAGE_RELATED_ARTICLE_ENTITY.HELP.ARTICLE',
             'placeholder' => 'PAGE_RELATED_ARTICLE_ENTITY.PLACEHOLDER.ARTICLE',
             'btn_add'     => false,
-            'required'    => true,
+            'required'    => false,
             'constraints' => [new NotBlank()],
         ]);
+
+        $this->configureFormFieldActive(form: $form, required: true, options: ['constraints' => [new NotBlank()]]);
+
+        $form->end();
     }
 }

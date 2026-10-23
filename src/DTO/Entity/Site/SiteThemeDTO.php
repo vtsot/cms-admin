@@ -6,13 +6,13 @@ namespace App\DTO\Entity\Site;
 
 use App\Contract\Dictionary\Site\SiteSettingsImagePosition;
 use App\DTO\Data\LinkDTO;
-use App\DTOFactory\Entity\Site\SiteThemeDTOFactory;
+use App\DTOFactory\Entity\Site\SiteSettingsDTOFactory;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see SiteThemeDTOFactory
+ * @see SiteSettingsDTOFactory
  */
 readonly class SiteThemeDTO
 {
