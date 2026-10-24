@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\CQ\Query\Site\Page;
 
-use App\Contract\Dictionary\PageSitemapChangeFrequency;
-use App\Contract\Dictionary\PageSitemapPriority;
 use App\Contract\Dictionary\PageType;
 use App\Contract\MessageHandler\QueryHandlerInterface;
-use App\CQ\Query\Site\Page\Traits\FiltersOrderByTrait;
 use App\DTO\Collection\Meta\CollectionFiltersDTO;
 use App\DTO\Collection\Meta\CollectionMetaDTO;
 use App\DTO\Collection\Meta\CollectionPaginatorDTO;
@@ -27,8 +24,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
 {
-    use FiltersOrderByTrait;
-
     public function __construct(
         private Security $security,
         private TranslatorInterface $translator,
@@ -60,23 +55,9 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
             };
         }
 
-        $availableSortBy                            = array_keys($query::SORT_BY);
-        $availableFilters                           = $query::FILTERS;
-        $availableFilters[$query::FILTER_TYPE]      = PageType::valueNames();
-        $availableFilters[$query::FILTER_FREQUENCY] = PageSitemapChangeFrequency::valueNames();
-        $availableFilters[$query::FILTER_PRIORITY]  = PageSitemapPriority::valueNames();
-
-        $appliedFilters = [
-            $query::FILTER_TYPE      => $criteria->type->value,
-            $query::FILTER_QUERY     => $criteria->query,
-            $query::FILTER_SLUG      => $criteria->slug,
-            $query::FILTER_ACTIVE    => $criteria->active,
-            $query::FILTER_START_DAY => $criteria->startDay?->format('Y-m-d'),
-            $query::FILTER_END_DAY   => $criteria->endDay?->format('Y-m-d'),
-            $query::FILTER_INDEXED   => $criteria->indexed,
-            $query::FILTER_FREQUENCY => $criteria->frequency,
-            $query::FILTER_PRIORITY  => $criteria->priority,
-        ];
+        $availableSortBy  = $criteria->availableSortBy();
+        $availableFilters = $criteria->availableFilters();
+        $appliedFilters   = $criteria->appliedFilters();
 
         return new PageInfoCollectionDTO(
             items: $items,
@@ -88,7 +69,7 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
                 ),
                 filters: new CollectionFiltersDTO(
                     query: $criteria->query,
-                    sort: $this->resolveFiltersOrderBy($criteria->orderBy, $criteria->orderDirection, $query::SORT_BY),
+                    sort: $criteria->filtersSort(),
                     availableSortBy: $availableSortBy,
                     availableFilters: $availableFilters,
                     appliedFilters: $appliedFilters,

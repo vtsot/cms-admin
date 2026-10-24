@@ -8,7 +8,6 @@ use App\Contract\Dictionary\PageSitemapChangeFrequency;
 use App\Contract\Dictionary\PageSitemapPriority;
 use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
-use App\CQ\Query\Site\Page\GetSitePageCollectionQuery;
 use App\DTO\Collection\PageCriteriaDTO;
 use App\Service\Util;
 
@@ -24,7 +23,7 @@ class PageCriteriaDTOFactory
             page: $request->page,
             perPage: $request->perPage,
             query: trim($request->query ?: '') ?: null,
-            orderBy: GetSitePageCollectionQuery::SORT_BY[$request->orderBy] ?? GetSitePageCollectionQuery::SORT_BY[0] ?? null,
+            orderBy: PageCriteriaDTO::SORT_BY[$request->orderBy] ?? PageCriteriaDTO::SORT_BY[0] ?? null,
             orderDirection: $request->orderDirection,
 
             slug: $request->slug,
