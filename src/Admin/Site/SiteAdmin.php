@@ -307,7 +307,7 @@ class SiteAdmin extends AbstractAdmin
             $alias = current($query->getRootAliases());
             $query->join("$alias.users", 'siteManager')
                 ->andWhere('siteManager = :siteManager')
-                ->setParameter('siteManager', $user);
+                ->setParameter('siteManager', $user->getId()->toBinary());
         }
 
         return $query;

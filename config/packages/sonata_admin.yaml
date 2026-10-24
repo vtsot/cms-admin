@@ -38,27 +38,10 @@ sonata_admin:
             - { type: sonata.admin.block.admin_list, position: left }
 #        groups:
 #            custom_group:
-#                label: 'Custom group'
-##                icon: '<i class="fa fa-cogs"></i>'
-#                roles: ['ROLE_ADMIN']
-#                items:
-##                    -   route: 'app_analytics_dashboard'
-##                        route_params: { period: 'monthly' }
-##                        label: 'Label'
-##                        icon: '<i class="fa fa-bar-chart"></i>'
-##
-#                    -   route: 'sonata_admin_dashboard'
-#                        route_absolute: true
-#                        label: 'Label-2'
-##                        icon: '<i class="fa fa-globe"></i>'
-#
-#            MENU_GROUP.COMPANY:
-#                roles: ['ROLE_ADMIN']
-#            MENU_GROUP.VACANCY:
-#                roles: ['ROLE_ADMIN']
+#            MENU_GROUP.SITE:
+#                roles: ['ROLE_SITE_MANAGER']
 #            MENU_GROUP.USER:
 #                roles: ['ROLE_ADMIN']
-
 
 sonata_block:
     blocks:

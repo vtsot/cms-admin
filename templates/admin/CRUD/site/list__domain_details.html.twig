@@ -3,35 +3,37 @@
 {# @var \App\Entity\Site\Site object #}
 
 {% block field %}
-    {% block SiteDomainRegistration %}
 
-        <div>
-            {{ 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL'|trans({}, 'admin-messages') }}:
-            {% if object.registrarEmail %}
-                <a href="mailto:{{ object.registrarEmail }}">{{ object.registrarEmail }}</a>
-            {% else %}
-                N/A
-            {% endif %}
-        </div>
+    {% set tdValueStyles = 'style="text-align: right; width: 90px;"' %}
 
-        <div>
-            {{ 'SITE_ENTITY.LABEL.REGISTRAR_NAME'|trans({}, 'admin-messages') }}:
-            {{ object.registrarName ?? 'N/A' }}
-        </div>
-        <p></p>
+    <table style="width: 255px;">
+        <tr>
+            <td> {{ 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL'|trans({}, 'admin-messages') }}</td>
+            <td {{ tdValueStyles | raw }}>
+                {% if object.registrarEmail %}
+                    <a href="mailto:{{ object.registrarEmail }}">{{ object.registrarEmail }}</a>
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td> {{ 'SITE_ENTITY.LABEL.REGISTRAR_NAME'|trans({}, 'admin-messages') }}</td>
+            <td {{ tdValueStyles | raw }}>{{ object.registrarName ?? 'N/A' }}</td>
+        </tr>
+    </table>
+    <p></p>
 
-        {% set tdValueStyles = 'style="text-align: right; width: 90px;"' %}
-        <table style="width: 255px;">
-            <tr>
-                <td>{{ 'SITE_ENTITY.LABEL.REGISTERED_AT'|trans({}, 'admin-messages') }}</td>
-                <td {{ tdValueStyles | raw }}>{{ object.registeredAt ? object.registeredAt.format('F j, Y') :  'N/A' }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'SITE_ENTITY.LABEL.EXPIRE_AT'|trans({}, 'admin-messages') }}</td>
-                <td {{ tdValueStyles | raw }}>{{ object.expireAt ? object.expireAt.format('F j, Y') : 'N/A' }}</td>
-            </tr>
-        </table>
-        <p></p>
-    {% endblock %}
+    <table style="width: 255px;">
+        <tr>
+            <td>{{ 'SITE_ENTITY.LABEL.REGISTERED_AT'|trans({}, 'admin-messages') }}</td>
+            <td {{ tdValueStyles | raw }}>{{ object.registeredAt ? object.registeredAt.format('F j, Y') :  'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'SITE_ENTITY.LABEL.EXPIRE_AT'|trans({}, 'admin-messages') }}</td>
+            <td {{ tdValueStyles | raw }}>{{ object.expireAt ? object.expireAt.format('F j, Y') : 'N/A' }}</td>
+        </tr>
+    </table>
+    <p></p>
 
 {% endblock %}

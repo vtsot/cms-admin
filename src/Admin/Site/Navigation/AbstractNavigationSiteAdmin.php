@@ -30,6 +30,17 @@ abstract class AbstractNavigationSiteAdmin extends AbstractNavigationAdmin
         return $query;
     }
 
+    protected function isGrantedChildrenNavigation(?string $attributes = 'LIST'): bool
+    {
+        foreach ($this->getChildren() as $child) {
+            if ($child instanceof (self::class)) {
+                return $this->getSecurityHandler()->isGranted($child, $attributes);
+            }
+        }
+
+        return false;
+    }
+
     protected function configureListFields(ListMapper $list): void
     {
         parent::configureListFields($list);
@@ -37,11 +48,15 @@ abstract class AbstractNavigationSiteAdmin extends AbstractNavigationAdmin
         if ($list->has(ListMapper::NAME_ACTIONS)) {
             $list->remove(ListMapper::NAME_ACTIONS);
 
-            $actions = [
-                'children' => ['template' => 'admin/CRUD/site/list__action_navigation_children.html.twig'],
-                'edit'     => [],
-                'delete'   => [],
-            ];
+            $actions = $this->isGrantedChildrenNavigation()
+                ? [
+                    'children' => ['template' => 'admin/CRUD/site/list__action_navigation_children.html.twig'],
+                    'edit'     => [],
+                    'delete'   => [],
+                ] : [
+                    'edit'   => [],
+                    'delete' => [],
+                ];
 
             $this->configureListFieldChildrenActions(list: $list, actions: $actions, width: '300px');
         }

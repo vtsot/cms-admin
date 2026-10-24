@@ -54,7 +54,7 @@ class NavigationVoter extends Voter
             return false;
         }
 
-        if ($this->authorizationChecker->isGranted(UserRole::Supervisor->value)) {
+        if ($this->authorizationChecker->isGranted(UserRole::Admin->value)) {
             return true;
         }
 

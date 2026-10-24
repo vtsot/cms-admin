@@ -4,6 +4,7 @@
 {% if admin.hasRoute('list') and admin.hasChildren() %}
     {% for child in admin.children %}
         {% if child is not null
+            and child.hasRoute('list') and child.hasAccess('list', object)
             and child.code != 'admin.site.settings'
             and child.code != 'admin.site.email_template'
         %}

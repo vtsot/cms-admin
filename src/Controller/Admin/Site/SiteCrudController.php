@@ -85,7 +85,7 @@ class SiteCrudController extends AbstractCrudController
         $settings = $object->getSettings();
 
         if ($settings === null) {
-            $settings = (new SiteSettings())->setSite($object);
+            $settings = new SiteSettings()->setSite($object);
             $this->em->persist($settings);
             $this->em->flush();
         }
