@@ -6,8 +6,10 @@ namespace App\Controller\Admin\Site\Page;
 
 use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\CQ\Command\Site\UpdateSiteHomepageCommand;
+use App\Entity\Page\AbstractPage;
 use App\Entity\Page\Page;
 use App\Security\Voter\Admin\Site\SitePageVoter;
+use App\Security\Voter\VoterSubject;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -36,7 +38,7 @@ class PageCrudController extends AbstractSiteRootCrudController
             return $this->redirectToList();
         }
 
-        if ($preResponse = $this->handlePreActionAccess(SitePageVoter::UPDATE, [$site, $page])) {
+        if ($preResponse = $this->handlePreActionAccess(SitePageVoter::UPDATE, new VoterSubject($site->getId(), $page))) {
             return $preResponse;
         }
 
@@ -59,7 +61,7 @@ class PageCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SitePageVoter::LIST,
-            [$site, Page::class],
+            new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
 
@@ -69,7 +71,7 @@ class PageCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SitePageVoter::VIEW,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -79,7 +81,7 @@ class PageCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SitePageVoter::CREATE,
-            [$site, Page::class],
+            new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
 
@@ -89,7 +91,7 @@ class PageCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SitePageVoter::UPDATE,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -99,7 +101,7 @@ class PageCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SitePageVoter::DELETE,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 

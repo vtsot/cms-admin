@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Site\Navigation;
+namespace App\Controller\Admin\Site;
 
-use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\Entity\Navigation\AbstractNavigation;
 use App\Security\Voter\Admin\Site\NavigationVoter;
 use App\Security\Voter\VoterSubject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
+class NavigationSiteCrudController extends AbstractSiteRootCrudController
 {
     protected function preList(Request $request): ?Response
     {

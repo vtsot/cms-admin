@@ -6,25 +6,23 @@ namespace App\Security\Voter\Admin\Site;
 
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
-use App\Entity\Page\Page;
-use App\Entity\Site\Site;
+use App\Entity\Page\AbstractPage;
 use App\Repository\Site\SiteRepository;
+use App\Security\Voter\VoterSubject;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-use function array_key_exists;
 use function in_array;
-use function is_array;
 
 class SitePageVoter extends Voter
 {
-    public const LIST   = 'SITE_PAGE_LIST';
-    public const VIEW   = 'SITE_PAGE_VIEW';
-    public const CREATE = 'SITE_PAGE_CREATE';
-    public const UPDATE = 'SITE_PAGE_UPDATE';
-    public const DELETE = 'SITE_PAGE_DELETE';
+    public const string LIST   = 'PAGE_LIST';
+    public const string VIEW   = 'PAGE_VIEW';
+    public const string CREATE = 'PAGE_CREATE';
+    public const string UPDATE = 'PAGE_UPDATE';
+    public const string DELETE = 'PAGE_DELETE';
 
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
@@ -33,23 +31,20 @@ class SitePageVoter extends Voter
     }
 
     /**
-     * @param array{0: Site, 1: string|Page} $subject
+     * @param VoterSubject $subject
      */
     protected function supports(string $attribute, $subject): bool
     {
-        return is_array($subject)
-            && array_key_exists(0, $subject)
-            && array_key_exists(1, $subject)
-            && $subject[0] instanceof Site
-            && ($subject[1] === Page::class || $subject[1] instanceof Page)
+        return $subject instanceof VoterSubject
+            && ($subject->entry === AbstractPage::class || $subject->entry instanceof AbstractPage)
             && (
-                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === Page::class)
-                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof Page)
+                (in_array($attribute, [self::LIST, self::CREATE], true) && ($subject->entry === AbstractPage::class))
+                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject->entry instanceof AbstractPage)
             );
     }
 
     /**
-     * @param array{0: Site, 1: string|Page} $subject
+     * @param VoterSubject $subject
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
@@ -63,22 +58,32 @@ class SitePageVoter extends Voter
             return true;
         }
 
-        [$targetSite, $page] = $subject;
+        return match ($attribute) {
+            self::LIST,
+            self::CREATE => $this->voteOnClass($user, $subject),
 
-        // site related to a user
-        $site = $this->siteRepository->findOneByIdAndUser($targetSite->getId(), $user->getId());
+            self::VIEW,
+            self::DELETE,
+            self::UPDATE => $this->voteOnInstance($user, $subject),
 
-        switch ($attribute) {
-            case self::LIST:
-            case self::CREATE:
-                return $targetSite->getId()?->equals($site?->getId());
-            case self::VIEW:
-            case self::UPDATE:
-            case self::DELETE:
-                return $targetSite->getId()?->equals($site?->getId())
-                    && $targetSite->getId()?->equals($page?->getSite()?->getId());
-        }
+            default => false,
+        };
+    }
 
-        return false;
+    private function voteOnClass(UserInterface $user, VoterSubject $subject): bool
+    {
+        // user is a manager of the site
+        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+            && $site->getId()->equals($subject->siteId);
+    }
+
+    private function voteOnInstance(UserInterface $user, VoterSubject $subject): bool
+    {
+        // user is a manager of the site
+        // and entry belongs to the site
+        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+            && $site->getId()->equals($subject->siteId)
+            && $subject->entry instanceof AbstractPage
+            && $site->getId()->equals($subject->entry->getSite()?->getId());
     }
 }

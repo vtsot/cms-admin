@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site\Page;
 
 use App\Controller\Admin\Site\AbstractSiteRootCrudController;
-use App\Entity\Page\Article;
-use App\Security\Voter\Admin\Site\SiteArticleVoter;
+use App\Entity\Page\AbstractPage;
+use App\Security\Voter\Admin\Site\SitePageVoter;
+use App\Security\Voter\VoterSubject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,8 +18,8 @@ class ArticleCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteArticleVoter::LIST,
-            [$site, Article::class],
+            SitePageVoter::LIST,
+            new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
 
@@ -27,8 +28,8 @@ class ArticleCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteArticleVoter::VIEW,
-            [$site, $object],
+            SitePageVoter::VIEW,
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -37,8 +38,8 @@ class ArticleCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteArticleVoter::CREATE,
-            [$site, Article::class],
+            SitePageVoter::CREATE,
+            new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
 
@@ -47,8 +48,8 @@ class ArticleCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteArticleVoter::UPDATE,
-            [$site, $object],
+            SitePageVoter::UPDATE,
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -57,8 +58,8 @@ class ArticleCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteArticleVoter::DELETE,
-            [$site, $object],
+            SitePageVoter::DELETE,
+            new VoterSubject($site->getId(), $object),
         );
     }
 }
