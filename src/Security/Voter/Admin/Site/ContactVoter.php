@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 use function in_array;
 
-class SiteContactVoter extends Voter
+class ContactVoter extends Voter
 {
     public const string LIST   = 'CONTACT_LIST';
     public const string VIEW   = 'CONTACT_VIEW';
