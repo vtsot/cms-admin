@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Site;
 
 use App\Entity\Site\SiteSettings;
 use App\Security\Voter\Admin\Site\SiteSettingsVoter;
+use App\Security\Voter\VoterSubject;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +24,11 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 
     protected function preList(Request $request): ?Response
     {
-        $site     = $this->resolveSiteFromRootRequest($request);
+        $site = $this->resolveSiteFromRootRequest($request);
+
         $response = $this->handlePreActionAccess(
             SiteSettingsVoter::LIST,
-            [$site, SiteSettings::class],
+            new VoterSubject($site->getId(), SiteSettings::class),
         );
 
         return $response
@@ -39,7 +41,7 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteSettingsVoter::VIEW,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -49,7 +51,7 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteSettingsVoter::CREATE,
-            [$site, SiteSettings::class],
+            new VoterSubject($site->getId(), SiteSettings::class),
         );
     }
 
@@ -59,7 +61,7 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteSettingsVoter::UPDATE,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -69,7 +71,7 @@ class SiteSettingsCrudController extends AbstractSiteRootCrudController
 
         return $this->handlePreActionAccess(
             SiteSettingsVoter::DELETE,
-            [$site, $object],
+            new VoterSubject($site->getId(), $object),
         );
     }
 }
