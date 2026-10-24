@@ -36,13 +36,13 @@ class GetSitePageController extends AbstractController
     ): Response {
         /** @var PageDTO|ArticleDTO $dto */
         $page = null;
-//        $page = $messageBusHandler->handleQuery(
-//            new GetPageQuery(
-//                siteId: $id,
-//                token: $token,
-//                slug: $slug,
-//            )
-//        );
+        //        $page = $messageBusHandler->handleQuery(
+        //            new GetPageQuery(
+        //                siteId: $id,
+        //                token: $token,
+        //                slug: $slug,
+        //            )
+        //        );
 
         return $this->render('web/test/site/page.html.twig', [
             'page' => $page ?? null,
