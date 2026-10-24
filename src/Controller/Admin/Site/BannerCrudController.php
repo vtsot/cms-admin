@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Entity\Site\Banner;
-use App\Security\Voter\Admin\Site\SiteBannerVoter;
+use App\Security\Voter\Admin\Site\BannerVoter;
+use App\Security\Voter\VoterSubject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,8 +17,8 @@ class BannerCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteBannerVoter::LIST,
-            [$site, Banner::class],
+            BannerVoter::LIST,
+            new VoterSubject($site->getId(), Banner::class),
         );
     }
 
@@ -26,8 +27,8 @@ class BannerCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteBannerVoter::VIEW,
-            [$site, $object],
+            BannerVoter::VIEW,
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -36,8 +37,8 @@ class BannerCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteBannerVoter::CREATE,
-            [$site, Banner::class],
+            BannerVoter::CREATE,
+            new VoterSubject($site->getId(), Banner::class),
         );
     }
 
@@ -46,8 +47,8 @@ class BannerCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteBannerVoter::UPDATE,
-            [$site, $object],
+            BannerVoter::UPDATE,
+            new VoterSubject($site->getId(), $object),
         );
     }
 
@@ -56,8 +57,8 @@ class BannerCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SiteBannerVoter::DELETE,
-            [$site, $object],
+            BannerVoter::DELETE,
+            new VoterSubject($site->getId(), $object),
         );
     }
 }
