@@ -57,7 +57,8 @@ security:
                 provider: api_site_users
 
         admin:
-            pattern: ^/admin|^/api/admin
+            pattern: ^/
+            host: '^%admin_domain%$'
             lazy: true
             provider: regular_user_provider
 
@@ -87,11 +88,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # allow unauthenticated users to access the login form
-        - { path: '^/admin/login', roles: PUBLIC_ACCESS }
-        - { path: '^/admin', roles: [ROLE_SITE_MANAGER] }
-        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
         - { path: '^/api/doc', roles: ROLE_API_DOC }
         - { path: '^/api/sites', roles: ROLE_API_SITE }
+        - { host: '^%admin_domain%$', path: '^/login', roles: PUBLIC_ACCESS }
+        - { host: '^%admin_domain%$', path: '^/', roles: [ROLE_SITE_MANAGER] }
+        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
         - { path: '^/', roles: PUBLIC_ACCESS }
 
 

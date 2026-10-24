@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(host: '%admin_domain%')]
 class CmsEmbedAdminController extends AbstractController
 {
     #[Route(

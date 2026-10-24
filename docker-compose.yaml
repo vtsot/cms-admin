@@ -9,6 +9,7 @@ services:
         restart: unless-stopped
         extra_hosts:
             - "cms-admin.local:host-gateway"
+            - "admin.cms-admin.local:host-gateway"
         volumes:
             - ./:/var/www/html:rw
         networks:
@@ -35,11 +36,12 @@ services:
             cms-admin_app:
                 aliases:
                     - cms-admin.local
+                    - admin.cms-admin.local
         expose:
             - "80"
         environment:
             - VIRTUAL_PORT=80
-            - VIRTUAL_HOST=cms-admin.local
+            - VIRTUAL_HOST=cms-admin.local,admin.cms-admin.local
             - HTTPS_METHOD=redirect
             - SELF_SIGNED_HOST=cms-admin.local
         depends_on:

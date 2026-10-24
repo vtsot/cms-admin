@@ -8,6 +8,7 @@ use App\Contract\Entity\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 use Sonata\GoogleAuthenticator\GoogleQrUrl;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,6 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 use function sprintf;
-use function str_starts_with;
 
 readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
 {
@@ -33,6 +33,8 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
         private EntityManagerInterface $em,
         private GoogleAuthenticator $authenticator,
         private TokenStorageInterface $tokenStorage,
+        #[Autowire(param: 'admin_domain')]
+        private string $adminDomain,
     ) {
     }
 
@@ -54,7 +56,7 @@ readonly class AdminTwoStepAuthListener implements EventSubscriberInterface
             return;
         }
 
-        if (!str_starts_with($event->getRequest()->getPathInfo(), '/admin')) {
+        if ($event->getRequest()->getHost() !== $this->adminDomain) {
             return;
         }
 

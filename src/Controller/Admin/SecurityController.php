@@ -10,10 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route(host: '%admin_domain%')]
 class SecurityController extends AbstractController
 {
     #[Route(
-        path: '/admin/login',
+        path: '/login',
         name: 'admin.login',
         methods: ['GET'],
     )]
@@ -33,7 +34,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(
-        path: '/admin/logout',
+        path: '/logout',
         name: 'admin.logout',
         methods: ['GET'],
     )]
@@ -43,7 +44,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(
-        path: '/admin/login-check',
+        path: '/login-check',
         name: 'admin.login_check',
         methods: ['POST']
     )]
