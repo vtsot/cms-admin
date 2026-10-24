@@ -42,34 +42,4 @@ class Util
 
         return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
-
-    //    public const PATH_DEPTH = 2;
-    //
-    //    public static function normalizeOrderBy(string $mainTable, string $orderBy, ?string $orderDirection): array
-    //    {
-    //        if (str_contains($orderBy, '.')) {
-    //            [$table, $field] = explode('.', $orderBy);
-    //        } else {
-    //            $table = $mainTable;
-    //            $field = $orderBy;
-    //        }
-    //
-    //        return [sprintf('%s.%s', $table, s($field)->camel()->toString()), $orderDirection];
-    //    }
-    //
-    //    /** @deprecated  */
-    //    public static function normalizeFilePath(string $fileName, int $depth = 2, int $pathDepth = self::PATH_DEPTH): string
-    //    {
-    //        [$name, $extension] = explode('.', $fileName);
-    //
-    //        $normalizedName = str_pad($name, $depth * 2, '0', STR_PAD_LEFT);
-    //
-    //        $path = '';
-    //
-    //        for ($i = 0; $i < $depth; $i++) {
-    //            $path .= substr($normalizedName, $i * $pathDepth, $pathDepth) . DIRECTORY_SEPARATOR;
-    //        }
-    //
-    //        return $path . $name . '.' . $extension;
-    //    }
 }

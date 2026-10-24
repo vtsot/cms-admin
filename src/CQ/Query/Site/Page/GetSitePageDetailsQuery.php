@@ -7,9 +7,9 @@ namespace App\CQ\Query\Site\Page;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see GetPageHandler
+ * @see GetSitePageDetailsHandler
  */
-readonly class GetPageQuery
+readonly class GetSitePageDetailsQuery
 {
     public function __construct(
         public Uuid $siteId,

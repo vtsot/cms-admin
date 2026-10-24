@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'entity', type: Types::STRING)]
 #[ORM\DiscriminatorMap([
-    'main' => MainNavigation::class,
+    NavigationType::Main->value => MainNavigation::class,
 ])]
 #[ORM\Entity(repositoryClass: NavigationRepository::class)]
 abstract class AbstractNavigation extends AbstractEntity implements LinkEntityInterface
@@ -37,6 +37,7 @@ abstract class AbstractNavigation extends AbstractEntity implements LinkEntityIn
     use LinkEntityTrait;
     use PositionEntityTrait;
 
+    // todo: check ability to remove $type looks like it is not used
     #[ORM\Column(name: 'type', type: Types::STRING, length: 255, nullable: true, enumType: NavigationType::class, options: ['default' => NavigationType::Main->value])]
     private ?NavigationType $type = NavigationType::Main;
 

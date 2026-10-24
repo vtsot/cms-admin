@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\CQ\Query\Site\Page\GetPageQuery;
-use App\DTO\Entity\Page\ArticleDTO;
-use App\DTO\Entity\Page\PageDTO;
+use App\CQ\Query\Site\Page\GetSitePageDetailsQuery;
+use App\DTO\Entity\Page\ArticleDetailsDTO;
+use App\DTO\Entity\Page\PageDetailsDTO;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
@@ -21,12 +21,15 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
 #[Route(host: '%api_domain%')]
-class GetSitePageController extends AbstractController
+class GetSitePageDetailsController extends AbstractController
 {
     #[Route(
         path: '/sites/{id}/pages/{slug}',
-        name: 'api.site.page.get',
-        requirements: ['id' => Requirement::UUID, 'slug' => Requirement::ASCII_SLUG],
+        name: 'api.site.page.details',
+        requirements: [
+            'id'   => Requirement::UUID,
+            'slug' => Requirement::ASCII_SLUG,
+        ],
         options: ['expose' => true],
         methods: ['GET']
     )]
@@ -40,10 +43,16 @@ class GetSitePageController extends AbstractController
         response: 200,
         description: 'Return site page',
         content: new OA\JsonContent(
-            ref: new Model(
-                type: PageDTO::class,
-                groups: ['page_details', 'link_details', 'article_details'],
-            )
+            oneOf: [
+                new OA\Schema(ref: new Model(
+                    type: PageDetailsDTO::class,
+                    groups: ['page_details', 'link_details', 'article_details'],
+                )),
+                new OA\Schema(ref: new Model(
+                    type: ArticleDetailsDTO::class,
+                    groups: ['page_details', 'link_details', 'article_details'],
+                )),
+            ]
         )
     )]
     #[OA\Tag(name: ApiDocTag::SITES)]
@@ -53,9 +62,9 @@ class GetSitePageController extends AbstractController
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {
-        /** @var PageDTO|ArticleDTO $dto */
+        /** @var PageDetailsDTO|ArticleDetailsDTO $dto */
         $dto = $messageBusHandler->handleQuery(
-            new GetPageQuery(
+            new GetSitePageDetailsQuery(
                 siteId: $id,
                 token: $user->token,
                 slug: $slug,

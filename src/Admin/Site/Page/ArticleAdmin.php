@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin\Site\Page;
 
 use App\Admin\Content\AbstractPageAdmin;
-use App\DTOFactory\Entity\Page\ArticleDTOFactory;
+use App\DTOFactory\Entity\Page\ArticleDetailsDTOFactory;
 use App\Entity\Page\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -117,7 +117,7 @@ class ArticleAdmin extends AbstractPageAdmin
             ],
         );
 
-        $desktopSize = ArticleDTOFactory::DESKTOP_SIZE['default'];
+        $desktopSize = ArticleDetailsDTOFactory::DESKTOP_SIZE['default'];
 
         $form->add('imageFile',
             VichImageType::class,

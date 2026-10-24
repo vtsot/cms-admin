@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ArgumentResolver;
 
-use App\Contract\ApiRequest\ApiRequestInterface;
-use App\DTOFactory\ApiRequest\ApiRequestFactory;
+use App\Contract\ControllerRequest\ControllerRequestInterface;
+use App\DTOFactory\ControllerRequest\ControllerRequestFactory;
 use App\Service\Util;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
@@ -25,7 +25,7 @@ use const FILTER_VALIDATE_INT;
 class ApiRequestResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly ApiRequestFactory $apiRequestFactory,
+        private readonly ControllerRequestFactory $apiRequestFactory,
     ) {
     }
 
@@ -36,7 +36,7 @@ class ApiRequestResolver implements ValueResolverInterface
         if (
             !$argumentType
             || !class_exists($argumentType)
-            || !is_subclass_of($argumentType, ApiRequestInterface::class, true)
+            || !is_subclass_of($argumentType, ControllerRequestInterface::class, true)
         ) {
             return [];
         }

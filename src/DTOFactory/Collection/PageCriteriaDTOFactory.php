@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DTOFactory\Collection;
+
+use App\Contract\Dictionary\PageSitemapChangeFrequency;
+use App\Contract\Dictionary\PageSitemapPriority;
+use App\Contract\Dictionary\PageType;
+use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
+use App\CQ\Query\Site\Page\GetSitePageCollectionQuery;
+use App\DTO\Collection\PageCriteriaDTO;
+use App\Service\Util;
+
+use function trim;
+
+class PageCriteriaDTOFactory
+{
+    public function fromCollectionRequest(
+        GetSitePageCollectionRequest $request,
+    ): PageCriteriaDTO {
+        return new PageCriteriaDTO(
+            type: PageType::tryFrom($request->type ?? '') ?? PageType::Page,
+            page: $request->page,
+            perPage: $request->perPage,
+            query: trim($request->query ?: '') ?: null,
+            orderBy: GetSitePageCollectionQuery::SORT_BY[$request->orderBy] ?? GetSitePageCollectionQuery::SORT_BY[0] ?? null,
+            orderDirection: $request->orderDirection,
+
+            slug: $request->slug,
+            active: Util::normalizeBool($request->active) ?? true,
+            startDay: Util::normalizeDate($request->startDay),
+            endDay: Util::normalizeDate($request->endDay),
+            indexed: Util::normalizeBool($request->indexed),
+            frequency: PageSitemapChangeFrequency::tryFrom($request->frequency ?? ''),
+            priority: PageSitemapPriority::tryFrom($request->priority ?? ''),
+        );
+    }
+}

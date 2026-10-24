@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTOFactory\Entity\Page;
+namespace App\DTOFactory\Data;
 
-use App\DTO\Entity\Page\SitemapItemDTO;
+use App\DTO\Data\SitemapItemDTO;
 use App\Entity\Page\AbstractPage;
 
 readonly class SitemapDTOFactory

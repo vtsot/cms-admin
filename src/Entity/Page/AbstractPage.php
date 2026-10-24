@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Page;
 
+use App\Contract\Dictionary\PageType;
 use App\Contract\Entity\SeoAwareInterface;
 use App\Contract\Entity\SluggableInterface;
 use App\Entity\AbstractEntity;
@@ -30,8 +31,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'entity', type: Types::STRING)]
 #[ORM\DiscriminatorMap([
-    'page'    => Page::class,
-    'article' => Article::class,
+    PageType::Page->value    => Page::class,
+    PageType::Article->value => Article::class,
 ])]
 abstract class AbstractPage extends AbstractEntity implements SluggableInterface, SeoAwareInterface
 {

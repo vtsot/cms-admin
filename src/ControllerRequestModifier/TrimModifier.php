@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ControllerRequestModifier;
 
-use App\Contract\ApiRequest\ApiRequestModifierInterface;
+use App\Contract\ControllerRequest\ControllerRequestModifierInterface;
 use Attribute;
 
 use function array_map;
@@ -13,7 +13,7 @@ use function is_string;
 use function trim;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class TrimModifier implements ApiRequestModifierInterface
+final readonly class TrimModifier implements ControllerRequestModifierInterface
 {
     /**
      * Trims string value. Returns NULL instead of empty string. Runs recursive for an array.

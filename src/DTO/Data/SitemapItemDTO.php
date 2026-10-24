@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Entity\Page;
+namespace App\DTO\Data;
 
-use App\DTOFactory\Entity\Page\PageDTOFactory;
+use App\DTOFactory\Data\SitemapDTOFactory;
 use Carbon\CarbonImmutable;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see PageDTOFactory
+ * @see SitemapDTOFactory
  */
 readonly class SitemapItemDTO
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits;
 
+use App\Contract\Dictionary\PageSitemapChangeFrequency;
+use App\Contract\Dictionary\PageSitemapPriority;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,11 +14,11 @@ trait SitemapEntityTrait
     #[ORM\Column(name: 'is_indexed', type: Types::BOOLEAN, nullable: false, options: ['default' => true])]
     protected bool $indexed = true;
 
-    #[ORM\Column(name: 'sitemap_change_frequency', type: Types::STRING, length: 255, options: ['default' => 'weekly'])]
-    protected string $sitemapChangeFrequency = 'weekly';
+    #[ORM\Column(name: 'sitemap_change_frequency', type: Types::STRING, length: 255, options: ['default' => PageSitemapChangeFrequency::DEFAULT])]
+    protected string $sitemapChangeFrequency = PageSitemapChangeFrequency::DEFAULT;
 
-    #[ORM\Column(name: 'sitemap_priority', type: Types::FLOAT, options: ['default' => 0.5])]
-    protected float $sitemapPriority = 0.5;
+    #[ORM\Column(name: 'sitemap_priority', type: Types::FLOAT, options: ['default' => PageSitemapPriority::DEFAULT])]
+    protected float $sitemapPriority = PageSitemapPriority::DEFAULT;
 
     public function getIndexed(): bool
     {

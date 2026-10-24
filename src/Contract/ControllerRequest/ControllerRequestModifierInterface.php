@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Contract\ApiRequest;
+namespace App\Contract\ControllerRequest;
 
-interface ApiRequestModifierInterface
+interface ControllerRequestModifierInterface
 {
     public function modify(mixed $value): mixed;
 }

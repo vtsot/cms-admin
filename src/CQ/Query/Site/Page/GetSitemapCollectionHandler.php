@@ -6,7 +6,7 @@ namespace App\CQ\Query\Site\Page;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Collection\SitemapCollectionDTO;
-use App\DTOFactory\Entity\Page\SitemapDTOFactory;
+use App\DTOFactory\Data\SitemapDTOFactory;
 use App\Entity\Page\AbstractPage;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
@@ -22,9 +22,9 @@ readonly class GetSitemapCollectionHandler implements QueryHandlerInterface
     public function __construct(
         private Security $security,
         private TranslatorInterface $translator,
+        private SiteRepository $siteRepository,
         private AbstractPageRepository $pageRepository,
         private SitemapDTOFactory $sitemapPageDTOFactory,
-        private SiteRepository $siteRepository,
     ) {
     }
 

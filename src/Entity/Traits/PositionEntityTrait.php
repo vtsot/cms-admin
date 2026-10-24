@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait PositionEntityTrait
 {
-    #[ORM\Column(name: 'position', type: Types::INTEGER, nullable: false, options: ['default' => 0])]
+    #[ORM\Column(name: 'position', type: Types::INTEGER, nullable: false, options: ['default' => 0, 'unsigned' => true])]
     private int $position = 0;
 
     public function getPosition(): int

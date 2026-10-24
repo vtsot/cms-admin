@@ -32,6 +32,9 @@ class Article extends AbstractPage
     #[Vich\UploadableField(mapping: 'article', fileNameProperty: 'image')]
     private ?File $imageFile = null;
 
+    // todo: check the ability to manage related articles in the admin area
+    // it looks like Page::$relatedArticles and Article::$relatedArticles are the same
+    // or Article::$relatedArticles could be removed
     #[ORM\OneToMany(targetEntity: PageRelatedArticle::class, mappedBy: 'article', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $relatedArticles;

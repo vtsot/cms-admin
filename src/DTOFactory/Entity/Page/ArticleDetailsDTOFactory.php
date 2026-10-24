@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Page;
 
-use App\DTO\Entity\Page\ArticleDTO;
+use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\Entity\Page\Article;
 use App\Service\CmsEmbed\Helper\CmsEmbedRenderer;
 use Symfony\Component\Routing\RouterInterface;
 
 use function trim;
 
-readonly class ArticleDTOFactory
+readonly class ArticleDetailsDTOFactory
 {
     /** @var array<string, array{width: int, height: int}> */
     public const array DESKTOP_SIZE = [
@@ -25,21 +25,16 @@ readonly class ArticleDTOFactory
     ) {
     }
 
-    public function fromEntity(Article $article): ArticleDTO
+    public function fromEntity(Article $article): ArticleDetailsDTO
     {
-        $content = $article->getContent()
-            ? $this->cmsEmbedRenderer->render($article->getContent())
-            : null;
+        $content = $article->getContent() ? $this->cmsEmbedRenderer->render($article->getContent()) : null;
 
-        $desktopSize  = self::DESKTOP_SIZE['default'];
-        $desktopImage = $this->getImageUrl($article->getImage(), 'resize', $desktopSize['width'], $desktopSize['height']);
-
-        return new ArticleDTO(
+        return new ArticleDetailsDTO(
             id: $article->getId(),
             slug: $article->getSlug(),
             title: $article->getTitle(),
             imageAlt: $article->getImageAlt(),
-            image: $desktopImage,
+            image: $this->getDesktopImage($article),
             description: $article->getDescription(),
             content: $content ? trim($content) : null,
             sources: $article->getSources(),
@@ -55,6 +50,13 @@ readonly class ArticleDTOFactory
             sitemapChangeFrequency: $article->getSitemapChangeFrequency(),
             sitemapPriority: $article->getSitemapPriority(),
         );
+    }
+
+    public function getDesktopImage(Article $article): ?string
+    {
+        $desktopSize = self::DESKTOP_SIZE['default'];
+
+        return $this->getImageUrl($article->getImage(), 'resize', $desktopSize['width'], $desktopSize['height']);
     }
 
     private function getImageUrl(?string $imageName, string $crop, int $width, int $height): ?string

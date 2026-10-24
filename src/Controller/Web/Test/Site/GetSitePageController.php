@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Web\Test\Site;
 
-use App\CQ\Query\Site\Page\GetPageQuery;
-use App\DTO\Entity\Page\ArticleDTO;
-use App\DTO\Entity\Page\PageDTO;
+use App\DTO\Entity\Page\ArticleDetailsDTO;
+use App\DTO\Entity\Page\PageDetailsDTO;
 use App\Service\MessageBusHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +33,7 @@ class GetSitePageController extends AbstractController
         MessageBusHandler $messageBusHandler,
         ?string $token = 'f5c500527d1655b4d39c7fa91f9b9a534c145d00',
     ): Response {
-        /** @var PageDTO|ArticleDTO $dto */
+        /** @var PageDetailsDTO|ArticleDetailsDTO $dto */
         $page = null;
         //        $page = $messageBusHandler->handleQuery(
         //            new GetPageQuery(

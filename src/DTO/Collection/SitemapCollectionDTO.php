@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Collection;
 
-use App\DTO\Entity\Page\SitemapItemDTO;
+use App\DTO\Data\SitemapItemDTO;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;

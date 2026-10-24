@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Site;
 
-use App\ApiRequest\Site\CreateContactRequest;
 use App\Contract\Dictionary\ApiDocTag;
+use App\ControllerRequest\Api\Site\CreateSiteContactRequest;
 use App\CQ\Command\Site\Contact\CreateContactCommand;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
@@ -35,12 +35,12 @@ class CreateContactController extends AbstractController
     #[OA\Response(ref: '#/components/responses/invalid_credentials', response: Response::HTTP_UNAUTHORIZED)]
     #[OA\Response(ref: '#/components/responses/forbidden', response: Response::HTTP_FORBIDDEN)]
     #[OA\Response(ref: '#/components/responses/not_found', response: Response::HTTP_NOT_FOUND)]
-    #[OA\RequestBody(content: new OA\JsonContent(ref: new Model(type: CreateContactRequest::class)))]
+    #[OA\RequestBody(content: new OA\JsonContent(ref: new Model(type: CreateSiteContactRequest::class)))]
     #[OA\Response(response: Response::HTTP_NO_CONTENT, description: 'No content on success')]
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
         Uuid $id,
-        CreateContactRequest $request,
+        CreateSiteContactRequest $request,
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {

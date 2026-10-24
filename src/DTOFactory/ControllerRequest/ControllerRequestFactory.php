@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DTOFactory\ApiRequest;
+namespace App\DTOFactory\ControllerRequest;
 
-use App\Contract\ApiRequest\ApiRequestModifierInterface;
+use App\Contract\ControllerRequest\ControllerRequestModifierInterface;
 use App\Exception\Validation\BadRequestException;
 use App\Exception\Validation\ValidationFailedException;
 use ReflectionClass;
@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function Symfony\Component\String\u;
 
-readonly class ApiRequestFactory
+readonly class ControllerRequestFactory
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
@@ -59,7 +59,7 @@ readonly class ApiRequestFactory
             foreach ($property->getAttributes() as $attribute) {
                 $modifier = $attribute->newInstance();
 
-                if (!$modifier instanceof ApiRequestModifierInterface) {
+                if (!$modifier instanceof ControllerRequestModifierInterface) {
                     continue;
                 }
 

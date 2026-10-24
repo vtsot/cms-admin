@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\ApiRequest\Site;
+namespace App\ControllerRequest\Api\Site;
 
-use App\Contract\ApiRequest\ApiRequestInterface;
+use App\Contract\ControllerRequest\ControllerRequestInterface;
 use App\ControllerRequestModifier\StripTagsModifier;
 use App\ControllerRequestModifier\TrimModifier;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class CreateContactRequest implements ApiRequestInterface
+readonly class CreateSiteContactRequest implements ControllerRequestInterface
 {
     public function __construct(
         #[TrimModifier]

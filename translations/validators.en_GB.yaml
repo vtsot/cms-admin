@@ -1,2 +1,4 @@
 GENERAL:
+    BAD_REQUEST: 'Bad Request'
+    VALIDATION_FAILED: 'Validation Failed'
     NOT_FOUND: 'Not Found'

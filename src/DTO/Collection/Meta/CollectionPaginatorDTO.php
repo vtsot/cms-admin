@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\DTO\Collection\Meta;
 
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
-readonly class CollectionPaginatorDTO
+final readonly class CollectionPaginatorDTO
 {
     public function __construct(
         #[Groups(['collection_meta'])]
-        public int $currentPage,
+        public int $page,
+
         #[Groups(['collection_meta'])]
-        public int $itemsPerPage,
+        #[SerializedName('per_page')]
+        public int $perPage,
+
         #[Groups(['collection_meta'])]
-        public int $totalItems,
+        public int $total,
     ) {
     }
 }

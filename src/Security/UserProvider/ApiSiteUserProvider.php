@@ -18,7 +18,7 @@ class ApiSiteUserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return new ApiSiteUser($identifier, [UserRole::ApiSite]);
+        return new ApiSiteUser($identifier, [UserRole::ApiSite->value]);
     }
 
     public function refreshUser(UserInterface $user): UserInterface

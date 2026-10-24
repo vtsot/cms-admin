@@ -14,6 +14,16 @@ trait EnumValuesTrait
         return array_column(self::cases(), 'value');
     }
 
+    public static function names(): array
+    {
+        return array_column(self::cases(), 'name');
+    }
+
+    public static function valueNames(): array
+    {
+        return array_combine(self::values(), self::names());
+    }
+
     public static function valueCases(): array
     {
         return array_combine(self::values(), self::cases());

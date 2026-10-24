@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Page;
 
-use App\DTO\Entity\Page\PageDTO;
-use App\Entity\Page\AbstractPage;
+use App\DTO\Entity\Page\PageDetailsDTO;
+use App\Entity\Page\Page;
 use App\Service\CmsEmbed\Helper\CmsEmbedRenderer;
 
-readonly class PageDTOFactory
+readonly class PageDetailsDTOFactory
 {
     public const string CONTEXT_RELATED_ARTICLES_TITLE = 'related-articles-title';
     public const string CONTEXT_RELATED_ARTICLES_ITEMS = 'related-articles-items';
@@ -18,13 +18,11 @@ readonly class PageDTOFactory
     ) {
     }
 
-    public function fromEntity(AbstractPage $page, array $context = []): PageDTO
+    public function fromEntity(Page $page, array $context = []): PageDetailsDTO
     {
-        $content = $page->getContent()
-            ? $this->cmsEmbedRenderer->render($page->getContent())
-            : null;
+        $content = $page->getContent() ? $this->cmsEmbedRenderer->render($page->getContent()) : null;
 
-        return new PageDTO(
+        return new PageDetailsDTO(
             id: $page->getId(),
             slug: $page->getSlug(),
             isHomepage: $page->isHomepage(),
