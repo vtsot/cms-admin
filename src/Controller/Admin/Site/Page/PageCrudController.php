@@ -8,7 +8,7 @@ use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\CQ\Command\Site\UpdateSiteHomepageCommand;
 use App\Entity\Page\AbstractPage;
 use App\Entity\Page\Page;
-use App\Security\Voter\Admin\Site\SitePageVoter;
+use App\Security\Voter\Admin\Site\PageVoter;
 use App\Security\Voter\VoterSubject;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\QueryBuilder;
@@ -38,7 +38,7 @@ class PageCrudController extends AbstractSiteRootCrudController
             return $this->redirectToList();
         }
 
-        if ($preResponse = $this->handlePreActionAccess(SitePageVoter::UPDATE, new VoterSubject($site->getId(), $page))) {
+        if ($preResponse = $this->handlePreActionAccess(PageVoter::UPDATE, new VoterSubject($site->getId(), $page))) {
             return $preResponse;
         }
 
@@ -60,7 +60,7 @@ class PageCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SitePageVoter::LIST,
+            PageVoter::LIST,
             new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
@@ -70,7 +70,7 @@ class PageCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SitePageVoter::VIEW,
+            PageVoter::VIEW,
             new VoterSubject($site->getId(), $object),
         );
     }
@@ -80,7 +80,7 @@ class PageCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SitePageVoter::CREATE,
+            PageVoter::CREATE,
             new VoterSubject($site->getId(), AbstractPage::class),
         );
     }
@@ -90,7 +90,7 @@ class PageCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SitePageVoter::UPDATE,
+            PageVoter::UPDATE,
             new VoterSubject($site->getId(), $object),
         );
     }
@@ -100,7 +100,7 @@ class PageCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            SitePageVoter::DELETE,
+            PageVoter::DELETE,
             new VoterSubject($site->getId(), $object),
         );
     }

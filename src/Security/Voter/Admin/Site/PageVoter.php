@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 use function in_array;
 
-class SitePageVoter extends Voter
+class PageVoter extends Voter
 {
     public const string LIST   = 'PAGE_LIST';
     public const string VIEW   = 'PAGE_VIEW';
