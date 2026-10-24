@@ -198,7 +198,7 @@ nelmio_api_doc:
 
         admin:
             path_patterns:
-                - ^/api/admin
+                - ^/api(?!/doc$)
             documentation:
                 info:
                     title: Admin API

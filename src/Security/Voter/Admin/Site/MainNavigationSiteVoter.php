@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Voter\Admin\Site\Navigation;
+namespace App\Security\Voter\Admin\Site;
 
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;

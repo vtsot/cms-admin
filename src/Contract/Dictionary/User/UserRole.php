@@ -14,4 +14,5 @@ enum UserRole: string
     case Admin       = 'ROLE_ADMIN';
     case User        = 'ROLE_USER';
     case SiteManager = 'ROLE_SITE_MANAGER';
+    case ApiSite     = 'ROLE_API_SITE';
 }

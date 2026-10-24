@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Site\Navigation;
 
 use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\Entity\Navigation\MainNavigation;
-use App\Security\Voter\Admin\Site\Navigation\MainNavigationSiteVoter;
+use App\Security\Voter\Admin\Site\MainNavigationSiteVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
