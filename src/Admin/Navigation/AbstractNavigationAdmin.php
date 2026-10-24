@@ -82,7 +82,7 @@ abstract class AbstractNavigationAdmin extends AbstractAdmin implements Navigati
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with('NAVIGATION_ENTITY.SECTION.MAIN');
+        $form->with($this->trans('NAVIGATION_ENTITY.SECTION.MAIN'));
 
         $this->configureFormFieldText($form, 'title', 'NAVIGATION_ENTITY.LABEL.TITLE');
         $this->configureFormFieldLinkEntity($form);

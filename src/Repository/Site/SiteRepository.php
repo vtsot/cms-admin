@@ -47,11 +47,15 @@ class SiteRepository extends ServiceEntityRepository implements FindByIdInterfac
 
     public function findOneByIdAndUser(Uuid $id, Uuid $userId): ?Site
     {
+        $qb = $this->createQueryBuilder('s')
+            ->join('s.users', 'u', Join::WITH, 'u.id = :userId')
+            ->setParameter('userId', $userId->toBinary())
+            ->where('s.id = :siteId')
+            ->setParameter('siteId', $id->toBinary())
+            ->setMaxResults(1);
+
         try {
-            return $this->createQueryBuilder('s')
-                ->join('s.users', 'u', Join::WITH, 'u.id = :userId')->setParameter('userId', $userId)
-                ->where('s.id = :siteId')->setParameter('siteId', $id->toBinary())
-                ->setMaxResults(1)
+            return $qb
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException) {

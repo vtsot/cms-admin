@@ -7,6 +7,7 @@ namespace App\Controller\Admin\Site;
 use App\Admin\AbstractAdmin;
 use App\Controller\Admin\AbstractCrudController;
 use App\Entity\Site\Site;
+use App\Security\Voter\VoterSubject;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,7 @@ abstract class AbstractSiteRootCrudController extends AbstractCrudController
 
     protected function handlePreActionAccess(
         string $attribute,
-        array $subject,
+        VoterSubject $subject,
     ): ?Response {
         if (!$this->security->isGranted($attribute, $subject)) {
             $this->addErrorFlash('FLASH.ERROR.NO_PERMISSION');
