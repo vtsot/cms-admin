@@ -20,10 +20,11 @@ use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
+#[Route(host: '%api_domain%')]
 class GetSitePageController extends AbstractController
 {
     #[Route(
-        path: '/api/sites/{id}/pages/{slug}',
+        path: '/sites/{id}/pages/{slug}',
         name: 'api.site.page.get',
         requirements: ['id' => Requirement::UUID, 'slug' => Requirement::ASCII_SLUG],
         options: ['expose' => true],

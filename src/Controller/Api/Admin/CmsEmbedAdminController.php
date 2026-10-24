@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class CmsEmbedAdminController extends AbstractController
 {
     #[Route(
-        path: '/api/admin/cms-embeds',
+        path: '/api/cms-embeds',
         name: 'api.admin.cms_embed.collection',
         options: ['expose' => true],
         methods: ['GET']

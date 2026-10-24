@@ -19,10 +19,11 @@ use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
+#[Route(host: '%api_domain%')]
 class GetSitemapController extends AbstractController
 {
     #[Route(
-        path: '/api/sites/{id}/sitemap',
+        path: '/sites/{id}/sitemap',
         name: 'api.site.sitemap.collection',
         requirements: ['id' => Requirement::UUID, 'slug' => Requirement::ASCII_SLUG],
         options: ['expose' => true],

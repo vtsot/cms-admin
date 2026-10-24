@@ -24,7 +24,7 @@ security:
         api_doc_users:
             memory:
                 users:
-                    apidoc_user: { password: 'fd35e0f86e', roles: [ ROLE_API_DOC ] }
+                    apidoc_user: { password: '92hkif90ln', roles: [ ROLE_API_DOC ] }
 
         api_site_users:
             id: App\Security\UserProvider\ApiSiteUserProvider
@@ -44,13 +44,15 @@ security:
             security: false
 
         api_doc:
-            pattern: ^/api/doc
+            pattern: ^/doc$
+            host: '^%api_domain%$'
             http_basic:
                 provider: api_doc_users
                 realm: Basic
 
         api_site:
-            pattern: ^/api/sites
+            pattern: ^/sites
+            host: '^%api_domain%$'
             access_token:
                 token_handler: App\Security\ApiSite\AccessTokenHandler
                 token_extractors: App\Security\ApiSite\AccessTokenExtractor
@@ -88,11 +90,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # allow unauthenticated users to access the login form
-        - { path: '^/api/doc', roles: ROLE_API_DOC }
-        - { path: '^/api/sites', roles: ROLE_API_SITE }
+        - { host: '^%api_domain%$', path: '^/doc$', roles: ROLE_API_DOC }
+        - { host: '^%api_domain%$', path: '^/sites', roles: ROLE_API_SITE }
         - { host: '^%admin_domain%$', path: '^/login', roles: PUBLIC_ACCESS }
         - { host: '^%admin_domain%$', path: '^/', roles: [ROLE_SITE_MANAGER] }
-        - { path: '^/api/admin', roles: [ROLE_SITE_MANAGER] }
         - { path: '^/', roles: PUBLIC_ACCESS }
 
 

@@ -1,7 +1,7 @@
 @id=01a16459-7d94-7436-bef8-491f292baedf
 @slug=page-1
 #@slug=article-1
-GET https://cms-admin.local/api/sites/{{id}}/pages/{{slug}}
+GET https://api.cms-admin.local/sites/{{id}}/pages/{{slug}}
 Accept: application/json
 Accept-Language: en_GB
 Content-Type: application/json

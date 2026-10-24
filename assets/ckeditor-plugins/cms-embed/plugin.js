@@ -3,7 +3,7 @@
 const DEFAULT_LOCALE = 'en_GB';
 
 /** @var Object : {} as {[cmsEmbedKey: string] : cmsEmbed[]} */
-let CMS_EMBEDS = {};
+const CMS_EMBEDS = {};
 
 CKEDITOR.plugins.add('cms-embed', {
     requires: 'richcombo',
@@ -11,17 +11,19 @@ CKEDITOR.plugins.add('cms-embed', {
     init: function (editor) {
         'use strict';
 
-        let locale = getLocale(editor);
-        let cmsEmbedKey = getCmsEmbedKey(editor);
+        const locale = getLocale(editor);
+        const cmsEmbedKey = getCmsEmbedKey(editor);
 
         CMS_EMBEDS[cmsEmbedKey] = [];
 
-        let siteId = getSiteId();
-        let url = '/api/admin/cms-embeds' + (siteId ? '?site=' + siteId : '');
+        // resolve siteId from url e.g. https://example.com/site/01a16459-7d94-7436-bef8-491f292baedf/param-1/value-1
+        const match = window.location.pathname.match(/\/site\/([^/]+)/);
+        const siteId = match?.[1] ?? null;
+        const cmsEmbedUrl = document.documentElement.dataset.apiCmsEmbedCollectionUrl + (siteId ? '?site=' + siteId : '');
 
         // load cms-embeds
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', cmsEmbedUrl);
         xhr.setRequestHeader('accept', 'application/json');
         xhr.setRequestHeader('Accept-Language', locale);
         xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token') );
@@ -46,21 +48,6 @@ CKEDITOR.plugins.add('cms-embed', {
         initCmsEmbedsRichCombo(editor, CMS_EMBEDS[cmsEmbedKey], cmsEmbedKey);
     },
 });
-
-const getSiteId = function () {
-    let urlComponents = window.location.pathname.split('/'), // eg "/admin/site/018f850e-5105-7179-9b97-48aaa0e807f9/site-page/018fc38e-a2c8-7156-a920-2adda09a24af/edit"
-        urlComponentsQty = urlComponents.length;
-
-    for (let i = 0; i < urlComponentsQty - 1; i++) {
-        if (urlComponents[i] === 'site' && typeof urlComponents[i + 1] !== 'undefined') {
-            // eg "018f850e-5105-7179-9b97-48aaa0e807f9"
-            return  urlComponents[i + 1];
-        }
-    }
-
-    return null;
-}
-
 
 /**
  * @param {Object} editor

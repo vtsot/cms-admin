@@ -10,6 +10,7 @@ services:
         extra_hosts:
             - "cms-admin.local:host-gateway"
             - "admin.cms-admin.local:host-gateway"
+            - "api.cms-admin.local:host-gateway"
         volumes:
             - ./:/var/www/html:rw
         networks:
@@ -37,13 +38,14 @@ services:
                 aliases:
                     - cms-admin.local
                     - admin.cms-admin.local
+                    - api.cms-admin.local
         expose:
             - "80"
         environment:
             - VIRTUAL_PORT=80
-            - VIRTUAL_HOST=cms-admin.local,admin.cms-admin.local
+            - VIRTUAL_HOST=cms-admin.local,admin.cms-admin.local,api.cms-admin.local
             - HTTPS_METHOD=redirect
-            - SELF_SIGNED_HOST=cms-admin.local
+            - SELF_SIGNED_HOST=admin.local,admin.cms-admin.local,api.cms-admin.local
         depends_on:
             - php-fpm
 

@@ -9,6 +9,7 @@ use App\DTO\Entity\Page\ArticleDTO;
 use App\DTO\Entity\Page\PageDTO;
 use App\Service\MessageBusHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -27,22 +28,24 @@ class GetSitePageController extends AbstractController
         methods: ['GET']
     )]
     public function __invoke(
+        Request $request,
         Uuid $id,
         string $slug,
         MessageBusHandler $messageBusHandler,
         ?string $token = 'f5c500527d1655b4d39c7fa91f9b9a534c145d00',
     ): Response {
         /** @var PageDTO|ArticleDTO $dto */
-        $page = $messageBusHandler->handleQuery(
-            new GetPageQuery(
-                siteId: $id,
-                token: $token,
-                slug: $slug,
-            )
-        );
+        $page = null;
+//        $page = $messageBusHandler->handleQuery(
+//            new GetPageQuery(
+//                siteId: $id,
+//                token: $token,
+//                slug: $slug,
+//            )
+//        );
 
         return $this->render('web/test/site/page.html.twig', [
-            'page' => $page,
+            'page' => $page ?? null,
         ]);
     }
 }

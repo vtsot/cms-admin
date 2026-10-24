@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use JsonException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,12 @@ use const JSON_THROW_ON_ERROR;
 
 final readonly class JsonRequestBodyConverter implements EventSubscriberInterface
 {
+    public function __construct(
+        #[Autowire(param: 'api_domain')]
+        private string $apiDomain,
+    ) {
+    }
+
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -28,6 +35,7 @@ final readonly class JsonRequestBodyConverter implements EventSubscriberInterfac
 
         if ($request->getContent()
             && ($request->getContentTypeFormat() === 'json'
+                || $request->getHost() === $this->apiDomain
                 || str_starts_with($request->getRequestUri(), '/api/')
             )
         ) {

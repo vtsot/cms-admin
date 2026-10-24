@@ -11,6 +11,7 @@ use App\Exception\Validation\EntityNotFoundException;
 use App\Exception\Validation\PaymentRequiredException;
 use App\Exception\Validation\UnprocessableEntityException;
 use App\Exception\Validation\ValidationFailedException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +51,8 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
 
     public function __construct(
         private SerializerInterface $serializer,
+        #[Autowire(param: 'api_domain')]
+        private string $apiDomain,
     ) {
     }
 
@@ -59,6 +62,7 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
 
         if (!($request->getContentTypeFormat() === 'json'
             || in_array('application/json', $request->getAcceptableContentTypes(), true)
+            || $request->getHost() === $this->apiDomain
             || str_contains($request->getPathInfo(), '/api/'))
         ) {
             return;

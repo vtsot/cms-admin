@@ -9,6 +9,7 @@
     {{ parent() }}
     lang="{{ app.request.locale }}"
     data-default-locale="{{ app.request.locale }}"
+    data-api-cms-embed-collection-url="{{ path('api.admin.cms_embed.collection') }}"
 {% endblock %}
 
 {%- block sonata_top_nav_menu -%}

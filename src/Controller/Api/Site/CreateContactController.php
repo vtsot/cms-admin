@@ -19,10 +19,11 @@ use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
+#[Route(host: '%api_domain%')]
 class CreateContactController extends AbstractController
 {
     #[Route(
-        path: '/api/sites/{id}/contacts',
+        path: '/sites/{id}/contacts',
         name: 'api.site.contact.post',
         requirements: ['id' => Requirement::UUID],
         options: ['expose' => true],

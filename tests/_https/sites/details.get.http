@@ -1,5 +1,5 @@
 @id=01a16459-7d94-7436-bef8-491f292baedf
-GET https://cms-admin.local/api/sites/{{id}}
+GET https://api.cms-admin.local/sites/{{id}}
 Accept: application/json
 Accept-Language: en_GB
 Content-Type: application/json

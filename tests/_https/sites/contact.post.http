@@ -1,5 +1,5 @@
 @id=01a16459-7d94-7436-bef8-491f292baedf
-POST https://cms-admin.local/api/sites/{{id}}/contacts
+POST https://api.cms-admin.local/sites/{{id}}/contacts
 Accept: application/json
 Accept-Language: en_GB
 Content-Type: application/json

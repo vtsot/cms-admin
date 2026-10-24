@@ -19,10 +19,11 @@ use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
 
+#[Route(host: '%api_domain%')]
 class GetSiteDetailsController extends AbstractController
 {
     #[Route(
-        path: '/api/sites/{id}',
+        path: '/sites/{id}',
         name: 'api.site.details',
         requirements: ['id' => Requirement::UUID],
         options: ['expose' => true],

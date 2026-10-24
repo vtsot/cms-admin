@@ -1,4 +1,5 @@
 {
+    "name": "vtsot/cms-admin",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
