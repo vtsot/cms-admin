@@ -6,7 +6,7 @@ namespace App\Controller\Admin\Site\Navigation;
 
 use App\Controller\Admin\Site\AbstractSiteRootCrudController;
 use App\Entity\Navigation\AbstractNavigation;
-use App\Security\Voter\Admin\Site\MainNavigationSiteVoter;
+use App\Security\Voter\Admin\Site\NavigationVoter;
 use App\Security\Voter\VoterSubject;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            MainNavigationSiteVoter::LIST,
+            NavigationVoter::LIST,
             new VoterSubject($site->getId(), AbstractNavigation::class)
         );
     }
@@ -28,7 +28,7 @@ class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            MainNavigationSiteVoter::VIEW,
+            NavigationVoter::VIEW,
             new VoterSubject($site->getId(), $object),
         );
     }
@@ -38,7 +38,7 @@ class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            MainNavigationSiteVoter::CREATE,
+            NavigationVoter::CREATE,
             new VoterSubject($site->getId(), AbstractNavigation::class),
         );
     }
@@ -48,7 +48,7 @@ class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            MainNavigationSiteVoter::UPDATE,
+            NavigationVoter::UPDATE,
             new VoterSubject($site->getId(), $object),
         );
     }
@@ -58,7 +58,7 @@ class MainNavigationSiteCrudController extends AbstractSiteRootCrudController
         $site = $this->resolveSiteFromRootRequest($request);
 
         return $this->handlePreActionAccess(
-            MainNavigationSiteVoter::DELETE,
+            NavigationVoter::DELETE,
             new VoterSubject($site->getId(), $object),
         );
     }

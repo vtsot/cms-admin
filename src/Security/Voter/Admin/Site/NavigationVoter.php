@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 use function in_array;
 
-class MainNavigationSiteVoter extends Voter
+class NavigationVoter extends Voter
 {
     public const string LIST   = 'NAVIGATION_LIST';
     public const string VIEW   = 'NAVIGATION_VIEW';
