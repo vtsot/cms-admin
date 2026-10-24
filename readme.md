@@ -16,7 +16,7 @@ add a new hosts:
 
 
 ### Compile all docker images
-see [Makefile](./Makefile) for details
+see [Makefile](./makefile) for details
 
 #### Build docker images
 ```bash
@@ -29,5 +29,5 @@ make docker-up
 ```
 
 ### API doc 
-- https://api.cms-admin.local/doc
-- https://admin.cms-admin.local/api/doc
+- api.cms-admin.local/doc
+- admin.cms-admin.local/api/doc
