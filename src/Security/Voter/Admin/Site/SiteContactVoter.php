@@ -7,24 +7,22 @@ namespace App\Security\Voter\Admin\Site;
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
 use App\Entity\Contact;
-use App\Entity\Site\Site;
 use App\Repository\Site\SiteRepository;
+use App\Security\Voter\VoterSubject;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-use function array_key_exists;
 use function in_array;
-use function is_array;
 
 class SiteContactVoter extends Voter
 {
-    public const LIST   = 'SITE_CONTACT_LIST';
-    public const VIEW   = 'SITE_CONTACT_VIEW';
-    public const CREATE = 'SITE_CONTACT_CREATE';
-    public const UPDATE = 'SITE_CONTACT_UPDATE';
-    public const DELETE = 'SITE_CONTACT_DELETE';
+    public const string LIST   = 'CONTACT_LIST';
+    public const string VIEW   = 'CONTACT_VIEW';
+    public const string CREATE = 'CONTACT_CREATE';
+    public const string UPDATE = 'CONTACT_UPDATE';
+    public const string DELETE = 'CONTACT_DELETE';
 
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
@@ -33,23 +31,20 @@ class SiteContactVoter extends Voter
     }
 
     /**
-     * @param array{0: Site, 1: string|Contact} $subject
+     * @param VoterSubject $subject
      */
     protected function supports(string $attribute, $subject): bool
     {
-        return is_array($subject)
-            && array_key_exists(0, $subject)
-            && array_key_exists(1, $subject)
-            && $subject[0] instanceof Site
-            && ($subject[1] === Contact::class || $subject[1] instanceof Contact)
+        return $subject instanceof VoterSubject
+            && ($subject->entry === Contact::class || $subject->entry instanceof Contact)
             && (
-                (in_array($attribute, [self::LIST, self::CREATE], true) && $subject[1] === Contact::class)
-                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject[1] instanceof Contact)
+                (in_array($attribute, [self::LIST, self::CREATE], true) && ($subject->entry === Contact::class))
+                || (in_array($attribute, [self::VIEW, self::UPDATE, self::DELETE], true) && $subject->entry instanceof Contact)
             );
     }
 
     /**
-     * @param array{0: Site, 1: string|Contact} $subject
+     * @param VoterSubject $subject
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
@@ -63,22 +58,32 @@ class SiteContactVoter extends Voter
             return true;
         }
 
-        [$targetSite, $contact] = $subject;
+        return match ($attribute) {
+            self::LIST,
+            self::CREATE => $this->voteOnClass($user, $subject),
 
-        // site related to a user
-        $site = $this->siteRepository->findOneByIdAndUser($targetSite->getId(), $user->getId());
+            self::VIEW,
+            self::DELETE,
+            self::UPDATE => $this->voteOnInstance($user, $subject),
 
-        switch ($attribute) {
-            case self::LIST:
-            case self::CREATE:
-                return $targetSite->getId()?->equals($site?->getId());
-            case self::VIEW:
-            case self::UPDATE:
-            case self::DELETE:
-                return $targetSite->getId()?->equals($site?->getId())
-                    && $targetSite->getId()?->equals($contact?->getSite()?->getId());
-        }
+            default => false,
+        };
+    }
 
-        return false;
+    private function voteOnClass(UserInterface $user, VoterSubject $subject): bool
+    {
+        // user is a manager of the site
+        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+            && $site->getId()->equals($subject->siteId);
+    }
+
+    private function voteOnInstance(UserInterface $user, VoterSubject $subject): bool
+    {
+        // user is a manager of the site
+        // and entry belongs to the site
+        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+            && $site->getId()->equals($subject->siteId)
+            && $subject->entry instanceof Contact
+            && $site->getId()->equals($subject->entry->getSite()?->getId());
     }
 }
