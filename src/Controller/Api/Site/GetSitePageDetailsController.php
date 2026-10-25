@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\CQ\Query\Site\Page\GetSitePageDetailsQuery;
 use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\DTO\Entity\Page\PageDetailsDTO;
+use App\Message\Query\Site\GetSitePageDetailsQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;

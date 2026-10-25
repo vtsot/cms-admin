@@ -6,7 +6,7 @@ namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\ControllerRequest\Api\Site\CreateSiteContactRequest;
-use App\CQ\Command\Site\Contact\CreateContactCommand;
+use App\Message\Command\Site\CreateContactCommand;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;

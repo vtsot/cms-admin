@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site\Page;
 
 use App\Controller\Admin\Site\AbstractSiteRootCrudController;
-use App\CQ\Command\Site\UpdateSiteHomepageCommand;
 use App\Entity\Page\AbstractPage;
 use App\Entity\Page\Page;
+use App\Message\Command\Site\UpdateSiteHomepageCommand;
 use App\Security\Voter\Admin\Site\PageVoter;
 use App\Security\Voter\VoterSubject;
 use App\Service\MessageBusHandler;

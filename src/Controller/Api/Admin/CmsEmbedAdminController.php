@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Admin;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\CQ\Query\CmsEmbed\GetCmsEmbedCollectionQuery;
 use App\DTO\Collection\CmsEmbedCollectionDTO;
+use App\Message\Query\CmsEmbed\GetCmsEmbedCollectionQuery;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;

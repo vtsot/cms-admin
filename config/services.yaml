@@ -96,7 +96,7 @@ services:
 #            - allowCmsEmbedItems: !returns_clone [ !tagged_iterator 'app.cms_embed' ]
 
     mailer.messenger.message_handler:
-        class: App\CQ\Command\Mailer\SendEmailMessageHandler
+        class: App\MessageHandler\Command\Mailer\SendEmailMessageHandler
         tags:
             - { name: messenger.message_handler, bus: command.bus }
 

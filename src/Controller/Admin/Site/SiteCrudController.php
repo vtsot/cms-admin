@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Site;
 
 use App\Controller\Admin\AbstractCrudController;
-use App\CQ\Command\Site\ResetSiteTokenCommand;
-use App\CQ\Command\Site\SiteCacheClearCommand;
 use App\Entity\Site\Site;
 use App\Entity\Site\SiteSettings;
+use App\Message\Command\Site\ResetSiteTokenCommand;
+use App\Message\Command\Site\SiteCacheClearCommand;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

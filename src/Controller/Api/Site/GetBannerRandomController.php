@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\CQ\Query\Site\Banner\GetBannerRandomQuery;
 use App\DTO\Entity\Site\BannerDTO;
+use App\Message\Query\Site\GetBannerRandomQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;

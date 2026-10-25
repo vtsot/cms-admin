@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\General\Image;
 
 use App\Controller\AbstractController;
-use App\CQ\Query\Site\Image\GetSiteFaviconQuery;
+use App\Message\Query\Site\GetSiteFaviconQuery;
 use App\Service\MessageBusHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

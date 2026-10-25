@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\EntityListener;
 
 use App\Contract\Entity\EntityListenerInterface;
-use App\CQ\Command\Site\CreateDefaultSiteHomepageCommand;
-use App\CQ\Command\Site\ResetSiteTokenCommand;
 use App\Entity\Site\Site;
+use App\Message\Command\Site\CreateDefaultSiteHomepageCommand;
+use App\Message\Command\Site\ResetSiteTokenCommand;
 use App\Service\MessageBusHandler;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
