@@ -1,0 +1,18 @@
+sonata_translation:
+    # frontend locales the translatable entities can be translated into
+    # locales: ['%default_locale%', 'uk_UA']
+    locales: '%sonata_translation_locales%' # has taken from config/packages/locale_requirement.php
+    default_locale: '%default_locale%'
+
+    # global (admin interface) locale switcher: stores the chosen locale in the session, see config/routes/sonata_translation.yaml
+    locale_switcher: true
+    gedmo:
+        enabled: true
+        # when using gedmo/doctrine-extensions, you have to register a translatable listener
+        # service or if you are using a bundle that integrates the library, it will be registered
+        # by the bundle (e.g. "stof_doctrine_extensions.listener.translatable" for "stof/doctrine-extensions-bundle").
+        # here you can provide a custom translatable listener service name.
+        # reuse the listener configured by stof_doctrine_extensions instead of registering a second one
+        translatable_listener_service: stof_doctrine_extensions.listener.translatable
+    knplabs:
+        enabled: false

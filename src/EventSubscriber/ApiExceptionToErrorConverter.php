@@ -11,7 +11,7 @@ use App\Exception\Validation\EntityNotFoundException;
 use App\Exception\Validation\PaymentRequiredException;
 use App\Exception\Validation\UnprocessableEntityException;
 use App\Exception\Validation\ValidationFailedException;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Service\Request\ApiRequestDetector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,8 +27,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 use function array_key_exists;
 use function get_class;
-use function in_array;
-use function str_contains;
 
 readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
 {
@@ -51,8 +49,7 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
 
     public function __construct(
         private SerializerInterface $serializer,
-        #[Autowire(param: 'api_domain')]
-        private string $apiDomain,
+        private ApiRequestDetector $apiRequestDetector,
     ) {
     }
 
@@ -60,11 +57,7 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (!($request->getContentTypeFormat() === 'json'
-            || in_array('application/json', $request->getAcceptableContentTypes(), true)
-            || $request->getHost() === $this->apiDomain
-            || str_contains($request->getPathInfo(), '/api/'))
-        ) {
+        if (!$this->apiRequestDetector->isApiRequest($request)) {
             return;
         }
 

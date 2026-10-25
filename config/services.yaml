@@ -10,10 +10,10 @@ parameters:
     api_domain: '%env(API_DOMAIN)%'
     admin_domain: '%env(ADMIN_DOMAIN)%'
     timezone: '%env(TIMEZONE)%'
-    default_locale: 'en_GB'
-    # todo: remove admin_translation_domain
-    admin_translation_domain: 'admin-messages'
-    storage_dir: '%kernel.project_dir%/var/storage'
+    default_locale: '%env(string:DEFAULT_LOCALE)%'
+    locales: '%env(json:LOCALES)%'
+    #locale_requirement: 'en_GB|de_DE|uk_UA' # has taken from config/packages/locale_requirement.php
+    storage_dir: '%kernel.project_dir%/var/storage' #ss
     storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
     translation_cache_dir: '%kernel.project_dir%/var/cache/translations'
 
@@ -28,14 +28,6 @@ parameters:
     banner_image_storage_dir: '%storage_dir%/images/banner'
     banner_image_cache_storage_dir: '%storage_cache_dir%/images/banner'
     banner_no_image_path: '%kernel.project_dir%/assets/images/banner-no-image.jpg'
-
-
-#        string $siteStorageImageDir: '%storage_dir%/images/site'
-#        string $siteCacheImageDir: '%storage_cache_dir%/images/site/'
-
-#        string $bannerCacheImageDir: '%storage_cache_dir%/images/banner/'
-#        string $bannerNoImagePath: '%kernel.project_dir%/assets/images/banner-no-image.jpg'
-
 
 imports:
     - { resource: admin.yaml }

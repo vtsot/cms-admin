@@ -13,8 +13,12 @@ use App\Entity\Traits\PriorityEntityTrait;
 use App\Entity\Traits\TitleEntityTrait;
 use App\Repository\Site\BannerRepository;
 use Carbon\CarbonImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
@@ -29,13 +33,39 @@ use function implode;
 #[ORM\Index(name: 'fk_link_article_id', columns: ['link_article_id'])]
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: BannerRepository::class)]
-class Banner extends AbstractEntity implements LinkEntityInterface
+#[Gedmo\TranslationEntity(class: BannerTranslation::class)]
+class Banner extends AbstractEntity implements LinkEntityInterface, Translatable
 {
     use ActiveEntityTrait;
     use TitleEntityTrait;
     use PriorityEntityTrait;
     use LinkEntityTrait;
     use ImageAltEntityTrait;
+
+    /*
+     * Translatable fields: redeclared from the traits above to add #[Gedmo\Translatable].
+     * The attribute can't go on the traits themselves, they're shared with non-translatable entities.
+     */
+
+    #[Gedmo\Translatable]
+    #[ORM\Column(name: 'title', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $title = null;
+
+    #[Gedmo\Translatable]
+    #[ORM\Column(name: 'image_alt', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $imageAlt = null;
+
+    /**
+     * Not mapped: holds the locale the translatable fields are loaded/saved in.
+     */
+    #[Gedmo\Locale]
+    private ?string $locale = null;
+
+    /**
+     * @var Collection<int, BannerTranslation>
+     */
+    #[ORM\OneToMany(targetEntity: BannerTranslation::class, mappedBy: 'object', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $translations;
 
     #[ORM\ManyToOne(targetEntity: Site::class, inversedBy: 'banners')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
@@ -53,6 +83,11 @@ class Banner extends AbstractEntity implements LinkEntityInterface
     #[Vich\UploadableField(mapping: 'banner', fileNameProperty: 'mobileImage')]
     private ?File $mobileImageFile = null;
 
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
         $labels   = [];
@@ -60,6 +95,43 @@ class Banner extends AbstractEntity implements LinkEntityInterface
         $labels[] = $this->getTitle() ?? $this->getImageAlt();
 
         return implode(' ', array_filter($labels));
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BannerTranslation>
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function addTranslation(BannerTranslation $translation): static
+    {
+        if (!$this->translations->contains($translation)) {
+            $this->translations->add($translation);
+            $translation->setObject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(BannerTranslation $translation): static
+    {
+        $this->translations->removeElement($translation);
+
+        return $this;
     }
 
     public function getDesktopImage(): ?string

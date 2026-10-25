@@ -148,7 +148,8 @@ class SiteAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with($this->trans('SITE_ENTITY.SECTION.MAIN'), ['class' => 'col-md-9']);
+        $title = $this->transLocaleTitle('SITE_ENTITY.SECTION.MAIN');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form->add(
             'domain',
@@ -202,7 +203,8 @@ class SiteAdmin extends AbstractAdmin
 
     private function configureFormSectionSiteSettings(FormMapper $form): void
     {
-        $form->with($this->trans('SITE_ENTITY.SECTION.SETTINGS'), ['class' => 'col-md-9']);
+        $title = $this->transLocaleTitle('SITE_ENTITY.SECTION.SETTINGS');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form
             ->add(
@@ -223,7 +225,8 @@ class SiteAdmin extends AbstractAdmin
 
     private function configureFormSectionSiteDomainRegistration(FormMapper $form): void
     {
-        $form->with($this->trans('SITE_ENTITY.SECTION.DOMAIN_REGISTRATION'), ['class' => 'col-md-3']);
+        $title = $this->transLocaleTitle('SITE_ENTITY.SECTION.DOMAIN_REGISTRATION');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-3']);
 
         $form->add(
             'registrarEmail',

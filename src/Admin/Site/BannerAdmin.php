@@ -38,8 +38,8 @@ class BannerAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $this->configureFilterFieldText($filter, 'title', 'BANNER_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldText($filter, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
+        $this->configureFilterFieldTranslation($filter, 'title', 'BANNER_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldTranslation($filter, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
 
         $this->configureFilterFieldActive($filter);
         $this->configureFilterFieldCreatedAtDateRange($filter);
@@ -77,7 +77,8 @@ class BannerAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with($this->trans('BANNER_ENTITY.SECTION.MAIN'));
+        $title = $this->transLocaleTitle('BANNER_ENTITY.SECTION.MAIN');
+        $form->with($title, ['label' => $title]);
 
         $form->add(
             'title',

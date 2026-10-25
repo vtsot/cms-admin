@@ -27,10 +27,10 @@ class ArticleAdmin extends AbstractPageAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $this->configureFilterFieldText($filter, 'slug', 'PAGE_ENTITY.LABEL.SLUG');
-        $this->configureFilterFieldText($filter, 'title', 'PAGE_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldText($filter, 'imageAlt', 'ARTICLE_ENTITY.LABEL.IMAGE_ALT');
-        $this->configureFilterFieldText($filter, 'content', 'PAGE_ENTITY.LABEL.CONTENT');
-        $this->configureFilterFieldText($filter, 'description', 'PAGE_ENTITY.LABEL.DESCRIPTION');
+        $this->configureFilterFieldTranslation($filter, 'title', 'PAGE_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldTranslation($filter, 'imageAlt', 'ARTICLE_ENTITY.LABEL.IMAGE_ALT');
+        $this->configureFilterFieldTranslation($filter, 'content', 'PAGE_ENTITY.LABEL.CONTENT');
+        $this->configureFilterFieldTranslation($filter, 'description', 'PAGE_ENTITY.LABEL.DESCRIPTION');
 
         $this->configureFilterFieldActive($filter);
         $this->configureFilterFieldCreatedAtDateRange($filter);
@@ -80,7 +80,9 @@ class ArticleAdmin extends AbstractPageAdmin
     {
         $page           = $this->getSubject();
         $slugIsReadonly = $page && $page->isHomepage();
-        $form->with($this->trans('PAGE_ENTITY.SECTION.CONTENT'), ['class' => 'col-md-9']);
+
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.CONTENT');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form->add(
             'slug',

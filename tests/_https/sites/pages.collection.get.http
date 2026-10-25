@@ -2,14 +2,18 @@
 GET https://api.cms-admin.local/sites/{{id}}/pages
 Accept: application/json
 Accept-Language: en_GB
+#Accept-Language: uk_UA
 Content-Type: application/json
 Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
+#{
+#    "type": "page",
+#    "page": 2,
+#    "per_page": 1,
+#    "indexed": "false",
+#    "frequency": "always",
+#    "priority": "0.1"
+#}
 
 {
-    "type": "page",
-    "page": 2,
-    "per_page": 1,
-    "indexed": "false",
-    "frequency": "always",
-    "priority": "0.1"
+
 }

@@ -30,6 +30,21 @@ trait PageRepositoryTrait
         return $this->find($id);
     }
 
+    public function findOneBySiteIdAndPageId(Uuid $siteId, Uuid $pageId): ?AbstractPage
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.site = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('p.id = :pageId')->setParameter('pageId', $pageId->toBinary());
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     public function findOneBySiteIdAndSlug(Uuid $siteId, string $slug, ?Uuid $exceptId = null): ?AbstractPage
     {
         $qb = $this->createQueryBuilder('p')

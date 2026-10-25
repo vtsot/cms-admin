@@ -6,7 +6,6 @@ namespace App\MessageHandler\Command\Site;
 
 use App\Contract\MessageHandler\CommandHandlerInterface;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Exception\Validation\InvalidArgumentException;
 use App\Message\Command\Site\UpdateSiteHomepageCommand;
 use App\Repository\Page\PageRepository;
 use App\Repository\Site\SiteRepository;
@@ -25,28 +24,23 @@ readonly class UpdateSiteHomepageHandler implements CommandHandlerInterface
 
     public function __invoke(UpdateSiteHomepageCommand $command): void
     {
-        $site = $this->siteRepository->findOneById($command->siteId);
-
-        if ($site === null) {
-            throw new EntityNotFoundException($this->translator->trans('SITE.NOT_FOUND'));
+        if (!$site = $this->siteRepository->findOneById($command->siteId)) {
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
-        $page = $this->pageRepository->findOneById($command->pageId);
-
-        if ($page === null) {
-            throw new EntityNotFoundException($this->translator->trans('PAGE.NOT_FOUND'));
+        if (!$this->pageRepository->findOneById($command->pageId)) {
+            throw new EntityNotFoundException($this->translator->trans(id: 'PAGE.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$command->siteId->equals($page->getSite()?->getId())) {
-            throw new InvalidArgumentException(
-                $this->translator->trans(
-                    'PAGE.NOT_FOR_SITE',
-                    [
-                        '%PAGE%' => $page->getSlug() ?? $page->getId()?->toString(),
-                        '%SITE%' => $site->getDomain() ?? $page->getId()?->toString(),
-                    ]
-                )
-            );
+        if (!$page = $this->pageRepository->findOneBySiteIdAndPageId($command->siteId, $command->pageId)) {
+            throw new EntityNotFoundException($this->translator->trans(
+                id: 'PAGE.NOT_FOUND_FOR_SITE',
+                parameters: [
+                    '%PAGE%' => $page->getTitle() ?? $page->getSlug(),
+                    '%SITE%' => $site->getDomain(),
+                ],
+                domain: 'validators',
+            ));
         }
 
         // reset homepages marker

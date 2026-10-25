@@ -14,8 +14,9 @@ use function html_entity_decode;
 use function htmlentities;
 use function strip_tags;
 
-#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Page::class)]
-#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Page::class)]
+// preFlush, not prePersist/preUpdate: it must run before the Gedmo TranslatableListener (onFlush)
+// moves values of non-default locales into page_translations, otherwise translations stay unsanitized.
+#[AsEntityListener(event: Events::preFlush, method: 'preFlush', entity: Page::class)]
 class PageHtmlSanitizerListener implements EntityListenerInterface
 {
     public function __construct(
@@ -23,12 +24,7 @@ class PageHtmlSanitizerListener implements EntityListenerInterface
     ) {
     }
 
-    public function prePersist(Page $entity): void
-    {
-        $this->sanitize($entity);
-    }
-
-    public function preUpdate(Page $entity): void
+    public function preFlush(Page $entity): void
     {
         $this->sanitize($entity);
     }

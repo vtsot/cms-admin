@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
@@ -25,6 +26,16 @@ class Article extends AbstractPage
 {
     use DescriptionEntityTrait;
     use ImageAltEntityTrait;
+
+    // Translatable fields: redeclared from the traits above to add #[Gedmo\Translatable], see AbstractPage.
+
+    #[Gedmo\Translatable]
+    #[ORM\Column(name: 'description', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $description = null;
+
+    #[Gedmo\Translatable]
+    #[ORM\Column(name: 'image_alt', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $imageAlt = null;
 
     #[ORM\Column(name: 'image', type: Types::STRING, length: 255, nullable: true)]
     private ?string $image = null;
@@ -41,6 +52,7 @@ class Article extends AbstractPage
 
     public function __construct()
     {
+        parent::__construct();
         $this->relatedArticles = new ArrayCollection();
     }
 

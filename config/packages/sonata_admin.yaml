@@ -43,7 +43,12 @@ sonata_admin:
 #            MENU_GROUP.USER:
 #                roles: ['ROLE_ADMIN']
 
+    assets:
+        extra_stylesheets:
+            - bundles/sonatatranslation/css/sonata-translation.css
+
 sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
+        sonata_translation.block.locale_switcher:

@@ -3,8 +3,9 @@
 #@slug=article-1
 GET https://api.cms-admin.local/sites/{{id}}/pages/{{slug}}
 Accept: application/json
-Accept-Language: en_GB
 Content-Type: application/json
+#Accept-Language: en_GB
+Accept-Language: uk_UA
 Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
 
 {

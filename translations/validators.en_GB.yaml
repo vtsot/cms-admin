@@ -2,3 +2,13 @@ GENERAL:
     BAD_REQUEST: 'Bad Request'
     VALIDATION_FAILED: 'Validation Failed'
     NOT_FOUND: 'Not Found'
+
+SITE:
+    NOT_FOUND: 'Site Not Found'
+
+PAGE:
+    NOT_FOUND: 'Page Not Found'
+    NOT_FOUND_FOR_SITE: 'Page "%PAGE%" not found for Site "%SITE%"'
+
+BANNER:
+    NOT_FOUND: 'Banner Not Found'

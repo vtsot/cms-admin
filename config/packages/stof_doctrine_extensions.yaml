@@ -2,6 +2,9 @@
 # See the official DoctrineExtensions documentation for more details: https://github.com/doctrine-extensions/DoctrineExtensions/tree/main/doc
 stof_doctrine_extensions:
     default_locale: '%default_locale%'
+    # a field without translation in the requested locale keeps the default locale value instead of null
+    # (the Sonata admin disables the fallback for its own requests, so editors still see missing translations)
+    translation_fallback: true
 
     orm:
         default:

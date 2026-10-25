@@ -17,6 +17,7 @@ use Symfony\Component\Uid\Uuid;
  * @method Page[]    findAll()
  * @method Page[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @method Page|null findOneById(Uuid $id)
+ * @method Page|null findOneBySiteIdAndPageId(Uuid $siteId, Uuid $pageId)
  * @method Page|null findOneBySiteIdAndSlug(Uuid $siteId, string $slug, ?Uuid $exceptId = null)
  * @method Page|null findOneActiveBySiteTokenAndSiteIdAndSlug(string $siteToken, Uuid $siteId, string $slug)
  * @method Page|null findHomepageBySiteId(Uuid $siteId)

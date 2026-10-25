@@ -135,7 +135,7 @@ USER_ENTITY:
 
 NAVIGATION_ENTITY:
     SECTION:
-        MAIN: 'Main'
+        MAIN: 'Main: %LOCALE%'
     LABEL:
         TITLE: 'Title'
 
@@ -159,12 +159,13 @@ META:
 
 PAGE_ENTITY:
     SECTION:
-        CONTENT: 'Content'
-        SEO: 'SEO'
+        # "%LOCALE%", "%LANG%"
+        CONTENT: 'Content: %LOCALE%'
+        SEO: 'SEO: %LOCALE%'
         CODE_BLOCK: 'Code block'
-        SETTINGS: 'Settings'
+        SETTINGS: 'Settings: %LOCALE%'
         INDEXING: 'Indexing'
-        RELATED_ARTICLES: 'Related Articles'
+        RELATED_ARTICLES: 'Related Articles: %LOCALE%'
     LABEL:
         TRANSLATIONS: 'Translations'
         TITLE: 'Title'
@@ -212,7 +213,7 @@ ARTICLE_ENTITY:
 
 PAGE_RELATED_ARTICLE_ENTITY:
     SECTION:
-        MAIN: 'Related Article'
+        MAIN: 'Related Article: %LOCALE%'
     LABEL:
         PAGE: 'Page'
         ARTICLE: 'Article'
@@ -315,7 +316,7 @@ SITE_SETTINGS_ENTITY:
 
 BANNER_ENTITY:
     SECTION:
-        MAIN: 'Main'
+        MAIN: 'Main: %LOCALE%'
     LABEL:
         PRIORITY: 'Priority'
         TITLE: 'Title'

@@ -143,7 +143,8 @@ class PageAdmin extends AbstractPageAdmin
 
     private function configureFormSectionRelatedArticles(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_ENTITY.SECTION.RELATED_ARTICLES'), ['class' => 'col-md-9']);
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.RELATED_ARTICLES');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form->add(
             'relatedArticlesTitle',
