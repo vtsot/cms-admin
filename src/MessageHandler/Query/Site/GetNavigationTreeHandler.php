@@ -36,7 +36,7 @@ readonly class GetNavigationTreeHandler implements QueryHandlerInterface
     public function __invoke(GetNavigationTreeQuery $query): NavigationTreeCollectionDTO
     {
         if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
         if (!$this->security->isGranted(NavigationVoter::LIST, new VoterSubject($query->siteId, AbstractNavigation::class))) {

@@ -26,10 +26,8 @@ readonly class ResetSiteTokenHandler implements CommandHandlerInterface
 
     public function __invoke(ResetSiteTokenCommand $command): void
     {
-        $site = $this->siteRepository->findOneById($command->siteId);
-
-        if ($site === null) {
-            throw new EntityNotFoundException($this->translator->trans('SITE.NOT_FOUND'));
+        if (!$site = $this->siteRepository->findOneById($command->siteId)) {
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
         // set new token

@@ -23,10 +23,8 @@ readonly class CreateDefaultSiteHomepageHandler implements CommandHandlerInterfa
 
     public function __invoke(CreateDefaultSiteHomepageCommand $command): void
     {
-        $site = $this->siteRepository->findOneById($command->siteId);
-
-        if ($site === null) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
+        if (!$site = $this->siteRepository->findOneById($command->siteId)) {
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
         $page = new Page()

@@ -38,7 +38,7 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
     public function __invoke(GetSitePageCollectionQuery $query): PageInfoCollectionDTO
     {
         if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
         if (!$this->security->isGranted(PageVoter::LIST, new VoterSubject($query->siteId, AbstractPage::class))) {

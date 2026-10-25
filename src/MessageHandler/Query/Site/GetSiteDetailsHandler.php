@@ -37,7 +37,7 @@ readonly class GetSiteDetailsHandler implements QueryHandlerInterface
     public function __invoke(GetSiteDetailsQuery $query): SiteDTO
     {
         if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
+            throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
         if (!$this->security->isGranted(SiteVoter::VIEW, new VoterSubject($query->siteId, $site))) {

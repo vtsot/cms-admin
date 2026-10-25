@@ -34,7 +34,7 @@ readonly class GetBannerRandomHandler implements QueryHandlerInterface
     public function __invoke(GetBannerRandomQuery $query): ?BannerDTO
     {
         if (!$banner = $this->resolveRandomBanner($query)) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
+            throw new EntityNotFoundException($this->translator->trans(id: 'BANNER.NOT_FOUND', domain: 'validators'));
         }
 
         if (!$this->security->isGranted(BannerVoter::VIEW, new VoterSubject($query->siteId, $banner))) {
