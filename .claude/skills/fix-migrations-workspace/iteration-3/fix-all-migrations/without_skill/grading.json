@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "No single-line $this->addSql('...'); calls remain",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "Every addSql() has the /** @lang MySQL */ marker",
+      "passed": true,
+      "evidence": "marker on every call"
+    },
+    {
+      "text": "SQL is unchanged apart from backticks and whitespace (same tokens as the input)",
+      "passed": true,
+      "evidence": "token streams identical"
+    },
+    {
+      "text": "Code outside the SQL strings (getDescription, docblocks, parameter arrays) is unchanged, apart from removing the Doctrine auto-generated comments",
+      "passed": true,
+      "evidence": "identical ignoring whitespace and the generated comments"
+    },
+    {
+      "text": "Table names and SET/CREATE TABLE column names are backticked",
+      "passed": true,
+      "evidence": "all backticked"
+    },
+    {
+      "text": "Column names inside each CREATE TABLE are aligned",
+      "passed": true,
+      "evidence": "aligned (or no CREATE TABLE)"
+    },
+    {
+      "text": "SQL bodies start on their own line (multi-line layout)",
+      "passed": true,
+      "evidence": "all multi-line"
+    },
+    {
+      "text": "All migration files pass php -l",
+      "passed": true,
+      "evidence": "php -l ok for all files"
+    },
+    {
+      "text": "$this->addSql(, /** @lang MySQL */, the first SQL line and the closing quote all start at the same indent",
+      "passed": false,
+      "evidence": "1 call(s) indented differently, e.g. lines ['Version20261022154456.php:19']"
+    },
+    {
+      "text": "Each CREATE TABLE has an empty line between the columns and the indexes/keys, and an empty line before the closing parenthesis",
+      "passed": false,
+      "evidence": "Version20261022154442.php: CREATE TABLE `navigations`: no empty line before ); Version20261022154442.php: CREATE TABLE `navigations`: no empty line between columns and keys; Version20261022154442.php: CREATE TABLE `page_related_articles`: no empty line before ); Version20261022154442.php: CREATE TABLE `page_related_articles`: no empty line between columns and keys"
+    },
+    {
+      "text": "Consecutive $this->addSql() calls are separated by one empty line",
+      "passed": true,
+      "evidence": "all separated"
+    },
+    {
+      "text": "No Doctrine auto-generated comments remain (no \"Auto-generated Migration\" docblock, no \"this up()/down() migration is auto-generated\" lines)",
+      "passed": false,
+      "evidence": "Version20261022154442.php: /\\*\\*\\s*\\*\\s*Auto-generated Mi; Version20261022154456.php: /\\*\\*\\s*\\*\\s*Auto-generated Mi; Version20261022161055.php: /\\*\\*\\s*\\*\\s*Auto-generated Mi; Version20261022164933.php: /\\*\\*\\s*\\*\\s*Auto-generated Mi"
+    },
+    {
+      "text": "Each foreign key is split over lines: ADD CONSTRAINT <name>, then FOREIGN KEY, REFERENCES and each ON DELETE/ON UPDATE on their own deeper lines",
+      "passed": false,
+      "evidence": "Version20261022154442.php: ADD CONSTRAINT `FK_AD21D8F3727ACA70`; Version20261022154442.php: ADD CONSTRAINT `FK_AD21D8F3F6BD1646`; Version20261022154442.php: ADD CONSTRAINT `FK_AD21D8F371203911`"
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 4,
+    "total": 13,
+    "pass_rate": 0.69
+  }
+}

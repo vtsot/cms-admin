@@ -1,0 +1,17 @@
+{
+  "eval_name": "data-migration-hand-format",
+  "prompt": "please clean up the code style in migrations/2026/Version20261026090000.php like in Version20261022154456.php",
+  "assertions": [
+    "No single-line $this->addSql('...'); calls remain in the migration files",
+    "Every addSql() call has the /** @lang MySQL */ marker",
+    "The SQL is unchanged apart from added backticks and whitespace (same tokens as the input)",
+    "Code outside the SQL strings (getDescription, comments, docblocks, parameter arrays) is unchanged",
+    "Table names, and the column names in SET and CREATE TABLE, are backticked",
+    "Column names inside each CREATE TABLE are aligned so the types start in the same column",
+    "Each SQL body is laid out over several lines (SQL starts on its own line after the marker)",
+    "All migration files pass php -l",
+    "/** @lang MySQL */ starts at the same indent as the $this->addSql( line above it",
+    "Each CREATE TABLE has an empty line between the columns and the indexes/keys, and an empty line before the closing parenthesis",
+    "Consecutive $this->addSql() calls are separated by one empty line"
+  ]
+}

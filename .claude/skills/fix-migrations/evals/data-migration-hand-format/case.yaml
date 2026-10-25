@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: data-migration-hand-format
+expected_outcome: |
+  The ALTER statements and the UPDATE data statements are all in the multi-line /** @lang MySQL */ style with backticked identifiers; the literal values and their escaping stay exactly the same (not turned into parameters), and the SQL meaning is unchanged.
+context:
+  scaffold_script: place-files.sh

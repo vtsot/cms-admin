@@ -1,0 +1,65 @@
+{
+  "expectations": [
+    {
+      "text": "No single-line $this->addSql('...'); calls remain",
+      "passed": true,
+      "evidence": "none found"
+    },
+    {
+      "text": "Every addSql() has the /** @lang MySQL */ marker",
+      "passed": true,
+      "evidence": "marker on every call"
+    },
+    {
+      "text": "SQL is unchanged apart from backticks and whitespace (same tokens as the input)",
+      "passed": true,
+      "evidence": "token streams identical"
+    },
+    {
+      "text": "Code outside the SQL strings (getDescription, comments, docblocks, params) is unchanged",
+      "passed": false,
+      "evidence": "changed in: ['Version20261022154442.php', 'Version20261022161055.php', 'Version20261022164933.php', 'Version20261022170704.php', 'Version20261022230520.php', 'Version20261022231451.php', 'Version20261022232453.php', 'Version20261024174542.php', 'Version20261025090949.php', 'Version20261025101847.php']"
+    },
+    {
+      "text": "Table names and SET/CREATE TABLE column names are backticked",
+      "passed": true,
+      "evidence": "all backticked"
+    },
+    {
+      "text": "Column names inside each CREATE TABLE are aligned",
+      "passed": true,
+      "evidence": "aligned (or no CREATE TABLE)"
+    },
+    {
+      "text": "SQL bodies start on their own line (multi-line layout)",
+      "passed": true,
+      "evidence": "all multi-line"
+    },
+    {
+      "text": "All migration files pass php -l",
+      "passed": true,
+      "evidence": "php -l ok for all files"
+    },
+    {
+      "text": "/** @lang MySQL */ starts at the same indent as the $this->addSql( line above it",
+      "passed": true,
+      "evidence": "same indent everywhere"
+    },
+    {
+      "text": "Each CREATE TABLE has an empty line between the columns and the indexes/keys, and an empty line before the closing parenthesis",
+      "passed": false,
+      "evidence": "Version20261022154442.php: CREATE TABLE `navigations`: no empty line before ); Version20261022154442.php: CREATE TABLE `navigations`: no empty line between columns and keys; Version20261022154442.php: CREATE TABLE `page_related_articles`: no empty line before ); Version20261022154442.php: CREATE TABLE `page_related_articles`: no empty line between columns and keys"
+    },
+    {
+      "text": "Consecutive $this->addSql() calls are separated by one empty line",
+      "passed": true,
+      "evidence": "all separated"
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 2,
+    "total": 11,
+    "pass_rate": 0.82
+  }
+}

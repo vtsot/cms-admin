@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: new-diff-migration
+expected_outcome: |
+  Every addSql() in Version20261026080000.php is reformatted to the project style (CREATE TABLE with one column per line and aligned names, ALTER TABLE with one clause per line, backticked identifiers incl. CREATE/DROP INDEX and RENAME INDEX); the SQL meaning and getDescription() are unchanged and the Doctrine auto-generated comments are removed.
+context:
+  scaffold_script: place-files.sh

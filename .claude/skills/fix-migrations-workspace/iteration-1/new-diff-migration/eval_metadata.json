@@ -1,0 +1,14 @@
+{
+  "eval_name": "new-diff-migration",
+  "prompt": "I just ran doctrine:migrations:diff and got Version20261026080000.php, can you make it look like our other migrations? it's one huge line per statement",
+  "assertions": [
+    "No single-line $this->addSql('...'); calls remain in the migration files",
+    "Every addSql() call has the /** @lang MySQL */ marker",
+    "The SQL is unchanged apart from added backticks and whitespace (same tokens as the input)",
+    "Code outside the SQL strings (getDescription, comments, docblocks, parameter arrays) is unchanged",
+    "Table names, and the column names in SET and CREATE TABLE, are backticked",
+    "Column names inside each CREATE TABLE are aligned so the types start in the same column",
+    "Each SQL body is laid out over several lines (SQL starts on its own line after the marker)",
+    "All migration files pass php -l and the project php-cs-fixer config (.php-cs-fixer.php)"
+  ]
+}

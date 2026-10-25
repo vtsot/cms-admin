@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: fix-all-migrations
+expected_outcome: |
+  Every generated one-line addSql() in migrations/ is split over several lines with a /** @lang MySQL */ marker, backticked identifiers and aligned column names; the SQL is unchanged, the Doctrine auto-generated comments are removed, nothing else changed, and php -l passes.
+context:
+  scaffold_script: place-files.sh
