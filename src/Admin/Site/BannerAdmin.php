@@ -38,8 +38,8 @@ class BannerAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $this->configureFilterFieldText($filter, 'title', 'BANNER_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldText($filter, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
+        $this->configureFilterFieldTranslation($filter, 'title', 'BANNER_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldTranslation($filter, 'imageAlt', 'BANNER_ENTITY.LABEL.IMAGE_ALT');
 
         $this->configureFilterFieldActive($filter);
         $this->configureFilterFieldCreatedAtDateRange($filter);

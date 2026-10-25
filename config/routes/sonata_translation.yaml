@@ -1,0 +1,8 @@
+# global locale switcher, see sonata_translation.locale_switcher
+sonata_translation:
+    resource: '@SonataTranslationBundle/Resources/config/routes.yaml'
+    prefix: /
+    host: '%admin_domain%'
+    requirements:
+        # keep in sync with sonata_translation.locales
+        locale: 'en_GB|uk_UA'

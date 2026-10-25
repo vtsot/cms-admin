@@ -1,4 +1,5 @@
-{% extends '@SonataAdmin/standard_layout.html.twig' %}
+{% extends '@SonataTranslation/standard_layout.html.twig' %}
+{#{% extends '@SonataAdmin/standard_layout.html.twig' %}#}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -18,6 +19,7 @@
     >
         {{ 'ADMIN.LOGOUT'|trans({}, 'admin-messages') }}
     </a>
+    {{ parent() }}
 {%- endblock -%}
 
 {#{% block side_bar_after_nav %}#}

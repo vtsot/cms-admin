@@ -13,18 +13,37 @@ use Symfony\Component\Translation\LocaleSwitcher;
 readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
+        #[Autowire(param: 'api_domain')]
+        private string $apiDomain,
         #[Autowire(param: 'default_locale')]
         private string $defaultLocale,
         private LocaleSwitcher $localeSwitcher,
     ) {
     }
 
+    // todo: move to external service
+    private function isApiRequest(RequestEvent $event): bool
+    {
+        $request = $event->getRequest();
+
+        return $request->isXmlHttpRequest()
+            || $request->getContentTypeFormat() === 'json'
+            || $request->getHost() === $this->apiDomain
+            || in_array('application/json', $request->getAcceptableContentTypes(), true)
+            || str_contains($request->getPathInfo(), '/api/');
+    }
+
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $locale  = $request->isXmlHttpRequest()
+        $locale  = $this->isApiRequest($event)
             ? $request->getPreferredLanguage()
             : $request->attributes->get('_locale');
+
+        // locale chosen with the admin global locale switcher, see sonata_translation.locale_switcher
+        if ($locale === null && $request->hasPreviousSession()) {
+            $locale = $request->getSession()->get('_locale');
+        }
 
         if ($locale === null) {
             $locale = $this->defaultLocale;

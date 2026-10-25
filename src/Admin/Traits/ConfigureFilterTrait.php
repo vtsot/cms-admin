@@ -13,6 +13,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\NumberFilter;
+use Sonata\TranslationBundle\Filter\TranslationFieldFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use function array_filter;
@@ -93,6 +94,19 @@ trait ConfigureFilterTrait
     ): void {
         $options['label'] = $label;
         $filter->add($name, null, $options);
+    }
+
+    /**
+     * Text filter for a Gedmo translatable field: matches the default locale value or any of its translations.
+     */
+    protected function configureFilterFieldTranslation(
+        DatagridMapper $filter,
+        string $name,
+        ?string $label = null,
+        array $options = [],
+    ): void {
+        $options['label'] = $label;
+        $filter->add($name, TranslationFieldFilter::class, $options);
     }
 
     protected function configureFilterFieldActive(

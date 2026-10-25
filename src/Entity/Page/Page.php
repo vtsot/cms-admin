@@ -9,10 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 class Page extends AbstractPage
 {
+    #[Gedmo\Translatable]
     #[ORM\Column(name: 'related_articles_title', type: Types::STRING, length: 255, nullable: true)]
     private ?string $relatedArticlesTitle = null;
 
@@ -22,6 +24,7 @@ class Page extends AbstractPage
 
     public function __construct()
     {
+        parent::__construct();
         $this->relatedArticles = new ArrayCollection();
     }
 

@@ -26,10 +26,10 @@ readonly class CreateDefaultSiteHomepageHandler implements CommandHandlerInterfa
         $site = $this->siteRepository->findOneById($command->siteId);
 
         if ($site === null) {
-            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain:'validators'));
+            throw new EntityNotFoundException($this->translator->trans(id: 'GENERAL.NOT_FOUND', domain: 'validators'));
         }
 
-        $page = (new Page())
+        $page = new Page()
             ->setHomepage(true)
             ->setTitle('Welcome')
             ->setSlug('homepage')

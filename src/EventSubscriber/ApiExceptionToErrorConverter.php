@@ -60,9 +60,10 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
+        // todo: move to external service
         if (!($request->getContentTypeFormat() === 'json'
-            || in_array('application/json', $request->getAcceptableContentTypes(), true)
             || $request->getHost() === $this->apiDomain
+            || in_array('application/json', $request->getAcceptableContentTypes(), true)
             || str_contains($request->getPathInfo(), '/api/'))
         ) {
             return;

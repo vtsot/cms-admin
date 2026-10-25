@@ -58,7 +58,7 @@ abstract class AbstractNavigationAdmin extends AbstractAdmin implements Navigati
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $this->configureFilterFieldText($filter, 'title', 'NAVIGATION_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldTranslation($filter, 'title', 'NAVIGATION_ENTITY.LABEL.TITLE');
         $this->configureFilterFieldActive($filter);
 
         $this->configureFilterFieldCreatedAtDateRange($filter);

@@ -72,8 +72,8 @@ class AbstractPageAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $this->configureFilterFieldText($filter, 'slug', 'PAGE_ENTITY.LABEL.SLUG');
-        $this->configureFilterFieldText($filter, 'title', 'PAGE_ENTITY.LABEL.TITLE');
-        $this->configureFilterFieldText($filter, 'content', 'PAGE_ENTITY.LABEL.CONTENT');
+        $this->configureFilterFieldTranslation($filter, 'title', 'PAGE_ENTITY.LABEL.TITLE');
+        $this->configureFilterFieldTranslation($filter, 'content', 'PAGE_ENTITY.LABEL.CONTENT');
 
         $this->configureFilterFieldActive($filter);
         $this->configureFilterFieldCreatedAtDateRange($filter);
