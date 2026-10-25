@@ -1,0 +1,99 @@
+# Production stack built from the root Dockerfile.
+#
+#   cp .env.prod.local.dist .env.prod.local   # then fill in the secrets
+#   docker compose -f docker-compose.prod.yaml --env-file .env.prod.local up -d --build
+#
+# Using -f skips docker-compose.yaml / docker-compose.override.yaml (the dev stack).
+# --env-file feeds the ${...} values below; env_file passes the same file to the app.
+
+name: cms-admin-prod
+
+x-app: &app
+    image: ${APP_IMAGE:-cms-admin}:${APP_TAG:-latest}
+    restart: unless-stopped
+    env_file:
+        - .env.prod.local
+    environment:
+        APP_ENV: prod
+        APP_DEBUG: 0
+        DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?serverVersion=8.0.32&charset=utf8mb4
+    volumes:
+        - storage:/var/www/html/var/storage
+        - sessions:/var/www/html/var/session
+        - uploaded:/var/www/html/public/uploaded
+    networks:
+        - app
+    depends_on:
+        mysql:
+            condition: service_healthy
+
+services:
+    php-fpm:
+        <<: *app
+        build:
+            context: .
+            target: app
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: 0
+            DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?serverVersion=8.0.32&charset=utf8mb4
+            RUN_MIGRATIONS: ${RUN_MIGRATIONS:-1}
+
+    # consumes the async messenger queues (MESSENGER_TRANSPORT_DSN), highest priority first;
+    # start with: docker compose -f docker-compose.prod.yaml --profile worker up -d
+    messenger-worker:
+        <<: *app
+        command: ["php", "bin/console", "messenger:consume", "queue_high_priority", "queue_standard_priority", "queue_low_priority", "queue_notification", "--time-limit=3600", "--memory-limit=256M"]
+        profiles:
+            - worker
+        depends_on:
+            php-fpm:
+                condition: service_started
+
+    nginx:
+        image: ${APP_IMAGE:-cms-admin}-nginx:${APP_TAG:-latest}
+        build:
+            context: .
+            target: nginx
+        restart: unless-stopped
+        # files uploaded through elFinder are served directly by nginx
+        volumes:
+            - uploaded:/var/www/html/public/uploaded:ro
+        ports:
+            - "${HTTP_PORT:-80}:80"
+        networks:
+            - app
+        depends_on:
+            - php-fpm
+
+    mysql:
+        build: ./.docker/mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - mysql:/var/lib/mysql
+        # hide the dev init.sql (test database + grants for 'user'@'%') baked into the image
+        tmpfs:
+            - /docker-entrypoint-initdb.d
+        networks:
+            - app
+        healthcheck:
+            test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+            interval: 5s
+            timeout: 5s
+            retries: 30
+            start_period: 30s
+
+volumes:
+    mysql:
+    storage:
+    sessions:
+    uploaded:
+
+networks:
+    app:
+        driver: bridge

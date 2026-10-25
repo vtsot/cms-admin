@@ -1,0 +1,36 @@
+.git
+.idea
+.docker/mysql/data
+.docker/redis/data
+.docker/.env
+docker-compose*.yaml
+Dockerfile
+.dockerignore
+
+# local secrets / overrides must never get into the image
+.env.local
+.env.local.php
+.env.*.local
+.env.*.local.dist
+config/secrets/prod/prod.decrypt.private.php
+config/jwt/*.pem
+
+# rebuilt inside the image
+vendor
+node_modules
+public/assets
+public/bundles
+public/build
+var
+
+# runtime data
+public/uploaded/*
+!public/uploaded/.gitkeep
+
+# dev tooling
+tests
+.php-cs-fixer*
+phpunit.xml*
+.phpunit.cache
+npm-debug.log
+yarn-error.log
