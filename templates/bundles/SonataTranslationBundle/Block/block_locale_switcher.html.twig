@@ -1,0 +1,18 @@
+{# Overrides @SonataTranslation/Block/block_locale_switcher.html.twig: per-entity (?tl=) locale switcher as a button group #}
+{% set admin = block_context.settings.admin %}
+
+{% if admin.class is translatable and sonata_translation_locales|length > 1 %}
+    {% set object = block_context.settings.object %}
+    {% set object_id = object ? admin.id(object) : null %}
+    {% set route = block_context.settings.locale_switcher_route|default(object_id is not null ? 'edit' : 'create') %}
+
+    <div class="locale_switcher btn-group btn-group-sm" role="group">
+        {% for locale in sonata_translation_locales %}
+            <a href="{{ admin.generateUrl(route, {'id': object_id, 'tl': locale}|merge(block_context.settings.locale_switcher_route_parameters)) }}"
+               class="btn {{ block_context.settings.current_locale == locale ? 'btn-primary active' : 'btn-default' }}"
+               title="{{ 'admin.locale_switcher.tooltip'|trans([], 'SonataTranslationBundle') }}">
+                {{ locale|localeName(app.request.locale) }}
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}
