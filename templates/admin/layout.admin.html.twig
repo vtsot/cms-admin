@@ -25,6 +25,13 @@
 {#{% block side_bar_after_nav %}#}
 {#{% endblock %}#}
 
+{% block sonata_top_nav_menu_locale_block %}
+    {% if sonata_translation_locales|length > 1 %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+
 {% block javascripts %}
     {{ parent() }}
 

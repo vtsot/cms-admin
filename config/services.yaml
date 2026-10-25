@@ -11,9 +11,8 @@ parameters:
     admin_domain: '%env(ADMIN_DOMAIN)%'
     timezone: '%env(TIMEZONE)%'
     default_locale: '%env(string:DEFAULT_LOCALE)%'
-    # route requirement for locale parameters, keep in sync with sonata_translation.locales
-    locale_requirement: 'en_GB|uk_UA'
-    storage_dir: '%kernel.project_dir%/var/storage'
+    #locale_requirement: 'en_GB|uk_UA' # it has taken from packages/locale_requirement.php
+    storage_dir: '%kernel.project_dir%/var/storage' #ss
     storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
     translation_cache_dir: '%kernel.project_dir%/var/cache/translations'
 

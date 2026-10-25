@@ -5,31 +5,4 @@ framework:
         fallbacks:
             - '%default_locale%'
         cache_dir: '%translation_cache_dir%'
-#        providers:
 
-#        paths:
-#            - '%dynamic_translation_dir%'
-#
-#
-
-
-
-
-#framework:
-#    default_locale: '%default_locale%'
-#    translator:
-#        default_path: '%kernel.project_dir%/translations'
-#        fallbacks:
-#            - '%default_locale%'
-#
-#        cache_dir: '%translation_cache_dir%'
-#        paths:
-#            - '%dynamic_translation_dir%'
-
-#        providers:
-#            crowdin:
-#                dsn: '%env(CROWDIN_DSN)%'
-#            loco:
-#                dsn: '%env(LOCO_DSN)%'
-#            lokalise:
-#                dsn: '%env(LOKALISE_DSN)%'
