@@ -4,5 +4,4 @@ sonata_translation:
     prefix: /
     host: '%admin_domain%'
     requirements:
-        # keep in sync with sonata_translation.locales
-        locale: 'en_GB|uk_UA'
+        locale: '%locale_requirement%'

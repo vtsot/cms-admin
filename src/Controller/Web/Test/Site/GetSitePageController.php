@@ -6,6 +6,7 @@ namespace App\Controller\Web\Test\Site;
 
 use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\DTO\Entity\Page\PageDetailsDTO;
+use App\Repository\Page\PageRepository;
 use App\Service\MessageBusHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +18,17 @@ use Symfony\Component\Uid\Uuid;
 class GetSitePageController extends AbstractController
 {
     /**
+     * The page is loaded in the {_locale} locale (default locale when omitted), see App\EventSubscriber\LocaleSubscriber.
+     *
      * @example /test/sites/01a16459-7d94-7436-bef8-491f292baedf/pages/page-1
+     * @example /test/sites/01a16459-7d94-7436-bef8-491f292baedf/pages/page-1/uk_UA
      **/
     #[Route(
-        path: '/test/sites/{id}/pages/{slug}/',
+        path: '/test/sites/{id}/pages/{slug}/{_locale}',
         name: 'test.site.page.get',
-        requirements: ['id' => Requirement::UUID, 'slug' => Requirement::ASCII_SLUG],
+        requirements: ['id' => Requirement::UUID, 'slug' => Requirement::ASCII_SLUG, '_locale' => '%locale_requirement%'],
         options: ['expose' => true],
+        defaults: ['_locale' => null],
         methods: ['GET']
     )]
     public function __invoke(
@@ -31,10 +36,10 @@ class GetSitePageController extends AbstractController
         Uuid $id,
         string $slug,
         MessageBusHandler $messageBusHandler,
+        PageRepository $pageRepository,
         ?string $token = 'f5c500527d1655b4d39c7fa91f9b9a534c145d00',
     ): Response {
         /** @var PageDetailsDTO|ArticleDetailsDTO $dto */
-        $page = null;
         //        $page = $messageBusHandler->handleQuery(
         //            new GetPageQuery(
         //                siteId: $id,
@@ -42,6 +47,8 @@ class GetSitePageController extends AbstractController
         //                slug: $slug,
         //            )
         //        );
+
+        $page = $pageRepository->findOneActiveBySiteIdAndTokenAndSlug($id, $token, $slug);
 
         return $this->render('web/test/site/page.html.twig', [
             'page' => $page ?? null,

@@ -25,27 +25,23 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
     protected const string CK_EDITOR_BASE_CONFIG = 'base-config';
     protected const string CK_EDITOR_CMS_CONFIG  = 'cms-config';
 
-    protected TokenStorageInterface $tokenStorage;
-    protected ParameterBagInterface $parameterBag;
-    protected RouterInterface $routeGenerator;
     protected Security $security;
+    protected RouterInterface $routeGenerator;
+    protected TokenStorageInterface $tokenStorage;
 
     protected $baseRouteName;
     protected $baseRoutePattern;
 
     #[Required]
     public function init(
-        TokenStorageInterface $tokenStorage,
-        ParameterBagInterface $parameterBag,
-        RouterInterface $routeGenerator,
         Security $security,
-    ): void {
-        $this->tokenStorage   = $tokenStorage;
-        $this->parameterBag   = $parameterBag;
-        $this->routeGenerator = $routeGenerator;
-        $this->security       = $security;
+        RouterInterface $routeGenerator,
+        TokenStorageInterface $tokenStorage,
 
-        $this->setTranslationDomain($this->parameterBag->get('admin_translation_domain'));
+    ): void {
+        $this->security       = $security;
+        $this->routeGenerator = $routeGenerator;
+        $this->tokenStorage   = $tokenStorage;
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
