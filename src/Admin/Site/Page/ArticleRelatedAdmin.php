@@ -54,7 +54,9 @@ class ArticleRelatedAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_RELATED_ARTICLE_ENTITY.SECTION.MAIN'), ['class' => 'col-md-12']);
+        $title = $this->transLocaleTitle('PAGE_RELATED_ARTICLE_ENTITY.SECTION.MAIN');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-12']);
+
         $this->configureFormFieldPosition($form);
 
         $this->configureFormFieldArticleRelatedToSite(form: $form, options: [

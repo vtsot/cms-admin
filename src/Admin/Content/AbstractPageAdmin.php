@@ -111,7 +111,9 @@ class AbstractPageAdmin extends AbstractAdmin
     {
         $page           = $this->getSubject();
         $slugIsReadonly = $page && $page->isHomepage();
-        $form->with($this->trans('PAGE_ENTITY.SECTION.CONTENT'), ['class' => 'col-md-9']);
+
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.CONTENT');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form->add(
             'slug',
@@ -167,7 +169,8 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSeo(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_ENTITY.SECTION.SEO'));
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.SEO');
+        $form->with($title, ['label' => $title]);
 
         $form->add(
             'metaTitle',
@@ -237,7 +240,8 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSettings(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_ENTITY.SECTION.SETTINGS'), ['class' => 'col-md-3']);
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.SETTINGS');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-3']);
 
         $this->configureFormFieldActive($form);
 
@@ -264,7 +268,8 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionSitemap(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_ENTITY.SECTION.INDEXING'), ['class' => 'col-md-3']);
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.INDEXING');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-3']);
 
         $form->add(
             'indexed',
@@ -308,7 +313,8 @@ class AbstractPageAdmin extends AbstractAdmin
 
     protected function configureFormSectionCodeBlock(FormMapper $form): void
     {
-        $form->with($this->trans('PAGE_ENTITY.SECTION.CODE_BLOCK'));
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.CODE_BLOCK');
+        $form->with($title, ['label' => $title]);
 
         $this->configureFormFieldTextarea(
             $form,

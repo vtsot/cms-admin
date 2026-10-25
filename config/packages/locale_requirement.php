@@ -21,11 +21,11 @@ use const JSON_THROW_ON_ERROR;
  * and route requirements don't accept runtime env values. Run cache:clear after changing LOCALE_REQUIREMENT.
  */
 return static function (ContainerConfigurator $container): void {
-    $invalidLocales = 'The LOCALE_REQUIREMENT env var must be a non-empty JSON array, e.g. LOCALE_REQUIREMENT=\'["en_GB","uk_UA"]\'.';
+    $invalidLocales = 'The LOCALES env var must be a non-empty JSON array, e.g. LOCALES=\'["en_GB","uk_UA"]\'.';
     $defaultLocale  = $_SERVER['DEFAULT_LOCALE'] ?? null;
 
     try {
-        $locales = json_decode($_SERVER['LOCALE_REQUIREMENT'] ?? '[]', true, flags: JSON_THROW_ON_ERROR);
+        $locales = json_decode($_SERVER['LOCALES'] ?? '[]', true, flags: JSON_THROW_ON_ERROR);
     } catch (JsonException $e) {
         throw new InvalidArgumentException($invalidLocales, previous: $e);
     }
@@ -35,15 +35,17 @@ return static function (ContainerConfigurator $container): void {
     }
 
     if (!in_array($defaultLocale, $locales, true)) {
-        throw new InvalidArgumentException(sprintf(
-            'The DEFAULT_LOCALE env var "%s" must be one of the LOCALE_REQUIREMENT env var values: %s.',
-            $defaultLocale,
-            implode(', ', $locales),
-        ));
+        throw new InvalidArgumentException(
+            sprintf(
+                'The DEFAULT_LOCALE env var "%s" must be one of the LOCALES env var values: %s.',
+                $defaultLocale,
+                implode(', ', $locales),
+            )
+        );
     }
 
     $container->parameters()
-        ->set('locales', $locales)
+        ->set('sonata_translation_locales', $locales)
         // route requirement for locale parameters, e.g. 'en_GB|uk_UA'
         ->set('locale_requirement', implode('|', array_map('preg_quote', $locales)));
 };

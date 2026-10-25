@@ -9,13 +9,19 @@ use App\Contract\Entity\UserInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin as BaseAbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\TranslationBundle\Provider\LocaleProviderInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Intl\Exception\MissingResourceException;
+use Symfony\Component\Intl\Languages;
+use Symfony\Component\Intl\Locales;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
+use function count;
 use function is_object;
+use function str_replace;
 
 /**
  * @method EntityInterface getSubject()
@@ -32,16 +38,31 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
     protected $baseRouteName;
     protected $baseRoutePattern;
 
+    protected string $defaultLocale = 'en_GB';
+    protected array $locales        = [];
+    protected LocaleProviderInterface $translationLocaleProvider;
+
     #[Required]
     public function init(
         Security $security,
         RouterInterface $routeGenerator,
         TokenStorageInterface $tokenStorage,
 
+        #[Autowire(param: 'default_locale')]
+        string $defaultLocale,
+
+        #[Autowire(param: 'locales')]
+        array $locales,
+
+        #[Autowire(service: 'sonata_translation.admin.provider.request_locale_provider')]
+        LocaleProviderInterface $translationLocaleProvider,
     ): void {
-        $this->security       = $security;
-        $this->routeGenerator = $routeGenerator;
-        $this->tokenStorage   = $tokenStorage;
+        $this->security                  = $security;
+        $this->routeGenerator            = $routeGenerator;
+        $this->tokenStorage              = $tokenStorage;
+        $this->defaultLocale             = $defaultLocale;
+        $this->locales                   = $locales;
+        $this->translationLocaleProvider = $translationLocaleProvider;
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -150,5 +171,47 @@ abstract class AbstractAdmin extends BaseAbstractAdmin
         }
 
         return $this->getTranslator()->trans($id, $parameters, $domain, $locale);
+    }
+
+    protected function transLocaleTitle(
+        string $id,
+        array $parameters = [],
+        ?string $domain = null,
+        ?string $locale = null,
+    ): string {
+        static $countLocales = null;
+
+        if ($countLocales === null) {
+            $countLocales = count($this->locales);
+        }
+
+        if ($domain === null) {
+            $domain = $this->getTranslationDomain();
+        }
+
+        $parameters = array_merge($parameters, ['%LOCALE%' => '', '%LANG%' => '']);
+
+        if ($countLocales > 1) {
+            try {
+                $localeName = Locales::getName($this->translationLocaleProvider->get(), $this->defaultLocale);
+                $langName   = Languages::getName($this->translationLocaleProvider->get(), $this->defaultLocale);
+            } catch (MissingResourceException) {
+                $localeName = $this->translationLocaleProvider->get();
+                $langName   = '';
+            }
+
+            $parameters = array_merge($parameters, [
+                '%LOCALE%' => $localeName,
+                '%LANG%'   => $langName,
+            ]);
+        }
+
+        $translation = $this->trans($id, $parameters, $domain, $locale);
+
+        if ($countLocales <= 1) {
+            $translation = str_replace(['%LOCALE%', '%LANG%', ':', "'", '"'], '', $translation);
+        }
+
+        return $translation;
     }
 }

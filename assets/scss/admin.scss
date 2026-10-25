@@ -1,6 +1,4 @@
-// per-entity locale switcher rendered as a button group,
-// see templates/bundles/SonataTranslationBundle/Block/block_locale_switcher.html.twig
-// resets the link styles of bundles/sonatatranslation/css/sonata-translation.css (padding, opacity)
+
 .sonata-bc div.locale_switcher.btn-group {
     a.btn {
         margin: 0;
@@ -11,6 +9,7 @@
     a.btn.active {
         font-weight: bold;
     }
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 

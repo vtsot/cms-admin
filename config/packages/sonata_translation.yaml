@@ -1,7 +1,9 @@
 sonata_translation:
     # frontend locales the translatable entities can be translated into
-    locales: '%locales%'
+    # locales: ['%default_locale%', 'uk_UA']
+    locales: '%sonata_translation_locales%' # has taken from config/packages/locale_requirement.php
     default_locale: '%default_locale%'
+
     # global (admin interface) locale switcher: stores the chosen locale in the session, see config/routes/sonata_translation.yaml
     locale_switcher: true
     gedmo:

@@ -242,7 +242,8 @@ abstract class AbstractUserAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with($this->trans('USER_ENTITY.SECTION.MAIN'));
+        $title = $this->transLocaleTitle('USER_ENTITY.SECTION.MAIN');
+        $form->with($title, ['label' => $title]);
 
         $form->add(
             'email',

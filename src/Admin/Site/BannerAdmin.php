@@ -77,7 +77,8 @@ class BannerAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        $form->with($this->trans('BANNER_ENTITY.SECTION.MAIN'));
+        $title = $this->transLocaleTitle('BANNER_ENTITY.SECTION.MAIN');
+        $form->with($title, ['label' => $title]);
 
         $form->add(
             'title',

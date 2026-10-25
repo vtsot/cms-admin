@@ -1,8 +1,8 @@
 @id=01a16459-7d94-7436-bef8-491f292baedf
 GET https://api.cms-admin.local/sites/{{id}}/pages
 Accept: application/json
-#Accept-Language: en_GB
-Accept-Language: uk_UA
+Accept-Language: en_GB
+#Accept-Language: uk_UA
 Content-Type: application/json
 Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
 #{

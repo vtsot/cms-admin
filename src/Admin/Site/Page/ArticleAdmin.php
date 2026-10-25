@@ -80,7 +80,9 @@ class ArticleAdmin extends AbstractPageAdmin
     {
         $page           = $this->getSubject();
         $slugIsReadonly = $page && $page->isHomepage();
-        $form->with($this->trans('PAGE_ENTITY.SECTION.CONTENT'), ['class' => 'col-md-9']);
+
+        $title = $this->transLocaleTitle('PAGE_ENTITY.SECTION.CONTENT');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
 
         $form->add(
             'slug',
