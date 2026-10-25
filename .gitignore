@@ -48,3 +48,7 @@ yarn-error.log
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
+
+###> claude skill test runs ###
+/.claude/skills/*-workspace/
+###< claude skill test runs ###
