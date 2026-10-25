@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Service\Request\ApiRequestDetector;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -13,30 +14,17 @@ use Symfony\Component\Translation\LocaleSwitcher;
 readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        #[Autowire(param: 'api_domain')]
-        private string $apiDomain,
         #[Autowire(param: 'default_locale')]
         private string $defaultLocale,
         private LocaleSwitcher $localeSwitcher,
+        private ApiRequestDetector $apiRequestDetector,
     ) {
-    }
-
-    // todo: move to external service
-    private function isApiRequest(RequestEvent $event): bool
-    {
-        $request = $event->getRequest();
-
-        return $request->isXmlHttpRequest()
-            || $request->getContentTypeFormat() === 'json'
-            || $request->getHost() === $this->apiDomain
-            || in_array('application/json', $request->getAcceptableContentTypes(), true)
-            || str_contains($request->getPathInfo(), '/api/');
     }
 
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $locale  = $this->isApiRequest($event)
+        $locale  = $this->apiRequestDetector->isApiRequest($request)
             ? $request->getPreferredLanguage()
             : $request->attributes->get('_locale');
 
