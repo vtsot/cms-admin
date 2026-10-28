@@ -47,6 +47,9 @@ class Site extends AbstractEntity
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sites')]
     private Collection $users;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sites')]
+    private Collection $clients;
+
     #[ORM\OneToOne(targetEntity: SiteSettings::class, mappedBy: 'site', cascade: ['persist'])]
     private ?SiteSettings $settings = null;
 
@@ -57,6 +60,7 @@ class Site extends AbstractEntity
     {
         $this->pages   = new ArrayCollection();
         $this->users   = new ArrayCollection();
+        $this->clients = new ArrayCollection();
         $this->banners = new ArrayCollection();
     }
 
@@ -197,6 +201,33 @@ class Site extends AbstractEntity
             if ($banner->getSite() === $this) {
                 $banner->setSite(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(User $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->addSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(User $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            $client->removeSite($this);
         }
 
         return $this;

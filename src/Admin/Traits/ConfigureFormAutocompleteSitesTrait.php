@@ -19,6 +19,7 @@ trait ConfigureFormAutocompleteSitesTrait
         ?string $name = null,
         ?string $label = null,
         ?array $options = [],
+        ?string $adminCode = 'admin.site',
     ): void {
         $name  ??= 'sites';
         $label ??= 'SITE_ENTITY.LABEL.SITES';
@@ -48,7 +49,7 @@ trait ConfigureFormAutocompleteSitesTrait
                     },
                 ],
                 [
-                    'admin_code' => 'admin.site',
+                    'admin_code' => $adminCode,
                 ]
             );
     }

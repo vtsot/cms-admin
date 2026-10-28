@@ -227,6 +227,7 @@ PAGE_RELATED_ARTICLE_ENTITY:
 SITE_ENTITY:
     SECTION:
         MAIN: 'Main'
+        USERS: 'Managers / Clients'
         DOMAIN_REGISTRATION: 'Domain Registration'
         DOMAIN_DETAILS: 'Domain Details'
         SETTINGS: 'Site Settings'
@@ -234,7 +235,8 @@ SITE_ENTITY:
         SETTINGS: 'Settings'
         ID: 'ID'
         DOMAIN: 'Domain'
-        USERS: 'Users'
+        USERS: 'Managers'
+        CLIENTS: 'Clients'
         SITES: 'Sites'
         TOKEN: 'API Token'
         NO_TOKEN: 'No token'
@@ -249,7 +251,8 @@ SITE_ENTITY:
         EXPIRE_AT: 'Expire At'
     HELP:
         DOMAIN: 'Ex. "https://example.com" (Attention: domain must start with http:// or https://)'
-        USERS: ''
+        USERS: 'Users who can update site content data, such as pages or articles and e.t.c.'
+        CLIENTS: 'Users who can login wit API to get site content.'
         TITLE: ''
         DESCRIPTION: ''
         REGISTRAR_EMAIL: 'E-mail used during the registration '

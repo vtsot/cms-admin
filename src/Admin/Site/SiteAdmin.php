@@ -77,7 +77,8 @@ class SiteAdmin extends AbstractAdmin
         $this->configureFilterFieldText($filter, 'domain', 'SITE_ENTITY.LABEL.DOMAIN');
         $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
 
-        $this->configureFilterFieldAutocompleteUsers($filter);
+        $this->configureFilterFieldAutocompleteUsers($filter, 'users', 'SITE_ENTITY.LABEL.USERS');
+        $this->configureFilterFieldAutocompleteUsers($filter, 'clients', 'SITE_ENTITY.LABEL.CLIENTS');
         $this->configureFilterFieldActive($filter);
 
         $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
@@ -112,6 +113,17 @@ class SiteAdmin extends AbstractAdmin
             'SITE_ENTITY.LABEL.USERS',
             [
                 'admin_code' => 'admin.user.all',
+                'route'      => ['name' => 'show'],
+            ]
+        );
+
+        $this->configureListFieldManyToMany(
+            $list,
+            'clients',
+            'email',
+            'SITE_ENTITY.LABEL.CLIENTS',
+            [
+                'admin_code' => 'admin.client.all',
                 'route'      => ['name' => 'show'],
             ]
         );
@@ -192,13 +204,39 @@ class SiteAdmin extends AbstractAdmin
             ],
         );
 
-        $this->configureFormFieldAutocompleteUsers($form);
-
         $form->end();
 
         $this->configureFormSectionSiteDomainRegistration($form);
 
+        $this->configureFormSectionSiteUsers($form);
+
         $this->configureFormSectionSiteSettings($form);
+    }
+
+    private function configureFormSectionSiteUsers(FormMapper $form): void
+    {
+        $title = $this->transLocaleTitle('SITE_ENTITY.SECTION.USERS');
+        $form->with($title, ['label' => $title, 'class' => 'col-md-9']);
+
+        $this->configureFormFieldAutocompleteUsers(
+            $form,
+            'users',
+            'SITE_ENTITY.LABEL.USERS',
+            'SITE_ENTITY.HELP.USERS',
+            [],
+            'admin.user.all'
+        );
+
+        $this->configureFormFieldAutocompleteUsers(
+            $form,
+            'clients',
+            'SITE_ENTITY.LABEL.CLIENTS',
+            'SITE_ENTITY.HELP.CLIENTS',
+            [],
+            'admin.user.all'
+        );
+
+        $form->end();
     }
 
     private function configureFormSectionSiteSettings(FormMapper $form): void

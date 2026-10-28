@@ -17,7 +17,9 @@ trait ConfigureFormAutocompleteUsersTrait
         FormMapper $form,
         ?string $name = null,
         ?string $label = null,
+        ?string $help = null,
         ?array $options = [],
+        ?string $adminCode = 'admin.user.all',
     ): void {
         $name  ??= 'users';
         $label ??= 'USER_ENTITY.LABEL.USERS';
@@ -30,6 +32,7 @@ trait ConfigureFormAutocompleteUsersTrait
                     'property'             => $options['property'] ?? ['email', 'firstName', 'lastName'],
                     'attr'                 => ['data-sonata-select2-allow-clear' => 'true'],
                     'label'                => $label,
+                    'help'                 => $help ?? '',
                     'required'             => $options['required'] ?? false,
                     'btn_add'              => $options['btn_add'] ?? false,
                     'empty_data'           => $options['empty_data'] ?? [],
@@ -44,7 +47,7 @@ trait ConfigureFormAutocompleteUsersTrait
                     },
                 ],
                 [
-                    'admin_code' => 'admin.user.all',
+                    'admin_code' => $adminCode,
                 ]
             );
     }

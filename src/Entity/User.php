@@ -44,9 +44,16 @@ class User extends AbstractEntity implements UserInterface
     #[ORM\InverseJoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $sites;
 
+    #[ORM\ManyToMany(targetEntity: Site::class, inversedBy: 'clients')]
+    #[ORM\JoinTable(name: 'user_clients')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private Collection $clients;
+
     public function __construct()
     {
-        $this->sites = new ArrayCollection();
+        $this->sites   = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -97,6 +104,30 @@ class User extends AbstractEntity implements UserInterface
     public function removeSite(Site $site): static
     {
         $this->sites->removeElement($site);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Site>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Site $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Site $client): static
+    {
+        $this->clients->removeElement($client);
 
         return $this;
     }

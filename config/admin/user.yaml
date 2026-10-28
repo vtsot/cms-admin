@@ -19,6 +19,19 @@ services:
                 label: MENU.USER_ALL
                 show_in_dashboard: false
 
+    admin.client.all:
+        class: 'App\Admin\User\CustomerUserAdmin'
+        calls:
+            - [ setBaseRouteName,       ['admin.user-customer'] ]
+            - [ setBaseRoutePattern,    ['user-customer'] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\User'
+                manager_type: orm
+                group: MENU_GROUP.USER
+                label: MENU.USER_ALL
+                show_in_dashboard: false
+
     admin.user.supervisor:
         class: 'App\Admin\User\SupervisorUserAdmin'
         calls:

@@ -18,6 +18,7 @@
         "knplabs/doctrine-behaviors": "^3.1",
         "league/flysystem": "^3.36",
         "league/flysystem-bundle": "^3.7",
+        "lexik/jwt-authentication-bundle": "^3.2",
         "nelmio/api-doc-bundle": "^5.13",
         "nelmio/cors-bundle": "^2.6",
         "nesbot/carbon": "^3.15",
