@@ -1,9 +1,10 @@
-@id=01a16459-7d94-7436-bef8-491f292baedf
+@id=01a174e0-93a3-7d35-9d6f-349894ea976c
+@token=f57513b7377507d7420ba364def607df4b53b29b
 POST https://api.cms-admin.local/sites/{{id}}/contacts
 Accept: application/json
 Accept-Language: en_GB
 Content-Type: application/json
-Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
+Authorization: Bearer {{token}}
 
 {
     "name": "name",

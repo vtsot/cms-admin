@@ -1,12 +1,13 @@
-@id=01a16459-7d94-7436-bef8-491f292baedf
+@id=01a174e0-93a3-7d35-9d6f-349894ea976c
+@token=f57513b7377507d7420ba364def607df4b53b29b
 @slug=page-1
 #@slug=article-1
-GET https://api.cms-admin.local/sites/{{id}}/pages/{{slug}}
+GET https://api.cms-admin.local/sites/{{id}}/pages/page-1
 Accept: application/json
 Content-Type: application/json
 #Accept-Language: en_GB
 Accept-Language: uk_UA
-Authorization: Bearer f5c500527d1655b4d39c7fa91f9b9a534c145d00
+Authorization: Bearer {{token}}
 
 {
 }
