@@ -9,16 +9,21 @@ use App\DTO\Collection\PageCriteriaDTO;
 use App\Entity\Page\AbstractPage;
 use App\Entity\Page\Article;
 use App\Entity\Page\Page;
+use App\Entity\Page\PageTranslation;
 use App\Repository\Traits\OrderByRepositoryTrait;
 use App\Repository\Traits\QueryConditionBuilderRepositoryTrait;
+use App\ValueObject\LocaleVO;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\OffsetPaginator;
 use Doctrine\ORM\Tools\Pagination\Window;
 use Doctrine\ORM\Tools\Pagination\WindowPage;
 use Symfony\Component\Uid\Uuid;
+
+use function Symfony\Component\String\s;
 
 trait PageRepositoryTrait
 {
@@ -199,6 +204,7 @@ trait PageRepositoryTrait
             : [null, null, null];
 
         $qb = $this
+            // p => abstract query
             ->createQueryBuilder('p')
             ->select('p')
             ->join('p.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
@@ -223,34 +229,8 @@ trait PageRepositoryTrait
         };
 
         // filter by query
-        if ($criteria->query !== null) {
-            $qb
-                // ->addSelect('a')
-                ->leftJoin('p.relatedArticles', 'ra')
-                ->leftJoin('ra.article', 'a')
-                ->groupBy('p.id');
-
-            $this->buildQueryCondition($criteria->query, $qb, [
-                // page
-                'p.title',
-                'p.content',
-                'p.meta_title',
-                'p.meta_keywords',
-                'p.meta_description',
-                'p.og_title',
-                'p.og_description',
-                'p.sources',
-                // article
-                'a.title',
-                'a.content',
-                'a.meta_title',
-                'a.meta_keywords',
-                'a.meta_description',
-                'a.og_title',
-                'a.og_description',
-                'a.sources',
-                'a.description',
-            ]);
+        if ($criteria->query !== null && trim($criteria->query) !== '') {
+            $this->applySearchQuery($qb, $criteria->query, $criteria->locale);
         }
 
         // filter by slug
@@ -302,6 +282,69 @@ trait PageRepositoryTrait
                 ->andWhere('p.sitemapPriority = :priority')
                 ->setParameter('priority', $criteria->priority);
         }
+
+        return $qb;
+    }
+
+    private function applySearchQuery(QueryBuilder $qb, string $query, ?LocaleVO $locale = null): QueryBuilder
+    {
+        $qb->groupBy('p.id');
+        $em    = $this->getEntityManager();
+        $expr  = new Expr();
+        $words = s($query)->split(' ');
+
+        $orConditions = [];
+
+        foreach ($words as $i => $item) {
+            $param = ':query' . $i;
+            $qb->setParameter('query' . $i, '%' . $item->toString() . '%');
+
+            // article-only columns (single table inheritance: not reachable via p.*)
+            $articleSub = $em->createQueryBuilder()
+                ->select('1')
+                ->from(Article::class, "a{$i}")
+                ->where("a{$i}.id = p.id")
+                ->andWhere($expr->orX(
+                    $expr->like("a{$i}.description", ':query' . $i),
+                    $expr->like("a{$i}.imageAlt", ':query' . $i),
+                ));
+
+            // page-only columns
+            $pageSub = $em->createQueryBuilder()
+                ->select('1')
+                ->from(Page::class, "pageSub{$i}")
+                ->where("pageSub{$i}.id = p.id")
+                ->andWhere($expr->like("pageSub{$i}.relatedArticlesTitle", ':query' . $i));
+
+            // translations (all non-default locales, or only the requested one)
+            $translationSub = $em->createQueryBuilder()
+                ->select('1')
+                ->from(PageTranslation::class, "translation{$i}")
+                ->where("translation{$i}.object = p")
+                ->andWhere($expr->like("translation{$i}.content", ':query' . $i));
+
+            if ($locale !== null) {
+                $translationSub->andWhere("translation{$i}.locale = :searchLocale");
+            }
+
+            $orConditions[] = $expr->like('p.title', $param);
+            $orConditions[] = $expr->like('p.content', $param);
+            $orConditions[] = $expr->like('p.metaTitle', $param);
+            $orConditions[] = $expr->like('p.metaKeywords', $param);
+            $orConditions[] = $expr->like('p.metaDescription', $param);
+            $orConditions[] = $expr->like('p.ogTitle', $param);
+            $orConditions[] = $expr->like('p.ogDescription', $param);
+            $orConditions[] = $expr->like('p.sources', $param);
+            $orConditions[] = $expr->exists($articleSub->getDQL());
+            $orConditions[] = $expr->exists($pageSub->getDQL());
+            $orConditions[] = $expr->exists($translationSub->getDQL());
+        }
+
+        if ($locale !== null) {
+            $qb->setParameter('searchLocale', $locale->toString());
+        }
+
+        $qb->andWhere($expr->orX(...$orConditions));
 
         return $qb;
     }

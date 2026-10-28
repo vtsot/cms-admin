@@ -10,16 +10,19 @@ use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
 use App\DTO\Collection\PageCriteriaDTO;
 use App\Service\Util;
+use App\ValueObject\LocaleVO;
 
 use function trim;
 
 class PageCriteriaDTOFactory
 {
     public function fromCollectionRequest(
+        LocaleVO $locale,
         GetSitePageCollectionRequest $request,
     ): PageCriteriaDTO {
         return new PageCriteriaDTO(
-            type: PageType::tryFrom($request->type ?? '') ?? PageType::Page,
+            locale: $locale,
+            type: PageType::tryFrom($request->type ?? ''),
             page: $request->page,
             perPage: $request->perPage,
             query: trim($request->query ?: '') ?: null,

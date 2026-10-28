@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\Query\Site;
 
-use App\Contract\Dictionary\PageType;
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Collection\Meta\CollectionFiltersDTO;
 use App\DTO\Collection\Meta\CollectionMetaDTO;
@@ -13,6 +12,8 @@ use App\DTO\Collection\PageInfoCollectionDTO;
 use App\DTOFactory\Entity\Page\ArticleInfoDTOFactory;
 use App\DTOFactory\Entity\Page\PageInfoDTOFactory;
 use App\Entity\Page\AbstractPage;
+use App\Entity\Page\Article;
+use App\Entity\Page\Page;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Message\Query\Site\GetSitePageCollectionQuery;
@@ -50,9 +51,10 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
         $page     = $this->pageRepository->getAllPaginatedBySiteIdAndToken($query->siteId, $query->token, $criteria);
 
         foreach ($page->getItems() as $item) {
-            match ($criteria->type) {
-                PageType::Page    => $items[] = $this->pageInfoDTOFactory->fromEntity($item),
-                PageType::Article => $items[] = $this->articleInfoDTOFactory->fromEntity($item),
+            match (true) {
+                $item instanceof Page    => $items[] = $this->pageInfoDTOFactory->fromEntity($item),
+                $item instanceof Article => $items[] = $this->articleInfoDTOFactory->fromEntity($item),
+                default                  => static fn () => null,
             };
         }
 

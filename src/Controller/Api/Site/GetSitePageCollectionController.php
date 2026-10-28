@@ -12,6 +12,7 @@ use App\DTOFactory\Collection\PageCriteriaDTOFactory;
 use App\Message\Query\Site\GetSitePageCollectionQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\MessageBusHandler;
+use App\ValueObject\LocaleVO;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Uid\Uuid;
 
 #[Route(host: '%api_domain%')]
@@ -61,10 +63,9 @@ class GetSitePageCollectionController extends AbstractController
     #[OA\Parameter(
         name: 'type',
         in: 'query',
-        required: true,
+        required: false,
         schema: new OA\Schema(
             ref: new Model(type: PageType::class),
-            default: PageType::Page->value,
         ),
     )]
     #[OA\Response(
@@ -84,15 +85,14 @@ class GetSitePageCollectionController extends AbstractController
         MessageBusHandler $messageBusHandler,
         PageCriteriaDTOFactory $factory,
         GetSitePageCollectionRequest $request,
+        LocaleSwitcher $localeSwitcher,
     ): JsonResponse {
-        return $this->json(
-            $messageBusHandler->handleQuery(
-                new GetSitePageCollectionQuery(
-                    siteId: $id,
-                    token: $user->token,
-                    criteria: $factory->fromCollectionRequest($request)
-                )
-            ),
+        return $this->json($messageBusHandler->handleQuery(
+            new GetSitePageCollectionQuery(
+                siteId: $id,
+                token: $user->token,
+                criteria: $factory->fromCollectionRequest(LocaleVO::fromString($localeSwitcher->getLocale()), $request)
+            )),
             context: ['groups' => ['link_details', 'collection_meta', 'page_collection', 'article_collection']]
         );
     }

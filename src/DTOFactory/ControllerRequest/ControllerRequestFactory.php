@@ -29,11 +29,8 @@ readonly class ControllerRequestFactory
     }
 
     /**
-     * @template T
-     *
-     * @param class-string<T> $type
-     *
-     * @return T
+     * @throws ExceptionInterface
+     * @throws ReflectionException
      */
     public function fromArray(array $data, string $type): object
     {
@@ -45,10 +42,6 @@ readonly class ControllerRequestFactory
     }
 
     /**
-     * @param mixed[] $data
-     *
-     * @return mixed[]
-     *
      * @throws ReflectionException
      */
     private function modify(array $data, string $type): array
@@ -75,8 +68,6 @@ readonly class ControllerRequestFactory
     }
 
     /**
-     * @param mixed[] $data
-     *
      * @throws ExceptionInterface
      */
     private function denormalize(array $data, string $type): object

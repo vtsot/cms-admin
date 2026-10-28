@@ -8,6 +8,7 @@ use App\Contract\Dictionary\PageSitemapChangeFrequency;
 use App\Contract\Dictionary\PageSitemapPriority;
 use App\Contract\Dictionary\PageType;
 use App\DTOFactory\Collection\PageCriteriaDTOFactory;
+use App\ValueObject\LocaleVO;
 use Carbon\CarbonImmutable;
 
 /**
@@ -48,6 +49,7 @@ final readonly class PageCriteriaDTO
     ];
 
     public function __construct(
+        public ?LocaleVO $locale = null,
         public ?PageType $type = null,
         public ?int $page = null,
         public ?int $perPage = null,
@@ -83,7 +85,7 @@ final readonly class PageCriteriaDTO
     public function appliedFilters(?array $context = []): array
     {
         return array_merge([
-            self::FILTER_TYPE      => $this->type->value,
+            self::FILTER_TYPE      => $this->type?->value,
             self::FILTER_QUERY     => $this->query,
             self::FILTER_SLUG      => $this->slug,
             self::FILTER_ACTIVE    => $this->active,

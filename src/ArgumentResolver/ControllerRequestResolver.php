@@ -7,9 +7,11 @@ namespace App\ArgumentResolver;
 use App\Contract\ControllerRequest\ControllerRequestInterface;
 use App\DTOFactory\ControllerRequest\ControllerRequestFactory;
 use App\Service\Util;
+use ReflectionException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 use function array_merge;
 use function class_exists;
@@ -22,13 +24,17 @@ use const FILTER_NULL_ON_FAILURE;
 use const FILTER_VALIDATE_FLOAT;
 use const FILTER_VALIDATE_INT;
 
-class ApiRequestResolver implements ValueResolverInterface
+final readonly class ControllerRequestResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly ControllerRequestFactory $apiRequestFactory,
+        private ControllerRequestFactory $apiRequestFactory,
     ) {
     }
 
+    /**
+     * @throws ReflectionException
+     * @throws ExceptionInterface
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): array
     {
         $argumentType = $argument->getType();
@@ -36,7 +42,7 @@ class ApiRequestResolver implements ValueResolverInterface
         if (
             !$argumentType
             || !class_exists($argumentType)
-            || !is_subclass_of($argumentType, ControllerRequestInterface::class, true)
+            || !is_subclass_of($argumentType, ControllerRequestInterface::class)
         ) {
             return [];
         }
