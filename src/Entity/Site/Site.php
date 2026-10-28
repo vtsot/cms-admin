@@ -47,9 +47,6 @@ class Site extends AbstractEntity
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sites')]
     private Collection $users;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sites')]
-    private Collection $clients;
-
     #[ORM\OneToOne(targetEntity: SiteSettings::class, mappedBy: 'site', cascade: ['persist'])]
     private ?SiteSettings $settings = null;
 

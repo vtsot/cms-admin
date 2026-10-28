@@ -19,7 +19,6 @@ trait ConfigureFormAutocompleteUsersTrait
         ?string $label = null,
         ?string $help = null,
         ?array $options = [],
-        ?string $adminCode = 'admin.user.all',
     ): void {
         $name  ??= 'users';
         $label ??= 'USER_ENTITY.LABEL.USERS';
@@ -47,7 +46,7 @@ trait ConfigureFormAutocompleteUsersTrait
                     },
                 ],
                 [
-                    'admin_code' => $adminCode,
+                    'admin_code' => 'admin.user.all',
                 ]
             );
     }

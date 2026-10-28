@@ -34,16 +34,4 @@ class NavigationTranslation extends AbstractPersonalTranslation
             $this->setContent($value);
         }
     }
-
-    //    public function getObject(): ?AbstractNavigation
-    //    {
-    //        return $this->object;
-    //    }
-    //
-    //    public function setObject(?self $object): static
-    //    {
-    //        $this->object = $object;
-    //
-    //        return $this;
-    //    }
 }

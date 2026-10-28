@@ -19,7 +19,6 @@ trait ConfigureFilterAutocompleteUsersTrait
         ?string $name = null,
         ?string $label = null,
         ?array $options = [],
-        ?string $adminCode = 'admin.user.all',
     ): void {
         $name  ??= 'users';
         $label ??= 'USER_ENTITY.LABEL.USERS';
@@ -42,7 +41,7 @@ trait ConfigureFilterAutocompleteUsersTrait
                 ],
             ],
             [
-                'admin_code' => $adminCode,
+                'admin_code' => 'admin.user.all',
             ]
         );
     }
