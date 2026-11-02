@@ -15,6 +15,7 @@ final readonly class ApiSiteUser implements JWTUserInterface
 {
     public function __construct(
         public string $userIdentifier,
+        public Uuid $userId,
         public Uuid $siteId,
         public string $token,
         public array $roles,
@@ -29,6 +30,7 @@ final readonly class ApiSiteUser implements JWTUserInterface
 
         return new self(
             userIdentifier: $username,
+            userId: Uuid::isValid($payload['userId']) ? Uuid::fromString($payload['userId']) : new NilUuid(),
             siteId: Uuid::isValid($payload['siteId']) ? Uuid::fromString($payload['siteId']) : new NilUuid(),
             token: $payload['token'] ?? '',
             roles: $roles

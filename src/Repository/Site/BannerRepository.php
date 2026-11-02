@@ -8,8 +8,6 @@ use App\Contract\Repository\FindByIdInterface;
 use App\Entity\Site\Banner;
 use App\Repository\Traits\PositionRepositoryTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
@@ -34,26 +32,6 @@ class BannerRepository extends ServiceEntityRepository implements FindByIdInterf
     public function findOneById(Uuid $id): ?Banner
     {
         return $this->find($id);
-    }
-
-    public function findOneActiveBySiteIdAndTokenAndBannerId(Uuid $siteId, string $token, Uuid $bannerId): ?Banner
-    {
-        $qb = $this->createQueryBuilder('b')
-            ->join('b.site', 's')
-            ->where('b.id = :bannerId')->setParameter('bannerId', $bannerId->toBinary())
-            ->andWhere('b.active = :bannerActive')->setParameter('bannerActive', true)
-            ->andWhere('s.id = :siteId')->setParameter('siteId', $siteId->toBinary())
-            ->andWhere('s.token = :token')->setParameter('token', $token)
-            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
-            ->setMaxResults(1);
-
-        try {
-            return $qb
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException|NonUniqueResultException $e) {
-            return null;
-        }
     }
 
     /**

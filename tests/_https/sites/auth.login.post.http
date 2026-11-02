@@ -7,6 +7,8 @@ Accept-Language: en_GB
 Content-Type: application/json
 X-Site-Id: {{id}}
 X-Site-Token: {{token}}
+#    "username": "user2@example.com",
+#    "password": "string"
 
 {
     "username": "user@example.com",
