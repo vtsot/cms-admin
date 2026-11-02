@@ -14,7 +14,10 @@ use function preg_match;
 use function preg_quote;
 use function sprintf;
 
-/** @see HeaderAccessTokenExtractor */
+/**
+ * @deprecated
+ * @see HeaderAccessTokenExtractor
+ */
 class AccessTokenExtractor implements AccessTokenExtractorInterface
 {
     private string $regex;

@@ -10,6 +10,9 @@ use SensitiveParameter;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
+/**
+ * @deprecated
+ */
 readonly class AccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(

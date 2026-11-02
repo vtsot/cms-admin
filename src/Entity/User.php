@@ -44,9 +44,16 @@ class User extends AbstractEntity implements UserInterface
     #[ORM\InverseJoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $sites;
 
+    #[ORM\ManyToMany(targetEntity: Site::class, inversedBy: 'clients')]
+    #[ORM\JoinTable(name: 'user_clients')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private Collection $clients;
+
     public function __construct()
     {
-        $this->sites = new ArrayCollection();
+        $this->sites   = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function __toString(): string

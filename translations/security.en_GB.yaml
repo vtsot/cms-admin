@@ -1,2 +1,5 @@
 SECURITY:
     ACCESS_DENIED: 'Access Denied'
+    HEADER_REQUIRED: 'The "%HEADER%" header is required'
+    HEADER_INVALID: 'The "%HEADER%" header is invalid'
+    SITE_NOT_FOUND: 'Invalid site id: "%SITE%" and site token: "%TOKEN%" credentials'
