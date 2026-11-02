@@ -70,26 +70,6 @@ abstract class AbstractNavigationRepository extends ServiceEntityRepository impl
             ->getResult();
     }
 
-    public function findOneActiveBySiteIdAndTokenAndNavigationId(Uuid $siteId, string $token, Uuid $navigationId): ?AbstractNavigation
-    {
-        $qb = $this->createBaseQuery('n')
-            ->join('n.site', 's', Join::WITH, 's.id = :siteId AND s.token = :siteToken')
-            ->setParameter('siteId', $siteId->toBinary())
-            ->setParameter('siteToken', $token)
-            ->andWhere('n.id = :navId')->setParameter('navId', $navigationId->toBinary())
-            ->andWhere('n.active = :navActive')->setParameter('navActive', true)
-            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
-            ->setMaxResults(1);
-
-        try {
-            return $qb
-                ->getQuery()
-                ->getSingleScalarResult();
-        } catch (NoResultException|NonUniqueResultException $e) {
-            return null;
-        }
-    }
-
     public function getMaximumPositionForActiveItemsBySiteIdAndParent(Uuid $siteId, ?Uuid $parentId): int
     {
         try {

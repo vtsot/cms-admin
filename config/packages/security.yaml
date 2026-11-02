@@ -83,6 +83,7 @@ security:
             lazy: true
             stateless: true
             provider: api_site_token_user_provider
+            entry_point: jwt
             #            login_throttling:
             #                limiter: app.login_rate_limiter
 
@@ -96,6 +97,9 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
+            refresh_jwt:
+                check_path: api.site.auth.refresh_token
+                provider: api_site_token_user_provider
 
         admin:
             pattern: ^/

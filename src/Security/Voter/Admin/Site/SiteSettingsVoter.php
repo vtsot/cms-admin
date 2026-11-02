@@ -78,16 +78,16 @@ class SiteSettingsVoter extends Voter
     private function voteOnClass(UserInterface $user, VoterSubject $subject): bool
     {
         // user is a manager of the site
-        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+        return ($site = $this->siteRepository->findOneByIdAndUserId($subject->siteId, $user->getId()))
             && $site->getId()->equals($subject->siteId);
     }
 
     private function voteOnInstance(UserInterface $user, VoterSubject $subject): bool
     {
         // user is a manager of the site
-        // and entry belongs to the site
-        return ($site = $this->siteRepository->findOneByIdAndUser($subject->siteId, $user->getId()))
+        return ($site = $this->siteRepository->findOneByIdAndUserId($subject->siteId, $user->getId()))
             && $site->getId()->equals($subject->siteId)
+            // and entry belongs to the site
             && $subject->entry instanceof SiteSettings
             && $site->getId()->equals($subject->entry->getSite()?->getId());
     }

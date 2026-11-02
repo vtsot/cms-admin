@@ -92,26 +92,6 @@ trait PageRepositoryTrait
         }
     }
 
-    public function findOneActiveBySiteIdAndTokenAndPageId(Uuid $siteId, string $token, Uuid $pageId): ?AbstractPage
-    {
-        $qb = $this->createQueryBuilder('p')
-            ->join('p.site', 's', Join::WITH, 's.id = :siteId AND s.token = :token')
-            ->setParameter('siteId', $siteId->toBinary())
-            ->setParameter('token', $token)
-            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
-            ->andWhere('p.id = :pageId')->setParameter('pageId', $pageId->toBinary())
-            ->andWhere('p.active = :pageActive')->setParameter('pageActive', true)
-            ->setMaxResults(1);
-
-        try {
-            return $qb
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException) {
-            return null;
-        }
-    }
-
     public function findHomepageBySiteId(Uuid $siteId): ?AbstractPage
     {
         // return $this->findOneBy(['site' => $siteId, 'homepage' => true]);

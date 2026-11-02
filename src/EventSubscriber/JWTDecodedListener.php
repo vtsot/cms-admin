@@ -22,7 +22,10 @@ class JWTDecodedListener implements EventSubscriberInterface
     {
         $payload = $event->getPayload();
 
-        if (!isset($payload['siteId'], $payload['token']) || !Uuid::isValid($payload['siteId'])) {
+        if (!isset($payload['userId'], $payload['siteId'], $payload['token'])
+            || !Uuid::isValid($payload['userId'])
+            || !Uuid::isValid($payload['siteId'])
+        ) {
             $event->markAsInvalid();
         }
     }

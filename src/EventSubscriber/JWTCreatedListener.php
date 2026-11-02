@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Entity\User;
 use App\Security\Authentication\ApiSiteLoginAuthenticator;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Events;
@@ -29,6 +30,10 @@ final readonly class JWTCreatedListener implements EventSubscriberInterface
         $request = $this->requestStack->getMainRequest();
         $payload = $event->getData();
 
+        /** @var User $user */
+        $user = $event->getUser();
+
+        $payload['userId'] = $user->getId()->toString();
         $payload['siteId'] = $request?->headers->get(ApiSiteLoginAuthenticator::HEADER_SITE_ID);
         $payload['token']  = $request?->headers->get(ApiSiteLoginAuthenticator::HEADER_SITE_TOKEN);
 

@@ -6,6 +6,7 @@ namespace App\Repository\Site;
 
 use App\Contract\Repository\FindByIdInterface;
 use App\Entity\Site\Site;
+use App\Security\User\ApiSiteUser;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -35,23 +36,74 @@ class SiteRepository extends ServiceEntityRepository implements FindByIdInterfac
         return $this->find(['id' => $id]);
     }
 
-    public function findOneActiveBySiteIdAndToken(Uuid $siteId, string $token): ?Site
-    {
-        return $this->findOneBy(['id' => $siteId, 'token' => $token, 'active' => true]);
-    }
-
     public function findOneByToken(string $token): ?Site
     {
         return $this->findOneBy(['token' => $token]);
     }
 
-    public function findOneByIdAndUser(Uuid $id, Uuid $userId): ?Site
+    public function findOneActiveBySiteIdAndToken(Uuid $siteId, string $token): ?Site
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.id = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('s.token = :token')->setParameter('token', $token)
+            ->andWhere('s.active = :active')->setParameter('active', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    public function findOneActiveBySiteIdAndTokenAndClientIdentifier(Uuid $siteId, string $token, string $clientIdentifier): ?Site
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->join('s.clients', 'c', Join::WITH, 'c.email = :clientIdentifier')
+            ->setParameter('clientIdentifier', $clientIdentifier)
+            ->where('s.id = :siteId')->setParameter('siteId', $siteId->toBinary())
+            ->andWhere('s.token = :token')->setParameter('token', $token)
+            ->andWhere('s.active = :siteActive')->setParameter('siteActive', true)
+            ->andWhere('c.active = :clientActive')->setParameter('clientActive', true)
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    public function findOneByIdAndUserId(Uuid $id, Uuid $userId): ?Site
     {
         $qb = $this->createQueryBuilder('s')
             ->join('s.users', 'u', Join::WITH, 'u.id = :userId')
             ->setParameter('userId', $userId->toBinary())
             ->where('s.id = :siteId')
             ->setParameter('siteId', $id->toBinary())
+            ->setMaxResults(1);
+
+        try {
+            return $qb
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException) {
+            return null;
+        }
+    }
+
+    public function findOneActiveByApiSiteUser(ApiSiteUser $user): ?Site
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->join('s.clients', 'c', Join::WITH, 'c.id = :clientId')
+            ->setParameter('clientId', $user->userId->toBinary())
+            ->where('s.id = :siteId')->setParameter('siteId', $user->siteId->toBinary())
+            ->andWhere('s.token = :token')->setParameter('token', $user->token)
+            ->andWhere('s.active = :active')->setParameter('active', true)
             ->setMaxResults(1);
 
         try {
