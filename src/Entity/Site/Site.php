@@ -47,6 +47,9 @@ class Site extends AbstractEntity
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sites')]
     private Collection $users;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'clients')]
+    private Collection $clients;
+
     #[ORM\OneToOne(targetEntity: SiteSettings::class, mappedBy: 'site', cascade: ['persist'])]
     private ?SiteSettings $settings = null;
 
@@ -215,7 +218,7 @@ class Site extends AbstractEntity
     {
         if (!$this->clients->contains($client)) {
             $this->clients->add($client);
-            $client->addSite($this);
+            $client->addClient($this);
         }
 
         return $this;
@@ -224,7 +227,7 @@ class Site extends AbstractEntity
     public function removeClient(User $client): static
     {
         if ($this->clients->removeElement($client)) {
-            $client->removeSite($this);
+            $client->removeClient($this);
         }
 
         return $this;

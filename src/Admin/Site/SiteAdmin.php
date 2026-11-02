@@ -78,6 +78,8 @@ class SiteAdmin extends AbstractAdmin
         $this->configureFilterFieldText($filter, 'title', 'SITE_ENTITY.LABEL.TITLE');
 
         $this->configureFilterFieldAutocompleteUsers($filter, 'users', 'SITE_ENTITY.LABEL.USERS');
+        $this->configureFilterFieldAutocompleteUsers($filter, 'clients', 'SITE_ENTITY.LABEL.CLIENTS');
+
         $this->configureFilterFieldActive($filter);
 
         $this->configureFilterFieldText($filter, 'registrarEmail', 'SITE_ENTITY.LABEL.REGISTRAR_EMAIL');
@@ -110,6 +112,17 @@ class SiteAdmin extends AbstractAdmin
             'users',
             'email',
             'SITE_ENTITY.LABEL.USERS',
+            [
+                'admin_code' => 'admin.user.all',
+                'route'      => ['name' => 'show'],
+            ]
+        );
+
+        $this->configureListFieldManyToMany(
+            $list,
+            'clients',
+            'email',
+            'SITE_ENTITY.LABEL.CLIENTS',
             [
                 'admin_code' => 'admin.user.all',
                 'route'      => ['name' => 'show'],
@@ -197,8 +210,13 @@ class SiteAdmin extends AbstractAdmin
             'users',
             'SITE_ENTITY.LABEL.USERS',
             'SITE_ENTITY.HELP.USERS',
-            [],
-            'admin.user.all'
+        );
+
+        $this->configureFormFieldAutocompleteUsers(
+            $form,
+            'clients',
+            'SITE_ENTITY.LABEL.CLIENTS',
+            'SITE_ENTITY.HELP.CLIENTS',
         );
 
         $form->end();

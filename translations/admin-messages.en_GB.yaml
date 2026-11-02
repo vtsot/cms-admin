@@ -235,6 +235,7 @@ SITE_ENTITY:
         ID: 'ID'
         DOMAIN: 'Domain'
         USERS: 'Managers'
+        CLIENTS: 'API Users'
         SITES: 'Sites'
         TOKEN: 'API Token'
         NO_TOKEN: 'No token'
@@ -250,6 +251,7 @@ SITE_ENTITY:
     HELP:
         DOMAIN: 'Ex. "https://example.com" (Attention: domain must start with http:// or https://)'
         USERS: 'Users who can update site content data, such as pages or articles and e.t.c.'
+        CLIENTS: 'Users who can login by API and get site content data, such as pages or articles and e.t.c.'
         TITLE: ''
         DESCRIPTION: ''
         REGISTRAR_EMAIL: 'E-mail used during the registration '
