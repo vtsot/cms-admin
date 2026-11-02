@@ -21,3 +21,8 @@ framework:
             policy: fixed_window
             limit: '%env(int:RATE_LIMIT_API_SITE_GLOBAL_MAX_ATTEMPTS)%'
             interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+        # all requests to the api domain, per IP
+        api_request:
+            policy: sliding_window
+            limit: '%env(int:RATE_LIMIT_API_MAX_REQUESTS)%'
+            interval: '%env(string:RATE_LIMIT_API_INTERVAL)%'

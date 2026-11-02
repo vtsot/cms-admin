@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
@@ -89,7 +90,7 @@ readonly class ApiExceptionToErrorConverter implements EventSubscriberInterface
                 new JsonResponse(
                     $this->serializer->serialize(new ErrorDTO($errorCode, $throwable->getMessage()), 'json'),
                     $errorCode,
-                    [],
+                    $throwable instanceof HttpExceptionInterface ? $throwable->getHeaders() : [],
                     true
                 )
             );
