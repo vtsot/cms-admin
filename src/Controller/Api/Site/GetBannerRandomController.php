@@ -51,13 +51,6 @@ class GetBannerRandomController extends AbstractController
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {
-        dd(
-            __METHOD__,
-            $user->siteId,
-            $user->token,
-            $user,
-        );
-
         /** @var BannerDTO $dto */
         $dto = $messageBusHandler->handleQuery(
             new GetBannerRandomQuery(

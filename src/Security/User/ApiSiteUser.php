@@ -6,7 +6,6 @@ namespace App\Security\User;
 
 use App\Contract\Dictionary\User\UserRole;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
-
 use Symfony\Component\Uid\NilUuid;
 use Symfony\Component\Uid\Uuid;
 

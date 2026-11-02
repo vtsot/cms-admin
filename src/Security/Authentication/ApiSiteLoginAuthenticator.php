@@ -21,8 +21,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -102,16 +102,13 @@ class ApiSiteLoginAuthenticator extends AbstractAuthenticator
 
         $idClaim           = $this->jwtManager->getUserIdClaim();
         $payload[$idClaim] = $request->request->get($idClaim);
-        $payload['siteId'] = $siteId;
-        // $payload['token']  = $token;
 
-        $passport = new SelfValidatingPassport(
+        $passport = new Passport(
             new UserBadge(
                 (string) $payload[$idClaim],
-                function ($userIdentifier) {
-                    return $this->userProvider->loadUserByIdentifier($userIdentifier);
-                }
-            )
+                fn ($userIdentifier) => $this->userProvider->loadUserByIdentifier($userIdentifier),
+            ),
+            new PasswordCredentials($request->request->getString('password'))
         );
 
         $passport->setAttribute('payload', $payload);
