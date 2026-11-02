@@ -7,8 +7,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    api_domain: '%env(API_DOMAIN)%'
-    admin_domain: '%env(ADMIN_DOMAIN)%'
     timezone: '%env(TIMEZONE)%'
     default_locale: '%env(string:DEFAULT_LOCALE)%'
     locales: '%env(json:LOCALES)%'
@@ -16,6 +14,8 @@ parameters:
     storage_dir: '%kernel.project_dir%/var/storage' #ss
     storage_cache_dir: '%kernel.project_dir%/var/cache/storage'
     translation_cache_dir: '%kernel.project_dir%/var/cache/translations'
+    api_domain: '%env(API_DOMAIN)%'
+    admin_domain: '%env(ADMIN_DOMAIN)%'
 
     site_image_storage_dir: '%storage_dir%/images/site'
     site_image_cache_storage_dir: '%storage_cache_dir%/images/site'
@@ -69,9 +69,6 @@ services:
             - '../src/DTO/'
             - '../src/Entity/'
             - '../src/Exception/'
-            - '../src/CQ/**/*Query.php'
-            - '../src/CQ/**/*Command.php'
-            - '../src/CQ/**/*Event.php'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
