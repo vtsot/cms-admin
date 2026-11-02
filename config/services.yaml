@@ -104,3 +104,15 @@ services:
             $globalFactory: '@limiter.admin_login_global'
             $localFactory: '@limiter.admin_login_local'
             $secret: '%kernel.secret%'
+
+    app.api_site_login_rate_limiter:
+        class: App\Security\RateLimiter\ApiSiteLoginRateLimiter
+        arguments:
+            $limiter: '@app.api_site_login_rate_limiter.default'
+
+    app.api_site_login_rate_limiter.default:
+        class: Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter
+        arguments:
+            $globalFactory: '@limiter.api_site_login_global'
+            $localFactory: '@limiter.api_site_login_local'
+            $secret: '%kernel.secret%'

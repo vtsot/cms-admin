@@ -11,3 +11,13 @@ framework:
             policy: fixed_window
             limit: '%env(int:RATE_LIMIT_ADMIN_GLOBAL_MAX_ATTEMPTS)%'
             interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+        # username + IP
+        api_site_login_local:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_API_SITE_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+        # IP only
+        api_site_login_global:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_API_SITE_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
