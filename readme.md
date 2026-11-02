@@ -11,6 +11,7 @@ Admin section to manage website pages
 edit /etc/hosts  
 add a new hosts:
 - cms-admin.local
+- cms-client.local
 - admin.cms-admin.local
 - api.cms-admin.local
 
