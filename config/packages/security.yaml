@@ -4,6 +4,9 @@ security:
             - IS_AUTHENTICATED_FULLY
             - IS_AUTHENTICATED_REMEMBERED
 
+        ROLE_API_SITE:
+            - ROLE_USER
+
         ROLE_SITE_MANAGER:
             - ROLE_USER
             - ROLE_ADMIN_SITE_LIST
@@ -47,7 +50,14 @@ security:
                     apidoc_user: { password: '92hkif90ln', roles: [ ROLE_API_DOC ] }
 
         api_site_users:
-            id: App\Security\UserProvider\ApiSiteUserProvider
+#            id: App\Security\UserProvider\ApiSiteUserProvider
+#            id: Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserProvider
+            #id: lexik_jwt_authentication.security.jwt_user_provider
+            lexik_jwt:
+                class: App\Security\User\ApiSiteUser
+
+        api_site_token_user_provider:
+            id: App\Security\UserProvider\ApiSiteTokenUserProvider
 
         regular_user_provider:
             id: App\Security\UserProvider\RegularUserProvider
@@ -70,13 +80,49 @@ security:
                 provider: api_doc_users
                 realm: Basic
 
+#        api_site_auth:
+#            pattern: '^/sites/auth'
+#            host: '^%api_domain%$'
+#            stateless: true
+#            provider: api_site_users
+#            #provider: regular_user_provider
+#            #provider: jwt
+#            #provider: lexik_jwt_authentication.security.jwt_user_provider
+#            #provider: Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserProvider
+#            entry_point: jwt
+#            #            login_throttling:
+#            #                limiter: app.login_rate_limiter
+#
+##            custom_authenticators:
+##                - App\Security\Authentication\ApiSiteLoginAuthenticator
+#
+#            json_login:
+#                check_path: api.site.auth.login
+#                username_path: username
+#                password_path: password
+#                success_handler: lexik_jwt_authentication.handler.authentication_success
+#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+#            jwt: ~
+
         api_site:
-            pattern: ^/sites
+            pattern: '^/sites'
             host: '^%api_domain%$'
-            access_token:
-                token_handler: App\Security\ApiSite\AccessTokenHandler
-                token_extractors: App\Security\ApiSite\AccessTokenExtractor
-                provider: api_site_users
+            lazy: true
+            stateless: true
+            provider: api_site_token_user_provider
+            #            login_throttling:
+            #                limiter: app.login_rate_limiter
+
+            custom_authenticators:
+                - App\Security\Authentication\ApiSiteLoginAuthenticator
+
+            json_login:
+                check_path: api.site.auth.login
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
 
         admin:
             pattern: ^/
@@ -109,8 +155,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: '^/(css|js|images|assets|favicon\.ico)', roles: PUBLIC_ACCESS }
         # allow unauthenticated users to access the login form
         - { host: '^%api_domain%$', path: '^/doc$', roles: ROLE_API_DOC }
+        - { host: '^%api_domain%$', path: '^/sites/auth/(login|refresh-token)', roles: PUBLIC_ACCESS }
         - { host: '^%api_domain%$', path: '^/sites', roles: ROLE_API_SITE }
         - { host: '^%admin_domain%$', path: '^/login', roles: PUBLIC_ACCESS }
         - { host: '^%admin_domain%$', path: '^/', roles: [ROLE_SITE_MANAGER] }

@@ -100,28 +100,4 @@ class User extends AbstractEntity implements UserInterface
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Site>
-     */
-    public function getClients(): Collection
-    {
-        return $this->clients;
-    }
-
-    public function addClient(Site $client): static
-    {
-        if (!$this->clients->contains($client)) {
-            $this->clients->add($client);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(Site $client): static
-    {
-        $this->clients->removeElement($client);
-
-        return $this;
-    }
 }

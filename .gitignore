@@ -47,3 +47,7 @@ yarn-error.log
 ###> claude skill test runs ###
 /.claude/skills/*-workspace/
 ###< claude skill test runs ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

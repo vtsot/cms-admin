@@ -6,7 +6,8 @@ namespace App\Contract\Dictionary;
 
 abstract class ApiDocTag
 {
-    public const string SITES = '01 Sites';
+    public const string AUTH  = '01 Auth';
+    public const string SITES = '02 Sites';
 
     public const string ADMIN = '01 Admin';
 

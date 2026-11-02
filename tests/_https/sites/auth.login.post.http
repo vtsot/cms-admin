@@ -1,0 +1,14 @@
+@id=01a174e0-93a3-7d35-9d6f-349894ea976c
+@token=f57513b7377507d7420ba364def607df4b53b29b
+#@token=11111111111
+POST https://api.cms-admin.local/sites/auth/login
+Accept: application/json
+Accept-Language: en_GB
+Content-Type: application/json
+X-Site-Id: {{id}}
+X-Site-Token: {{token}}
+
+{
+    "username": "user@example.com",
+    "password": "stringSSS"
+}
