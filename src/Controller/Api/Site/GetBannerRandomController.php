@@ -53,6 +53,8 @@ class GetBannerRandomController extends AbstractController
     ): JsonResponse {
         dd(
             __METHOD__,
+            $user->siteId,
+            $user->token,
             $user,
         );
 

@@ -50,9 +50,6 @@ security:
                     apidoc_user: { password: '92hkif90ln', roles: [ ROLE_API_DOC ] }
 
         api_site_users:
-#            id: App\Security\UserProvider\ApiSiteUserProvider
-#            id: Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserProvider
-            #id: lexik_jwt_authentication.security.jwt_user_provider
             lexik_jwt:
                 class: App\Security\User\ApiSiteUser
 
@@ -79,30 +76,6 @@ security:
             http_basic:
                 provider: api_doc_users
                 realm: Basic
-
-#        api_site_auth:
-#            pattern: '^/sites/auth'
-#            host: '^%api_domain%$'
-#            stateless: true
-#            provider: api_site_users
-#            #provider: regular_user_provider
-#            #provider: jwt
-#            #provider: lexik_jwt_authentication.security.jwt_user_provider
-#            #provider: Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserProvider
-#            entry_point: jwt
-#            #            login_throttling:
-#            #                limiter: app.login_rate_limiter
-#
-##            custom_authenticators:
-##                - App\Security\Authentication\ApiSiteLoginAuthenticator
-#
-#            json_login:
-#                check_path: api.site.auth.login
-#                username_path: username
-#                password_path: password
-#                success_handler: lexik_jwt_authentication.handler.authentication_success
-#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-#            jwt: ~
 
         api_site:
             pattern: '^/sites'
