@@ -1,0 +1,13 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    rate_limiter:
+        # username + IP
+        admin_login_local:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_ADMIN_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+        # IP only
+        admin_login_global:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_ADMIN_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'

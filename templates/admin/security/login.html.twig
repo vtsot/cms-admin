@@ -17,7 +17,7 @@
             <div class="widget__body">
                 {% if error is defined and error is not null %}
                     <div class="alert">
-                        {{ error.message|trans(error.messageData, 'security') | raw }}
+                        {{ error.messageKey|trans(error.messageData, 'security') | raw }}
                     </div>
                 {% endif %}
                 <form action="{{ path('admin.login_check') }}" method="post">

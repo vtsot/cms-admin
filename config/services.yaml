@@ -97,3 +97,10 @@ services:
 
     Intervention\Image\ImageManager:
         factory: ['App\Service\Factory\ImageManagerFactory', 'create']
+
+    app.admin_login_rate_limiter:
+        class: Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter
+        arguments:
+            $globalFactory: '@limiter.admin_login_global'
+            $localFactory: '@limiter.admin_login_local'
+            $secret: '%kernel.secret%'
