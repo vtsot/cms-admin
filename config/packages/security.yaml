@@ -84,8 +84,8 @@ security:
             stateless: true
             provider: api_site_token_user_provider
             entry_point: jwt
-            #            login_throttling:
-            #                limiter: app.login_rate_limiter
+            login_throttling:
+                limiter: app.api_site_login_rate_limiter
 
             custom_authenticators:
                 - App\Security\Authentication\ApiSiteLoginAuthenticator
@@ -106,6 +106,8 @@ security:
             host: '^%admin_domain%$'
             lazy: true
             provider: regular_user_provider
+            login_throttling:
+                limiter: app.admin_login_rate_limiter
 
             form_login:
                 login_path: admin.login

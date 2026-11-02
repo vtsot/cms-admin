@@ -1,0 +1,28 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    rate_limiter:
+        # username + IP
+        admin_login_local:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_ADMIN_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+        # IP only
+        admin_login_global:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_ADMIN_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+        # username + IP
+        api_site_login_local:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_API_SITE_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+        # IP only
+        api_site_login_global:
+            policy: fixed_window
+            limit: '%env(int:RATE_LIMIT_API_SITE_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+        # all requests to the api domain, per IP
+        api_request:
+            policy: sliding_window
+            limit: '%env(int:RATE_LIMIT_API_MAX_REQUESTS)%'
+            interval: '%env(string:RATE_LIMIT_API_INTERVAL)%'
