@@ -9,6 +9,7 @@ use App\Entity\MailLog;
 use App\Entity\Site\Site;
 use App\Message\Command\MailLog\CreateMailLogCommand;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 
 readonly class CreateMailLogHandler implements CommandHandlerInterface
 {
@@ -17,6 +18,9 @@ readonly class CreateMailLogHandler implements CommandHandlerInterface
     ) {
     }
 
+    /**
+     * @throws ORMException
+     */
     public function __invoke(CreateMailLogCommand $command): MailLog
     {
         $mailLog = (new MailLog())

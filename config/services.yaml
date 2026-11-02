@@ -95,6 +95,10 @@ services:
     Intervention\Image\ImageManager:
         factory: ['App\Service\Factory\ImageManagerFactory', 'create']
 
+    app.monolog.db_handler:
+        class: App\Service\MonologDbHandler
+        arguments: [ '@doctrine.orm.entity_manager' ]
+
     app.admin_login_rate_limiter:
         class: Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter
         arguments:

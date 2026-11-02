@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Message\Command\Site;
 
-use App\MessageHandler\Command\Site\ResetSiteTokenHandler;
+use App\MessageHandler\Command\Site\SiteResetTokenHandler;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @see ResetSiteTokenHandler
+ * @see SiteResetTokenHandler
  */
-readonly class ResetSiteTokenCommand
+readonly class SiteResetTokenCommand
 {
     public function __construct(
         public Uuid $siteId,

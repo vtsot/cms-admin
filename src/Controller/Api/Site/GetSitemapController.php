@@ -46,7 +46,7 @@ class GetSitemapController extends AbstractController
         )
     )]
     #[OA\Tag(name: ApiDocTag::SITES)]
-    public function getSitemapPageCollection(
+    public function __invoke(
         Uuid $id,
         MessageBusHandler $messageBusHandler,
         #[CurrentUser] ApiSiteUser $user,

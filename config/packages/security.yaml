@@ -18,6 +18,7 @@ security:
             - ROLE_ADMIN_SITE_PAGE_ARTICLE_RELATED_INLINE_ALL
             - ROLE_ADMIN_SITE_ARTICLE_ALL
             - ROLE_ADMIN_SITE_BANNER_ALL
+            - ROLE_ADMIN_SYSTEM_LOG_ALL
 
         ROLE_ADMIN:
             - ROLE_USER

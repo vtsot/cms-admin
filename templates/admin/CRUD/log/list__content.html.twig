@@ -1,0 +1,93 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+{# @var \App\Admin\LogAdmin admin #}
+{# @var \App\Entity\Log object #}
+
+{% block field %}
+
+    <div>
+        {#        <strong>{{ 'LOG_ENTITY.LABEL.MESSAGE'|trans({}, 'admin-messages') }}:</strong> #}
+        <strong>{{ object.message ?? 'n/a' }}</strong>
+    </div>
+
+    {% if object.entryId %}
+        <div>
+            <strong>{{ 'LOG_ENTITY.LABEL.ENTRY_ID'|trans({}, 'admin-messages') }}:</strong>
+            {{ object.entryId ?? 'n/a' }}
+        </div>
+    {% endif %}
+
+    <div>
+        <strong>{{ object.method ?? '' }}</strong>
+        {{ object.url ?? '' }}
+    </div>
+
+    <div style="margin-top: 15px">
+
+        <div style="max-height: 300px; overflow-y: auto; white-space: nowrap;">
+            <table width="100%" border="0" cellpadding="5" cellspacing="5">
+                {% if object.request %}
+                    <tr>
+                        <td valign="top"><strong>{{ 'LOG_ENTITY.LABEL.REQUEST'|trans({}, 'admin-messages') }}:</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="max-width: 300px; overflow-wrap: break-word; white-space: normal;">
+                            {{ object.request|raw|nl2br }}
+                        </td>
+                    </tr>
+                    <tr style="height: 10px">
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+                {% if object.response %}
+                    <tr>
+                        <td valign="top"><strong>{{ 'LOG_ENTITY.LABEL.RESPONSE'|trans({}, 'admin-messages') }}:</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="max-width: 300px; overflow-wrap: break-word; white-space: normal;">
+                            {{ object.response|raw|nl2br }}
+                        </td>
+                    </tr>
+                    <tr style="height: 10px">
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+                {% if object.content %}
+                    <tr>
+                        <td valign="top"><strong>{{ 'LOG_ENTITY.LABEL.CONTENT'|trans({}, 'admin-messages') }}:</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="max-width: 300px; overflow-wrap: break-word; white-space: normal;">
+                            {{ object.content|raw|nl2br }}
+                        </td>
+                    </tr>
+                    <tr style="height: 10px">
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+                {% if object.payload %}
+                    <tr>
+                        <td valign="top"><strong>{{ 'LOG_ENTITY.LABEL.PAYLOAD'|trans({}, 'admin-messages') }}:</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="max-width: 300px; overflow-wrap: break-word; white-space: normal;">
+                            {{ object.payload|raw|nl2br }}
+                        </td>
+                    </tr>
+                    <tr style="height: 10px">
+                        <td></td>
+                    </tr>
+                {% endif %}
+
+            </table>
+
+        </div>
+
+    </div>
+{% endblock %}

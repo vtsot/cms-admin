@@ -66,6 +66,7 @@ TWO_STEP_AUTH_PAGE:
 MENU_GROUP:
     USER: 'Users'
     SITE: 'Sites'
+    SYSTEM: 'System'
 
 MENU:
     USER_SUPERVISOR: 'Supervisors'
@@ -80,6 +81,8 @@ MENU:
     SITE_ARTICLE: 'Site Articles'
     SITE_PAGE_RELATED_ARTICLE: 'Related Articles'
     SITE_BANNER: 'Site Banners'
+
+    SYSTEM_LOG: 'System Logs'
 
 FREQUENCY:
     LABEL: 'Frequency'
@@ -334,3 +337,17 @@ BANNER_ENTITY:
         BANNER: ''
         DESKTOP_IMAGE: 'Desktop Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
         MOBILE_IMAGE: 'Mobile Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
+
+LOG_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        SITE: 'Site'
+        MESSAGE: 'Message'
+        METHOD: 'Method'
+        URL: 'Url'
+        REQUEST: 'Request'
+        RESPONSE: 'response'
+        CONTENT: 'content'
+        ENTRY_ID: 'Entry Id'
+        PAYLOAD: 'Payload'

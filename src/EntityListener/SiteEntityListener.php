@@ -7,7 +7,7 @@ namespace App\EntityListener;
 use App\Contract\Entity\EntityListenerInterface;
 use App\Entity\Site\Site;
 use App\Message\Command\Site\CreateDefaultSiteHomepageCommand;
-use App\Message\Command\Site\ResetSiteTokenCommand;
+use App\Message\Command\Site\SiteResetTokenCommand;
 use App\Service\MessageBusHandler;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
@@ -24,7 +24,7 @@ final readonly class SiteEntityListener implements EntityListenerInterface
     public function postPersist(Site $site): void
     {
         try {
-            $this->messageBusHandler->handleCommand(new ResetSiteTokenCommand($site->getId()));
+            $this->messageBusHandler->handleCommand(new SiteResetTokenCommand($site->getId()));
             $this->messageBusHandler->handleCommand(new CreateDefaultSiteHomepageCommand($site->getId()));
         } catch (Throwable $e) {
         }

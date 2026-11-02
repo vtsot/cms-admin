@@ -7,8 +7,8 @@ namespace App\Controller\Admin\Site;
 use App\Controller\Admin\AbstractCrudController;
 use App\Entity\Site\Site;
 use App\Entity\Site\SiteSettings;
-use App\Message\Command\Site\ResetSiteTokenCommand;
 use App\Message\Command\Site\SiteCacheClearCommand;
+use App\Message\Command\Site\SiteResetTokenCommand;
 use App\Service\MessageBusHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +42,7 @@ class SiteCrudController extends AbstractCrudController
             $objectName = $this->admin->toString($object);
 
             try {
-                $this->messageBusHandler->handleCommand(new ResetSiteTokenCommand($object->getId()));
+                $this->messageBusHandler->handleCommand(new SiteResetTokenCommand($object->getId()));
 
                 if ($this->isXmlHttpRequest($request)) {
                     return $this->renderJson(['result' => 'ok']);

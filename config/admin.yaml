@@ -1,3 +1,4 @@
 imports:
     - { resource: admin/sites.yaml }
     - { resource: admin/user.yaml }
+    - { resource: admin/system.yaml }

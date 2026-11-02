@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    admin.system.log:
+        class: 'App\Admin\LogAdmin'
+        calls:
+            - [ setBaseRouteName,       ['admin.system'] ]
+            - [ setBaseRoutePattern,    ['system'] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Log'
+                manager_type: orm
+                group: MENU_GROUP.SYSTEM
+                label: MENU.SYSTEM_LOG
