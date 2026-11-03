@@ -32,7 +32,7 @@ abstract class AbstractNavigationSiteAdmin extends AbstractNavigationAdmin
 
     protected function isGrantedChildrenNavigation(?string $attributes = 'LIST'): bool
     {
-        foreach ($this->getChildren() as $child) {
+        foreach ($this->getRootAncestor()->getChildren() as $child) {
             if ($child instanceof (self::class)) {
                 return $this->getSecurityHandler()->isGranted($child, $attributes);
             }
