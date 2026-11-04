@@ -2,37 +2,40 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler\Query\Site\Page;
+namespace App\MessageHandler\Query\Site;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
-use App\DTO\Collection\ArticleInfoCollectionDTO;
 use App\DTO\Collection\Meta\CollectionFiltersDTO;
 use App\DTO\Collection\Meta\CollectionMetaDTO;
 use App\DTO\Collection\Meta\CollectionPaginatorDTO;
+use App\DTO\Collection\PageInfoCollectionDTO;
 use App\DTOFactory\Entity\Page\ArticleInfoDTOFactory;
+use App\DTOFactory\Entity\Page\PageInfoDTOFactory;
 use App\Entity\Page\AbstractPage;
+use App\Entity\Page\Article;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Message\Query\Site\Page\GetSiteArticleCollectionQuery;
-use App\Repository\Page\ArticleRepository;
+use App\Message\Query\Site\GetSitePageCollectionQuery;
+use App\Repository\Page\AbstractPageRepository;
 use App\Repository\Site\SiteRepository;
 use App\Security\Voter\ApiSite\PageVoter;
 use App\Security\Voter\VoterSubject;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-readonly class GetSiteArticleCollectionHandler implements QueryHandlerInterface
+readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
 {
     public function __construct(
         private Security $security,
         private TranslatorInterface $translator,
         private SiteRepository $siteRepository,
-        private ArticleRepository $articleRepository,
+        private AbstractPageRepository $pageRepository,
+        private PageInfoDTOFactory $pageInfoDTOFactory,
         private ArticleInfoDTOFactory $articleInfoDTOFactory,
     ) {
     }
 
-    public function __invoke(GetSiteArticleCollectionQuery $query): ArticleInfoCollectionDTO
+    public function __invoke(GetSitePageCollectionQuery $query): PageInfoCollectionDTO
     {
         $siteId = $query->user->siteId;
         $token  = $query->user->token;
@@ -47,17 +50,20 @@ readonly class GetSiteArticleCollectionHandler implements QueryHandlerInterface
 
         $items    = [];
         $criteria = $query->criteria;
-        $page     = $this->articleRepository->findAllPaginatedBySiteIdAndToken($siteId, $token, $criteria);
+        $page     = $this->pageRepository->findAllPaginatedBySiteIdAndToken($siteId, $token, $criteria);
 
         foreach ($page->getItems() as $item) {
-            $items[] = $this->articleInfoDTOFactory->fromEntity($item);
+            $items[] = match (true) {
+                $item instanceof Article => $this->articleInfoDTOFactory->fromEntity($item),
+                default                  => $this->pageInfoDTOFactory->fromEntity($item),
+            };
         }
 
         $availableSortBy  = $criteria->availableSortBy();
         $availableFilters = $criteria->availableFilters();
         $appliedFilters   = $criteria->appliedFilters();
 
-        return new ArticleInfoCollectionDTO(
+        return new PageInfoCollectionDTO(
             items: $items,
             meta: new CollectionMetaDTO(
                 paginator: new CollectionPaginatorDTO(

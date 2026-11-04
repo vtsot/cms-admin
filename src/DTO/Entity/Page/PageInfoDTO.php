@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Entity\Page;
 
+use App\Contract\Dictionary\PageType;
 use App\DTOFactory\Entity\Page\PageInfoDTOFactory;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -21,6 +22,9 @@ readonly class PageInfoDTO
 
         #[Groups(['page_collection', 'page_info'])]
         public ?string $slug,
+
+        #[Groups(['page_collection', 'page_info'])]
+        public PageType $type,
 
         #[Groups(['page_collection', 'page_info'])]
         public ?bool $isHomepage,

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Message\Query\Site\Page;
+namespace App\Message\Query\Site;
 
-use App\MessageHandler\Query\Site\Page\GetSiteArticleDetailsHandler;
+use App\MessageHandler\Query\Site\GetSitePageDetailsHandler;
 use App\Security\User\ApiSiteUser;
 
 /**
- * @see GetSiteArticleDetailsHandler
+ * @see GetSitePageDetailsHandler
  */
-readonly class GetSiteArticleDetailsQuery
+readonly class GetSitePageDetailsQuery
 {
     public function __construct(
         public ApiSiteUser $user,

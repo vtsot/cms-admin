@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Message\Query\Site\Page;
+namespace App\Message\Query\Site;
 
 use App\DTO\Collection\PageCriteriaDTO;
-use App\MessageHandler\Query\Site\Page\GetSiteArticleCollectionHandler;
+use App\MessageHandler\Query\Site\GetSitePageCollectionHandler;
 use App\Security\User\ApiSiteUser;
 
 /**
- * @see GetSiteArticleCollectionHandler
+ * @see GetSitePageCollectionHandler
  */
-final readonly class GetSiteArticleCollectionQuery
+final readonly class GetSitePageCollectionQuery
 {
     public function __construct(
         public ApiSiteUser $user,

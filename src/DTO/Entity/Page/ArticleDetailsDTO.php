@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Entity\Page;
 
+use App\Contract\Dictionary\PageType;
 use App\DTOFactory\Entity\Page\ArticleDetailsDTOFactory;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -21,6 +22,9 @@ readonly class ArticleDetailsDTO
 
         #[Groups(['article_details'])]
         public string $slug,
+
+        #[Groups(['article_details'])]
+        public PageType $type,
 
         #[Groups(['article_details'])]
         public ?string $title,

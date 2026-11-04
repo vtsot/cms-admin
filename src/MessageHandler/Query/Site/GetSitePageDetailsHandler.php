@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler\Query\Site\Page;
+namespace App\MessageHandler\Query\Site;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\DTO\Entity\Page\PageDetailsDTO;
+use App\DTOFactory\Entity\Page\ArticleDetailsDTOFactory;
 use App\DTOFactory\Entity\Page\ArticleInfoDTOFactory;
 use App\DTOFactory\Entity\Page\PageDetailsDTOFactory;
 use App\Entity\Page\AbstractPage;
@@ -14,9 +15,9 @@ use App\Entity\Page\Article;
 use App\Entity\Page\Page;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Message\Query\Site\Page\GetSitePageDetailsQuery;
+use App\Message\Query\Site\GetSitePageDetailsQuery;
+use App\Repository\Page\AbstractPageRepository;
 use App\Repository\Page\PageRelatedArticleRepository;
-use App\Repository\Page\PageRepository;
 use App\Security\Voter\ApiSite\PageVoter;
 use App\Security\Voter\VoterSubject;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -27,8 +28,9 @@ readonly class GetSitePageDetailsHandler implements QueryHandlerInterface
     public function __construct(
         private Security $security,
         private TranslatorInterface $translator,
-        private PageRepository $pageRepository,
+        private AbstractPageRepository $pageRepository,
         private PageDetailsDTOFactory $pageDetailsDTOFactory,
+        private ArticleDetailsDTOFactory $articleDetailsDTOFactory,
         private PageRelatedArticleRepository $pageRelatedArticleRepository,
         private ArticleInfoDTOFactory $articleInfoDTOFactory,
     ) {
@@ -46,6 +48,10 @@ readonly class GetSitePageDetailsHandler implements QueryHandlerInterface
 
         if (!$this->security->isGranted(PageVoter::VIEW, new VoterSubject($siteId, $page))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
+        }
+
+        if ($page instanceof Article) {
+            return $this->articleDetailsDTOFactory->fromEntity($page);
         }
 
         [$relatedArticlesTitle, $relatedArticlesItems] = $this->resolvePageRelatedArticles($page);

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Site\Page;
+namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
 use App\DTO\Collection\PageInfoCollectionDTO;
 use App\DTOFactory\Collection\PageCriteriaDTOFactory;
-use App\Message\Query\Site\Page\GetSiteArticleCollectionQuery;
+use App\Message\Query\Site\GetSitePageCollectionQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
@@ -27,11 +27,11 @@ use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Uid\Uuid;
 
 #[Route(host: '%api_domain%')]
-class GetSiteArticleCollectionController extends AbstractController
+class GetSitePageCollectionController extends AbstractController
 {
     #[Route(
-        path: '/sites/{id}/articles',
-        name: 'api.site.article.collection',
+        path: '/sites/{id}/pages',
+        name: 'api.site.page.collection',
         requirements: ['id' => Requirement::UUID],
         options: ['expose' => true],
         methods: ['GET']
@@ -62,13 +62,21 @@ class GetSiteArticleCollectionController extends AbstractController
             new OA\Examples(example: 'created_at desc', summary: 'Sort by created_at desc', value: 'created_at desc'),
         ]
     )]
+    #[OA\Parameter(
+        name: 'type',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(
+            ref: new Model(type: PageType::class),
+        ),
+    )]
     #[OA\Response(
         response: Response::HTTP_OK,
         description: 'Returns collection',
         content: new OA\JsonContent(
             ref: new Model(
                 type: PageInfoCollectionDTO::class,
-                groups: ['link_details', 'collection_meta', 'article_collection']
+                groups: ['link_details', 'collection_meta', 'page_collection', 'article_collection']
             )
         ),
     )]
@@ -84,17 +92,16 @@ class GetSiteArticleCollectionController extends AbstractController
         LocaleSwitcher $localeSwitcher,
     ): JsonResponse {
         $dto = $messageBusHandler->handleQuery(
-            new GetSiteArticleCollectionQuery(
+            new GetSitePageCollectionQuery(
                 user: $user,
                 criteria: $factory->fromCollectionRequest(
                     LocaleVO::fromString($localeSwitcher->getLocale()),
                     $request,
-                    [$factory::CONTEXT_TYPE => PageType::Article],
                 )
             ));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.article.collection', $logger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.page.collection', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $request,
                 'response' => $dto,
@@ -104,7 +111,7 @@ class GetSiteArticleCollectionController extends AbstractController
 
         return $this->json(
             data: $dto,
-            context: ['groups' => ['link_details', 'collection_meta', 'article_collection']]
+            context: ['groups' => ['link_details', 'collection_meta', 'page_collection', 'article_collection']]
         );
     }
 }

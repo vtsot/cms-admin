@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Page;
 
+use App\Contract\Dictionary\PageType;
 use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\Entity\Page\Article;
 use App\Service\CmsEmbed\Helper\CmsEmbedRenderer;
@@ -32,6 +33,7 @@ readonly class ArticleDetailsDTOFactory
         return new ArticleDetailsDTO(
             id: $article->getId(),
             slug: $article->getSlug(),
+            type: PageType::Article,
             title: $article->getTitle(),
             imageAlt: $article->getImageAlt(),
             image: $this->getDesktopImage($article),

@@ -6,6 +6,7 @@ namespace App\DTOFactory\Collection;
 
 use App\Contract\Dictionary\PageSitemapChangeFrequency;
 use App\Contract\Dictionary\PageSitemapPriority;
+use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
 use App\DTO\Collection\PageCriteriaDTO;
 use App\Service\Util;
@@ -24,7 +25,7 @@ class PageCriteriaDTOFactory
     ): PageCriteriaDTO {
         return new PageCriteriaDTO(
             locale: $locale,
-            type: $context[self::CONTEXT_TYPE] ?? null,
+            type: $context[self::CONTEXT_TYPE] ?? PageType::tryFrom($request->type ?? ''),
             page: $request->page,
             perPage: $request->perPage,
             query: trim($request->query ?: '') ?: null,

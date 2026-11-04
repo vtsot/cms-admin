@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Entity\Page;
 
+use App\Contract\Dictionary\PageType;
 use App\DTOFactory\Entity\Page\PageDetailsDTOFactory;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -22,6 +23,9 @@ readonly class PageDetailsDTO
 
         #[Groups(['page_details'])]
         public ?string $slug,
+
+        #[Groups(['page_details'])]
+        public PageType $type,
 
         #[Groups(['page_details'])]
         public ?bool $isHomepage,
