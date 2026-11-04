@@ -3,7 +3,7 @@
 
 GET https://api.cms-admin.local/sites/{{id}}
 Accept: application/json
-Accept-Language: en_GB
+Accept-Language: uk_UA
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
