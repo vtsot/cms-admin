@@ -8,11 +8,13 @@ use App\Contract\Dictionary\ApiDocTag;
 use App\ControllerRequest\Api\Site\CreateSiteContactRequest;
 use App\Message\Command\Site\CreateContactCommand;
 use App\Security\User\ApiSiteUser;
+use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -40,14 +42,23 @@ class CreateContactController extends AbstractController
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
         Uuid $id,
+        AppLogger $logger,
+        Request $httpRequest,
+        #[CurrentUser] ApiSiteUser $user,
         CreateSiteContactRequest $request,
         MessageBusHandler $messageBusHandler,
-        #[CurrentUser] ApiSiteUser $user,
     ): JsonResponse {
+        if ($user->isApiLogEnabled) {
+            $logger->debug('api.site.contact.post', AppLogger::contextFromRequest($httpRequest, [
+                'siteId'  => $user->siteId,
+                'request' => $request,
+                'payload' => $user,
+            ]));
+        }
+
         $messageBusHandler->handleCommand(
             new CreateContactCommand(
-                siteId: $id,
-                token: $user->token,
+                user: $user,
                 name: $request->name,
                 email: $request->email,
                 message: $request->message,

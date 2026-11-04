@@ -31,16 +31,19 @@ readonly class GetSitemapCollectionHandler implements QueryHandlerInterface
 
     public function __invoke(GetSitemapCollectionQuery $query): SitemapCollectionDTO
     {
-        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
+        $siteId = $query->user->siteId;
+        $token  = $query->user->token;
+
+        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($siteId, $token)) {
             throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(PageVoter::LIST, new VoterSubject($query->siteId, AbstractPage::class))) {
+        if (!$this->security->isGranted(PageVoter::LIST, new VoterSubject($siteId, AbstractPage::class))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 
         $items = [];
-        $pages = $this->pageRepository->findAllActiveForIndexing($query->siteId, $query->token);
+        $pages = $this->pageRepository->findAllActiveForIndexing($siteId, $token);
 
         foreach ($pages as $item) {
             $items[] = $this->sitemapPageDTOFactory->fromEntity($item);

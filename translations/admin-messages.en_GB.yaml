@@ -296,7 +296,7 @@ SITE_SETTINGS_ENTITY:
         FAVICON: 'Favicon'
         FAVICON_DELETE: 'Delete Favicon'
         IMAGE_POSITION: 'Image Position'
-        IMAGE_TITLE: 'Image Title'
+        IMAGE_ALT: 'Image Alt'
         DESKTOP_IMAGE: 'Desktop Image'
         DESKTOP_IMAGE_DELETE: 'Delete Desktop Image'
         MOBILE_IMAGE: 'Mobile Image'
@@ -305,6 +305,7 @@ SITE_SETTINGS_ENTITY:
         LINK_ACTIVE: 'Button Link Active?'
         LINK_TITLE: 'Button Link Title'
         LINK_TYPE: 'Button Link Type'
+        API_LOG_ENABLED: 'Enable API Log'
     HELP:
         SENDER_EMAIL: ''
         SENDER_NAME: ''
@@ -312,12 +313,12 @@ SITE_SETTINGS_ENTITY:
         FROM_NAME: ''
         FAVICON: 'Favicon Image should be no less than "%SIZE%"'
         IMAGE_POSITION: 'Choose an image position or leave blank to use the default position'
-        IMAGE_TITLE: ''
+        IMAGE_ALT: ''
         LINK_ACTIVE: 'Choose "No" to hide the Button'
         LINK_TITLE: 'Enter button title or leave blank to use the default value'
         DESKTOP_IMAGE: 'Desktop Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
         MOBILE_IMAGE: 'Mobile Image should be no less than "%SIZE%" otherwise the image will be resized to the best fit'
-
+        API_LOG_ENABLED: 'Choose "Yes" to enable API Log'
 
 BANNER_ENTITY:
     SECTION:
@@ -347,6 +348,7 @@ LOG_ENTITY:
         METHOD: 'Method'
         URL: 'Url'
         REQUEST: 'Request'
+        HEADERS: 'Headers'
         RESPONSE: 'response'
         CONTENT: 'content'
         ENTRY_ID: 'Entry Id'

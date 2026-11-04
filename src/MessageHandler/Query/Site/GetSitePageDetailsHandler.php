@@ -36,12 +36,15 @@ readonly class GetSitePageDetailsHandler implements QueryHandlerInterface
 
     public function __invoke(GetSitePageDetailsQuery $query): PageDetailsDTO|ArticleDetailsDTO
     {
+        $siteId = $query->user->siteId;
+        $token  = $query->user->token;
+
         /** @var Page|Article $page @ */
-        if (!$page = $this->pageRepository->findOneActiveBySiteIdAndTokenAndSlug($query->siteId, $query->token, $query->slug)) {
+        if (!$page = $this->pageRepository->findOneActiveBySiteIdAndTokenAndSlug($siteId, $token, $query->slug)) {
             throw new EntityNotFoundException($this->translator->trans(id: 'PAGE.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(PageVoter::VIEW, new VoterSubject($query->siteId, $page))) {
+        if (!$this->security->isGranted(PageVoter::VIEW, new VoterSubject($siteId, $page))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 

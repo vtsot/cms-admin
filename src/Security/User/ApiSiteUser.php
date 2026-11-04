@@ -13,12 +13,15 @@ use function array_unique;
 
 final readonly class ApiSiteUser implements JWTUserInterface
 {
+    public const string CONTEXT_IS_API_LOG_ENABLED = 'isApiLogEnabled';
+
     public function __construct(
         public string $userIdentifier,
         public Uuid $userId,
         public Uuid $siteId,
         public string $token,
         public array $roles,
+        public bool $isApiLogEnabled = false,
     ) {
     }
 
@@ -33,7 +36,8 @@ final readonly class ApiSiteUser implements JWTUserInterface
             userId: Uuid::isValid($payload['userId']) ? Uuid::fromString($payload['userId']) : new NilUuid(),
             siteId: Uuid::isValid($payload['siteId']) ? Uuid::fromString($payload['siteId']) : new NilUuid(),
             token: $payload['token'] ?? '',
-            roles: $roles
+            roles: $roles,
+            isApiLogEnabled: $payload[self::CONTEXT_IS_API_LOG_ENABLED] ?? false,
         );
     }
 

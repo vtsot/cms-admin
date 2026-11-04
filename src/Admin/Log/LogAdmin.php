@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Admin;
+namespace App\Admin\Log;
 
+use App\Admin\AbstractAdmin;
 use App\Admin\Traits\ConfigureAdminFullTrait;
 use App\Admin\Traits\ConfigureFilterAutocompleteSitesTrait;
 use App\Contract\Dictionary\User\UserRole;
-use App\Entity\Log;
+use App\Entity\Log\Log;
 use App\Entity\Site\Site;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Uid\Uuid;
 
 use function array_map;
@@ -32,6 +34,12 @@ class LogAdmin extends AbstractAdmin
             '_sort_order' => 'DESC',
             '_sort_by'    => 'createdAt',
         ];
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection->remove('create');
     }
 
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
@@ -63,6 +71,7 @@ class LogAdmin extends AbstractAdmin
         $this->configureFilterFieldText($filter, 'method', 'LOG_ENTITY.LABEL.METHOD');
         $this->configureFilterFieldText($filter, 'url', 'LOG_ENTITY.LABEL.URL');
         $this->configureFilterFieldText($filter, 'request', 'LOG_ENTITY.LABEL.REQUEST');
+        $this->configureFilterFieldText($filter, 'headers', 'LOG_ENTITY.LABEL.HEADERS');
         $this->configureFilterFieldText($filter, 'response', 'LOG_ENTITY.LABEL.RESPONSE');
         $this->configureFilterFieldText($filter, 'entryId', 'LOG_ENTITY.LABEL.ENTRY_ID');
         $this->configureFilterFieldText($filter, 'content', 'LOG_ENTITY.LABEL.CONTENT');

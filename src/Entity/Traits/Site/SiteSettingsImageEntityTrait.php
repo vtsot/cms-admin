@@ -13,8 +13,8 @@ use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 trait SiteSettingsImageEntityTrait
 {
-    #[ORM\Column(name: 'image_title', type: Types::STRING, length: 255, nullable: true)]
-    private ?string $imageTitle = null;
+    #[ORM\Column(name: 'image_alt', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $imageAlt = null;
 
     #[ORM\Column(name: 'desktop_image', type: Types::STRING, length: 255, nullable: true)]
     private ?string $desktopImage = null;
@@ -28,15 +28,15 @@ trait SiteSettingsImageEntityTrait
     #[Vich\UploadableField(mapping: 'site', fileNameProperty: 'mobileImage')]
     private ?File $mobileImageFile = null;
 
-    // imageTitle getters/setters
-    public function getImageTitle(): ?string
+    // imageAlt getters/setters
+    public function getImageAlt(): ?string
     {
-        return $this->imageTitle;
+        return $this->imageAlt;
     }
 
-    public function setImageTitle(?string $imageTitle): static
+    public function setImageAlt(?string $imageAlt): static
     {
-        $this->imageTitle = $imageTitle;
+        $this->imageAlt = $imageAlt;
 
         return $this;
     }

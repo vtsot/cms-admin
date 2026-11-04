@@ -6,7 +6,7 @@ namespace App\Message\Query\Site;
 
 use App\DTO\Collection\PageCriteriaDTO;
 use App\MessageHandler\Query\Site\GetSitePageCollectionHandler;
-use Symfony\Component\Uid\Uuid;
+use App\Security\User\ApiSiteUser;
 
 /**
  * @see GetSitePageCollectionHandler
@@ -14,8 +14,7 @@ use Symfony\Component\Uid\Uuid;
 final readonly class GetSitePageCollectionQuery
 {
     public function __construct(
-        public Uuid $siteId,
-        public string $token,
+        public ApiSiteUser $user,
         public PageCriteriaDTO $criteria,
     ) {
     }

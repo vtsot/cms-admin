@@ -35,18 +35,21 @@ readonly class GetNavigationTreeHandler implements QueryHandlerInterface
 
     public function __invoke(GetNavigationTreeQuery $query): NavigationTreeCollectionDTO
     {
-        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
+        $siteId = $query->user->siteId;
+        $token  = $query->user->token;
+
+        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($siteId, $token)) {
             throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(NavigationVoter::LIST, new VoterSubject($query->siteId, AbstractNavigation::class))) {
+        if (!$this->security->isGranted(NavigationVoter::LIST, new VoterSubject($siteId, AbstractNavigation::class))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 
         $items       = [];
         $nil         = new NilUlid()->toString();
         $navigations = $this->navigationRepository
-            ->findAllActiveBySiteIdAndTokenAndType($query->siteId, $query->token, $query->type);
+            ->findAllActiveBySiteIdAndTokenAndType($siteId, $token, $query->type);
 
         // determine root entries and children entries
         foreach ($navigations as $item) {

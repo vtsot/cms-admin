@@ -15,11 +15,11 @@ use App\Message\Query\Site\GetNavigationTreeQuery;
 use App\Message\Query\Site\GetSiteDetailsQuery;
 use App\Repository\Page\PageRepository;
 use App\Repository\Site\SiteRepository;
+use App\Security\User\ApiSiteUser;
 use App\Security\Voter\ApiSite\SiteVoter;
 use App\Security\Voter\VoterSubject;
 use App\Service\MessageBusHandler;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 readonly class GetSiteDetailsHandler implements QueryHandlerInterface
@@ -36,16 +36,19 @@ readonly class GetSiteDetailsHandler implements QueryHandlerInterface
 
     public function __invoke(GetSiteDetailsQuery $query): SiteDTO
     {
-        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($query->siteId, $query->token)) {
+        $siteId = $query->user->siteId;
+        $token  = $query->user->token;
+
+        if (!$site = $this->siteRepository->findOneActiveBySiteIdAndToken($siteId, $token)) {
             throw new EntityNotFoundException($this->translator->trans(id: 'SITE.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(SiteVoter::VIEW, new VoterSubject($query->siteId, $site))) {
+        if (!$this->security->isGranted(SiteVoter::VIEW, new VoterSubject($siteId, $site))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 
-        $homepage       = $this->pageRepository->findHomepageBySiteIdAndToken($query->siteId, $query->token);
-        $mainNavigation = $this->resolveSiteNavigation($query->siteId, $query->token, NavigationType::Main);
+        $homepage       = $this->pageRepository->findHomepageBySiteIdAndToken($siteId, $token);
+        $mainNavigation = $this->resolveSiteNavigation($query->user, NavigationType::Main);
 
         $context = [
             SiteDTOFactory::CONTEXT_HOMEPAGE_SLUG   => $homepage?->getSlug(),
@@ -55,8 +58,8 @@ readonly class GetSiteDetailsHandler implements QueryHandlerInterface
         return $this->siteDTOFactory->fromEntity($site, $context);
     }
 
-    private function resolveSiteNavigation(Uuid $siteId, string $token, NavigationType $type): NavigationTreeCollectionDTO
+    private function resolveSiteNavigation(ApiSiteUser $user, NavigationType $type): NavigationTreeCollectionDTO
     {
-        return $this->messageBusHandler->handleQuery(new GetNavigationTreeQuery($siteId, $token, $type));
+        return $this->messageBusHandler->handleQuery(new GetNavigationTreeQuery($user, $type));
     }
 }

@@ -68,13 +68,13 @@ class SiteSettingsInlineAdmin extends AbstractAdmin
 
         $this->configureFormFieldText(
             $form,
-            'imageTitle',
-            'SITE_SETTINGS_ENTITY.LABEL.IMAGE_TITLE',
-            'SITE_SETTINGS_ENTITY.HELP.IMAGE_TITLE',
+            'imageAlt',
+            'SITE_SETTINGS_ENTITY.LABEL.IMAGE_ALT',
+            'SITE_SETTINGS_ENTITY.HELP.IMAGE_ALT',
         );
 
-        $desktopSize = SiteSettingsDTOFactory::SITE_IMAGE_DESKTOP_SIZE['default'];
-        $mobileSize  = SiteSettingsDTOFactory::SITE_IMAGE_MOBILE_SIZE['default'];
+        $desktopSize = SiteSettingsDTOFactory::DESKTOP_SIZE['default'];
+        $mobileSize  = SiteSettingsDTOFactory::MOBILE_SIZE['default'];
 
         $desktopImage = $this->getSubject()?->getDesktopImage();
         $form->add(

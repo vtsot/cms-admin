@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Message\Command\Site;
 
 use App\MessageHandler\Command\Site\CreateContactHandler;
-use Symfony\Component\Uid\Uuid;
+use App\Security\User\ApiSiteUser;
 
 /**
  * @see CreateContactHandler
@@ -13,8 +13,7 @@ use Symfony\Component\Uid\Uuid;
 class CreateContactCommand
 {
     public function __construct(
-        public Uuid $siteId,
-        public string $token,
+        public ApiSiteUser $user,
         public ?string $name,
         public ?string $email,
         public ?string $message,

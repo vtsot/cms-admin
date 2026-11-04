@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Log;
 
+use App\Entity\AbstractEntity;
 use App\Entity\Site\Site;
 use App\Repository\LogRepository;
 use Doctrine\DBAL\Types\Types;
@@ -33,14 +34,14 @@ class Log extends AbstractEntity
     #[ORM\Column(name: 'request', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $request = null;
 
+    #[ORM\Column(name: 'headers', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $headers = null;
+
     #[ORM\Column(name: 'response', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $response = null;
 
     #[ORM\Column(name: 'content', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $content = null;
-
-    #[ORM\Column(name: 'entry_id', type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $entryId = null;
 
     #[ORM\Column(name: 'payload', type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $payload = null;
@@ -104,6 +105,18 @@ class Log extends AbstractEntity
         return $this;
     }
 
+    public function getHeaders(): ?string
+    {
+        return $this->headers;
+    }
+
+    public function setHeaders(?string $headers): static
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
     public function getResponse(): ?string
     {
         return $this->response;
@@ -124,18 +137,6 @@ class Log extends AbstractEntity
     public function setContent(?string $content): static
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getEntryId(): ?string
-    {
-        return $this->entryId;
-    }
-
-    public function setEntryId(?string $entryId): static
-    {
-        $this->entryId = $entryId;
 
         return $this;
     }

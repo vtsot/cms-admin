@@ -6,7 +6,7 @@ namespace App\Message\Query\Site;
 
 use App\Contract\Dictionary\NavigationType;
 use App\MessageHandler\Query\Site\GetNavigationTreeHandler;
-use Symfony\Component\Uid\Uuid;
+use App\Security\User\ApiSiteUser;
 
 /**
  * @see GetNavigationTreeHandler
@@ -14,8 +14,7 @@ use Symfony\Component\Uid\Uuid;
 readonly class GetNavigationTreeQuery
 {
     public function __construct(
-        public Uuid $siteId,
-        public string $token,
+        public ApiSiteUser $user,
         public NavigationType $type,
     ) {
     }

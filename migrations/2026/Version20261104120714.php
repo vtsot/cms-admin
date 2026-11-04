@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20261102183849 extends AbstractMigration
+final class Version20261104120714 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,9 +26,9 @@ final class Version20261102183849 extends AbstractMigration
             `method`     VARCHAR(255) DEFAULT NULL,
             `url`        VARCHAR(255) DEFAULT NULL,
             `request`    TEXT DEFAULT NULL,
+            `headers`    TEXT DEFAULT NULL,
             `response`   TEXT DEFAULT NULL,
             `content`    TEXT DEFAULT NULL,
-            `entry_id`   TEXT DEFAULT NULL,
             `payload`    TEXT DEFAULT NULL,
             `site_id`    BINARY(16) DEFAULT NULL,
 
@@ -51,6 +51,14 @@ final class Version20261102183849 extends AbstractMigration
                 ON DELETE CASCADE
         '
         );
+
+        $this->addSql(
+        /** @lang MySQL */ '
+        ALTER TABLE `site_settings`
+            ADD `api_log_enabled` TINYINT DEFAULT 0 NOT NULL,
+            CHANGE `image_title` `image_alt` VARCHAR(255) DEFAULT NULL
+        '
+        );
     }
 
     public function down(Schema $schema): void
@@ -65,6 +73,14 @@ final class Version20261102183849 extends AbstractMigration
         $this->addSql(
         /** @lang MySQL */ '
         DROP TABLE `logs`
+        '
+        );
+
+        $this->addSql(
+        /** @lang MySQL */ '
+        ALTER TABLE `site_settings`
+            DROP `api_log_enabled`,
+            CHANGE `image_alt` `image_title` VARCHAR(255) DEFAULT NULL
         '
         );
     }

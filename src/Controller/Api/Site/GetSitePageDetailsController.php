@@ -9,11 +9,13 @@ use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\DTO\Entity\Page\PageDetailsDTO;
 use App\Message\Query\Site\GetSitePageDetailsQuery;
 use App\Security\User\ApiSiteUser;
+use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -59,17 +61,27 @@ class GetSitePageDetailsController extends AbstractController
     public function __invoke(
         Uuid $id,
         string $slug,
-        MessageBusHandler $messageBusHandler,
+        AppLogger $logger,
+        Request $httpRequest,
         #[CurrentUser] ApiSiteUser $user,
+        MessageBusHandler $messageBusHandler,
     ): JsonResponse {
         /** @var PageDetailsDTO|ArticleDetailsDTO $dto */
         $dto = $messageBusHandler->handleQuery(
             new GetSitePageDetailsQuery(
-                siteId: $id,
-                token: $user->token,
+                user: $user,
                 slug: $slug,
             )
         );
+
+        if ($user->isApiLogEnabled) {
+            $logger->debug('api.site.page.details', AppLogger::contextFromRequest($httpRequest, [
+                'siteId'   => $user->siteId,
+                'request'  => $httpRequest->query->all(),
+                'response' => $dto,
+                'payload'  => $user,
+            ]));
+        }
 
         return $this->json(
             data: $dto,

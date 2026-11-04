@@ -11,12 +11,14 @@ use App\DTO\Collection\PageInfoCollectionDTO;
 use App\DTOFactory\Collection\PageCriteriaDTOFactory;
 use App\Message\Query\Site\GetSitePageCollectionQuery;
 use App\Security\User\ApiSiteUser;
+use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
 use App\ValueObject\LocaleVO;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -81,18 +83,31 @@ class GetSitePageCollectionController extends AbstractController
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
         Uuid $id,
+        AppLogger $logger,
+        Request $httpRequest,
         #[CurrentUser] ApiSiteUser $user,
         MessageBusHandler $messageBusHandler,
         PageCriteriaDTOFactory $factory,
         GetSitePageCollectionRequest $request,
         LocaleSwitcher $localeSwitcher,
     ): JsonResponse {
-        return $this->json($messageBusHandler->handleQuery(
+        $dto = $messageBusHandler->handleQuery(
             new GetSitePageCollectionQuery(
-                siteId: $id,
-                token: $user->token,
+                user: $user,
                 criteria: $factory->fromCollectionRequest(LocaleVO::fromString($localeSwitcher->getLocale()), $request)
-            )),
+            ));
+
+        if ($user->isApiLogEnabled) {
+            $logger->debug('api.site.page.collection', AppLogger::contextFromRequest($httpRequest, [
+                'siteId'   => $user->siteId,
+                'request'  => $request,
+                'response' => $dto,
+                'payload'  => $user,
+            ]));
+        }
+
+        return $this->json(
+            data: $dto,
             context: ['groups' => ['link_details', 'collection_meta', 'page_collection', 'article_collection']]
         );
     }

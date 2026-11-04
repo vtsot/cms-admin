@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Site;
 
 use App\Entity\AbstractEntity;
+use App\Entity\Traits\Site\SiteSettingsApiLogActiveEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsFaviconEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsFromEntityTrait;
 use App\Entity\Traits\Site\SiteSettingsImageEntityTrait;
@@ -26,6 +27,7 @@ class SiteSettings extends AbstractEntity
     use SiteSettingsImageEntityTrait;
     use SiteSettingsSenderEntityTrait;
     use SiteSettingsFromEntityTrait;
+    use SiteSettingsApiLogActiveEntityTrait;
 
     #[ORM\OneToOne(targetEntity: Site::class, inversedBy: 'settings')]
     #[ORM\JoinColumn(name: 'site_id', referencedColumnName: 'id', onDelete: 'CASCADE')]

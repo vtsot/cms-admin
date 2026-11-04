@@ -8,11 +8,13 @@ use App\Contract\Dictionary\ApiDocTag;
 use App\DTO\Collection\SitemapCollectionDTO;
 use App\Message\Query\Site\GetSitemapCollectionQuery;
 use App\Security\User\ApiSiteUser;
+use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -48,16 +50,22 @@ class GetSitemapController extends AbstractController
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
         Uuid $id,
-        MessageBusHandler $messageBusHandler,
+        AppLogger $logger,
+        Request $httpRequest,
         #[CurrentUser] ApiSiteUser $user,
+        MessageBusHandler $messageBusHandler,
     ): JsonResponse {
         /** @var SitemapCollectionDTO $dto */
-        $dto = $messageBusHandler->handleQuery(
-            new GetSitemapCollectionQuery(
-                siteId: $id,
-                token: $user->token,
-            )
-        );
+        $dto = $messageBusHandler->handleQuery(new GetSitemapCollectionQuery(user: $user));
+
+        if ($user->isApiLogEnabled) {
+            $logger->debug('api.site.sitemap.collection', AppLogger::contextFromRequest($httpRequest, [
+                'siteId'   => $user->siteId,
+                'request'  => $httpRequest->query->all(),
+                'response' => $dto,
+                'payload'  => $user,
+            ]));
+        }
 
         return $this->json(
             data: $dto,

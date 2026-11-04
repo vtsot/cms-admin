@@ -5,13 +5,14 @@ services:
         autoconfigure: true
 
     admin.system.log:
-        class: 'App\Admin\LogAdmin'
+        class: 'App\Admin\Log\LogAdmin'
         calls:
             - [ setBaseRouteName,       ['admin.system'] ]
             - [ setBaseRoutePattern,    ['system'] ]
+            - [ setModelManager, [ '@sonata.admin.manager.orm' ] ]
         tags:
             -   name: sonata.admin
-                model_class: 'App\Entity\Log'
+                model_class: 'App\Entity\Log\Log'
                 manager_type: orm
                 group: MENU_GROUP.SYSTEM
                 label: MENU.SYSTEM_LOG

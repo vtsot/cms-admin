@@ -329,7 +329,7 @@ trait PageRepositoryTrait
         return $qb;
     }
 
-    public function getAllPaginatedBySiteIdAndToken(Uuid $siteId, string $token, PageCriteriaDTO $criteria): WindowPage
+    public function findAllPaginatedBySiteIdAndToken(Uuid $siteId, string $token, PageCriteriaDTO $criteria): WindowPage
     {
         return new OffsetPaginator()->paginate(
             $this->createBaseQuery($siteId, $token, $criteria),

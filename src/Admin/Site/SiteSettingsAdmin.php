@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * @method SiteSettings|null getSubject()
@@ -56,6 +57,15 @@ class SiteSettingsAdmin extends AbstractAdmin
     {
         $title = $this->transLocaleTitle('SITE_SETTINGS_ENTITY.SECTION.SENDER');
         $form->with($title, ['label' => $title]);
+
+        $this->configureFormFieldActive(
+            $form,
+            'apiLogEnabled',
+            'SITE_SETTINGS_ENTITY.LABEL.API_LOG_ENABLED',
+            'SITE_SETTINGS_ENTITY.HELP.API_LOG_ENABLED',
+            true,
+            ['constraints' => [new NotNull()]],
+        );
 
         $this->configureFormFieldText(
             $form,

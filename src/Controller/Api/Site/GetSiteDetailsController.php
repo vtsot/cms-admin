@@ -8,11 +8,13 @@ use App\Contract\Dictionary\ApiDocTag;
 use App\DTO\Entity\Site\SiteDTO;
 use App\Message\Query\Site\GetSiteDetailsQuery;
 use App\Security\User\ApiSiteUser;
+use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -48,16 +50,22 @@ class GetSiteDetailsController extends AbstractController
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
         Uuid $id,
-        MessageBusHandler $messageBusHandler,
+        AppLogger $logger,
+        Request $httpRequest,
         #[CurrentUser] ApiSiteUser $user,
+        MessageBusHandler $messageBusHandler,
     ): JsonResponse {
         /** @var SiteDTO $dto */
-        $dto = $messageBusHandler->handleQuery(
-            new GetSiteDetailsQuery(
-                siteId: $id,
-                token: $user->token,
-            )
-        );
+        $dto = $messageBusHandler->handleQuery(new GetSiteDetailsQuery(user: $user));
+
+        if ($user->isApiLogEnabled) {
+            $logger->debug('api.site.details', AppLogger::contextFromRequest($httpRequest, [
+                'siteId'   => $user->siteId,
+                'request'  => $httpRequest->query->all(),
+                'response' => $dto,
+                'payload'  => $user,
+            ]));
+        }
 
         return $this->json(
             data: $dto,

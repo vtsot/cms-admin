@@ -13,6 +13,7 @@ use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Message\Query\Site\GetBannerRandomQuery;
 use App\Repository\Site\BannerRepository;
+use App\Security\User\ApiSiteUser;
 use App\Security\Voter\ApiSite\BannerVoter;
 use App\Security\Voter\VoterSubject;
 use App\Service\RandomizeService;
@@ -33,22 +34,22 @@ readonly class GetBannerRandomHandler implements QueryHandlerInterface
 
     public function __invoke(GetBannerRandomQuery $query): ?BannerDTO
     {
-        if (!$banner = $this->resolveRandomBanner($query)) {
+        if (!$banner = $this->resolveRandomBanner($query->user)) {
             throw new EntityNotFoundException($this->translator->trans(id: 'BANNER.NOT_FOUND', domain: 'validators'));
         }
 
-        if (!$this->security->isGranted(BannerVoter::VIEW, new VoterSubject($query->siteId, $banner))) {
+        if (!$this->security->isGranted(BannerVoter::VIEW, new VoterSubject($query->user->siteId, $banner))) {
             throw new AccessDeniedException($this->translator->trans(id: 'SECURITY.ACCESS_DENIED', domain: 'security'));
         }
 
         return $this->bannerDTOFactory->fromEntity($banner);
     }
 
-    private function resolveRandomBanner(GetBannerRandomQuery $query): ?Banner
+    private function resolveRandomBanner(ApiSiteUser $user): ?Banner
     {
         $items   = [];
         $banners = $this->bannerRepository
-            ->findAllActivePriorityBannersByActiveSiteIdAndToken($query->siteId, $query->token);
+            ->findAllActivePriorityBannersByActiveSiteIdAndToken($user->siteId, $user->token);
 
         foreach ($banners as $banner) {
             $items[] = new RandomItemDTO($banner['id'], $banner['priority']);
