@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Site;
+namespace App\Controller\Api\Site\Page;
 
 use App\Contract\Dictionary\ApiDocTag;
-use App\DTO\Entity\Page\ArticleDetailsDTO;
 use App\DTO\Entity\Page\PageDetailsDTO;
 use App\Message\Query\Site\GetSitePageDetailsQuery;
 use App\Security\User\ApiSiteUser;
@@ -43,19 +42,13 @@ class GetSitePageDetailsController extends AbstractController
     #[OA\Response(ref: '#/components/responses/not_found', response: Response::HTTP_NOT_FOUND)]
     #[OA\Response(
         response: 200,
-        description: 'Return site page',
+        description: 'Return site page details',
         content: new OA\JsonContent(
-            oneOf: [
-                new OA\Schema(ref: new Model(
-                    type: PageDetailsDTO::class,
-                    groups: ['page_details', 'link_details', 'article_details'],
-                )),
-                new OA\Schema(ref: new Model(
-                    type: ArticleDetailsDTO::class,
-                    groups: ['page_details', 'link_details', 'article_details'],
-                )),
-            ]
-        )
+            ref: new Model(
+                type: PageDetailsDTO::class,
+                groups: ['link_details', 'page_details', 'article_collection'],
+            )
+        ),
     )]
     #[OA\Tag(name: ApiDocTag::SITES)]
     public function __invoke(
@@ -66,16 +59,11 @@ class GetSitePageDetailsController extends AbstractController
         #[CurrentUser] ApiSiteUser $user,
         MessageBusHandler $messageBusHandler,
     ): JsonResponse {
-        /** @var PageDetailsDTO|ArticleDetailsDTO $dto */
-        $dto = $messageBusHandler->handleQuery(
-            new GetSitePageDetailsQuery(
-                user: $user,
-                slug: $slug,
-            )
-        );
+        /** @var PageDetailsDTO $dto */
+        $dto = $messageBusHandler->handleQuery(new GetSitePageDetailsQuery(user: $user, slug: $slug));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.page.details', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.page.details', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $httpRequest->query->all(),
                 'response' => $dto,
@@ -85,7 +73,7 @@ class GetSitePageDetailsController extends AbstractController
 
         return $this->json(
             data: $dto,
-            context: ['groups' => ['page_details', 'link_details', 'article_details']]
+            context: ['groups' => ['link_details', 'page_details', 'article_collection']]
         );
     }
 }

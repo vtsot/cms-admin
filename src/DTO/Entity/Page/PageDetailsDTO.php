@@ -39,11 +39,11 @@ readonly class PageDetailsDTO
         #[OA\Property(type: 'array',
             items: new OA\Items(
                 ref: new Model(
-                    type: ArticleDetailsDTO::class,
-                    groups: ['article_details']),
+                    type: ArticleInfoDTO::class,
+                    groups: ['article_collection', 'article_info']),
             ))]
         /**
-         * @var ArticleDetailsDTO[]
+         * @var ArticleInfoDTO[]
          */
         public ?array $relatedArticles = [],
 

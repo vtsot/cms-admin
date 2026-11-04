@@ -49,7 +49,7 @@ class CreateContactController extends AbstractController
         MessageBusHandler $messageBusHandler,
     ): JsonResponse {
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.contact.post', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.contact.post', $logger::contextFromRequest($httpRequest, [
                 'siteId'  => $user->siteId,
                 'request' => $request,
                 'payload' => $user,

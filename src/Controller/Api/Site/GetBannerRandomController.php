@@ -59,7 +59,7 @@ class GetBannerRandomController extends AbstractController
         $dto = $messageBusHandler->handleQuery(new GetBannerRandomQuery(user: $user));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.banner.get-random', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.banner.get-random', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $httpRequest->query->all(),
                 'response' => $dto,

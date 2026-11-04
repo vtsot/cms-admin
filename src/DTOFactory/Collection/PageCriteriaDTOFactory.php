@@ -16,13 +16,16 @@ use function trim;
 
 class PageCriteriaDTOFactory
 {
+    public const string CONTEXT_TYPE = 'type';
+
     public function fromCollectionRequest(
         LocaleVO $locale,
         GetSitePageCollectionRequest $request,
+        array $context = [],
     ): PageCriteriaDTO {
         return new PageCriteriaDTO(
             locale: $locale,
-            type: PageType::tryFrom($request->type ?? ''),
+            type: $context[self::CONTEXT_TYPE] ?? null,
             page: $request->page,
             perPage: $request->perPage,
             query: trim($request->query ?: '') ?: null,

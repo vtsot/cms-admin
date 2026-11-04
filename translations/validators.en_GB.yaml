@@ -10,5 +10,8 @@ PAGE:
     NOT_FOUND: 'Page Not Found'
     NOT_FOUND_FOR_SITE: 'Page "%PAGE%" not found for Site "%SITE%"'
 
+ARTICLE:
+    NOT_FOUND: 'Article Not Found'
+
 BANNER:
     NOT_FOUND: 'Banner Not Found'

@@ -9,15 +9,12 @@ use App\DTO\Collection\Meta\CollectionFiltersDTO;
 use App\DTO\Collection\Meta\CollectionMetaDTO;
 use App\DTO\Collection\Meta\CollectionPaginatorDTO;
 use App\DTO\Collection\PageInfoCollectionDTO;
-use App\DTOFactory\Entity\Page\ArticleInfoDTOFactory;
 use App\DTOFactory\Entity\Page\PageInfoDTOFactory;
 use App\Entity\Page\AbstractPage;
-use App\Entity\Page\Article;
-use App\Entity\Page\Page;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
 use App\Message\Query\Site\GetSitePageCollectionQuery;
-use App\Repository\Page\AbstractPageRepository;
+use App\Repository\Page\PageRepository;
 use App\Repository\Site\SiteRepository;
 use App\Security\Voter\ApiSite\PageVoter;
 use App\Security\Voter\VoterSubject;
@@ -30,9 +27,8 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
         private Security $security,
         private TranslatorInterface $translator,
         private SiteRepository $siteRepository,
-        private AbstractPageRepository $pageRepository,
+        private PageRepository $pageRepository,
         private PageInfoDTOFactory $pageInfoDTOFactory,
-        private ArticleInfoDTOFactory $articleInfoDTOFactory,
     ) {
     }
 
@@ -54,11 +50,7 @@ readonly class GetSitePageCollectionHandler implements QueryHandlerInterface
         $page     = $this->pageRepository->findAllPaginatedBySiteIdAndToken($siteId, $token, $criteria);
 
         foreach ($page->getItems() as $item) {
-            match (true) {
-                $item instanceof Page    => $items[] = $this->pageInfoDTOFactory->fromEntity($item),
-                $item instanceof Article => $items[] = $this->articleInfoDTOFactory->fromEntity($item),
-                default                  => static fn () => null,
-            };
+            $items[] = $this->pageInfoDTOFactory->fromEntity($item);
         }
 
         $availableSortBy  = $criteria->availableSortBy();

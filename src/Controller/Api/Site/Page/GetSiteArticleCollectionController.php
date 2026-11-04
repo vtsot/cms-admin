@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Site;
+namespace App\Controller\Api\Site\Page;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\Contract\Dictionary\PageType;
@@ -27,11 +27,11 @@ use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Component\Uid\Uuid;
 
 #[Route(host: '%api_domain%')]
-class GetSitePageCollectionController extends AbstractController
+class GetSiteArticleCollectionController extends AbstractController
 {
     #[Route(
-        path: '/sites/{id}/pages',
-        name: 'api.site.page.collection',
+        path: '/sites/{id}/articles',
+        name: 'api.site.article.collection',
         requirements: ['id' => Requirement::UUID],
         options: ['expose' => true],
         methods: ['GET']
@@ -62,21 +62,13 @@ class GetSitePageCollectionController extends AbstractController
             new OA\Examples(example: 'created_at desc', summary: 'Sort by created_at desc', value: 'created_at desc'),
         ]
     )]
-    #[OA\Parameter(
-        name: 'type',
-        in: 'query',
-        required: false,
-        schema: new OA\Schema(
-            ref: new Model(type: PageType::class),
-        ),
-    )]
     #[OA\Response(
         response: Response::HTTP_OK,
         description: 'Returns collection',
         content: new OA\JsonContent(
             ref: new Model(
                 type: PageInfoCollectionDTO::class,
-                groups: ['link_details', 'collection_meta', 'page_collection', 'article_collection']
+                groups: ['link_details', 'collection_meta', 'article_collection']
             )
         ),
     )]
@@ -94,11 +86,15 @@ class GetSitePageCollectionController extends AbstractController
         $dto = $messageBusHandler->handleQuery(
             new GetSitePageCollectionQuery(
                 user: $user,
-                criteria: $factory->fromCollectionRequest(LocaleVO::fromString($localeSwitcher->getLocale()), $request)
+                criteria: $factory->fromCollectionRequest(
+                    LocaleVO::fromString($localeSwitcher->getLocale()),
+                    $request,
+                    [$factory::CONTEXT_TYPE => PageType::Article],
+                )
             ));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.page.collection', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.article.collection', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $request,
                 'response' => $dto,
@@ -108,7 +104,7 @@ class GetSitePageCollectionController extends AbstractController
 
         return $this->json(
             data: $dto,
-            context: ['groups' => ['link_details', 'collection_meta', 'page_collection', 'article_collection']]
+            context: ['groups' => ['link_details', 'collection_meta', 'article_collection']]
         );
     }
 }

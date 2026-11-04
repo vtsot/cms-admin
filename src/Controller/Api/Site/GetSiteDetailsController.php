@@ -59,7 +59,7 @@ class GetSiteDetailsController extends AbstractController
         $dto = $messageBusHandler->handleQuery(new GetSiteDetailsQuery(user: $user));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.details', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.details', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $httpRequest->query->all(),
                 'response' => $dto,

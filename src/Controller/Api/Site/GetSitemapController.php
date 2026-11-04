@@ -59,7 +59,7 @@ class GetSitemapController extends AbstractController
         $dto = $messageBusHandler->handleQuery(new GetSitemapCollectionQuery(user: $user));
 
         if ($user->isApiLogEnabled) {
-            $logger->debug('api.site.sitemap.collection', AppLogger::contextFromRequest($httpRequest, [
+            $logger->debug('api.site.sitemap.collection', $logger::contextFromRequest($httpRequest, [
                 'siteId'   => $user->siteId,
                 'request'  => $httpRequest->query->all(),
                 'response' => $dto,
