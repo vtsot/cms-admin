@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\DTOFactory\Entity\Page;
 
-use App\Contract\Dictionary\PageType;
 use App\DTO\Entity\Page\PageInfoDTO;
 use App\Entity\Page\Page;
 use App\Service\CmsEmbed\Helper\CmsEmbedRenderer;
@@ -25,7 +24,6 @@ readonly class PageInfoDTOFactory
             slug: $page->getSlug(),
             isHomepage: $page->isHomepage(),
             title: $page->getTitle(),
-            type: PageType::Page,
             content: $content ? trim($content) : null,
             sources: $page->getSources(),
         );

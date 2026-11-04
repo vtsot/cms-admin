@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Message\Query\Site;
+namespace App\Message\Query\Site\Page;
 
 use App\DTO\Collection\PageCriteriaDTO;
-use App\MessageHandler\Query\Site\GetSitePageCollectionHandler;
+use App\MessageHandler\Query\Site\Page\GetSitePageCollectionHandler;
 use App\Security\User\ApiSiteUser;
 
 /**

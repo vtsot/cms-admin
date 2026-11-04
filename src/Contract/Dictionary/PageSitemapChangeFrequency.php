@@ -10,7 +10,7 @@ enum PageSitemapChangeFrequency: string
 {
     use EnumValuesTrait;
 
-    public const string DEFAULT = 'Weekly';
+    public const string DEFAULT = self::Weekly->value;
 
     case Always  = 'always';
     case Hourly  = 'hourly';

@@ -6,7 +6,7 @@ namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\DTO\Collection\SitemapCollectionDTO;
-use App\Message\Query\Site\GetSitemapCollectionQuery;
+use App\Message\Query\Site\Page\GetSitemapCollectionQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;

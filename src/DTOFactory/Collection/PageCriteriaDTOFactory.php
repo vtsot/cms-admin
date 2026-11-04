@@ -6,7 +6,6 @@ namespace App\DTOFactory\Collection;
 
 use App\Contract\Dictionary\PageSitemapChangeFrequency;
 use App\Contract\Dictionary\PageSitemapPriority;
-use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
 use App\DTO\Collection\PageCriteriaDTO;
 use App\Service\Util;

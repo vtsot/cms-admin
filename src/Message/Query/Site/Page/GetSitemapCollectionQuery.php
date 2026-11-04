@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Message\Query\Site;
+namespace App\Message\Query\Site\Page;
 
-use App\MessageHandler\Query\Site\GetSitemapCollectionHandler;
+use App\MessageHandler\Query\Site\Page\GetSitemapCollectionHandler;
 use App\Security\User\ApiSiteUser;
 
 /**

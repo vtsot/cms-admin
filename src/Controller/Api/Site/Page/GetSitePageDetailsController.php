@@ -6,7 +6,7 @@ namespace App\Controller\Api\Site\Page;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\DTO\Entity\Page\PageDetailsDTO;
-use App\Message\Query\Site\GetSitePageDetailsQuery;
+use App\Message\Query\Site\Page\GetSitePageDetailsQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;

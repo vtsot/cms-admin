@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler\Query\Site;
+namespace App\MessageHandler\Query\Site\Page;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Entity\Page\ArticleDetailsDTO;
@@ -10,7 +10,7 @@ use App\DTOFactory\Entity\Page\ArticleDetailsDTOFactory;
 use App\Entity\Page\Article;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Message\Query\Site\GetSiteArticleDetailsQuery;
+use App\Message\Query\Site\Page\GetSiteArticleDetailsQuery;
 use App\Repository\Page\ArticleRepository;
 use App\Security\Voter\ApiSite\PageVoter;
 use App\Security\Voter\VoterSubject;

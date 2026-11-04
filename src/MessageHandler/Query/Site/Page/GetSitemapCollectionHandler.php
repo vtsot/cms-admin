@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler\Query\Site;
+namespace App\MessageHandler\Query\Site\Page;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Collection\SitemapCollectionDTO;
@@ -10,7 +10,7 @@ use App\DTOFactory\Data\SitemapDTOFactory;
 use App\Entity\Page\AbstractPage;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Message\Query\Site\GetSitemapCollectionQuery;
+use App\Message\Query\Site\Page\GetSitemapCollectionQuery;
 use App\Repository\Page\AbstractPageRepository;
 use App\Repository\Site\SiteRepository;
 use App\Security\Voter\ApiSite\PageVoter;

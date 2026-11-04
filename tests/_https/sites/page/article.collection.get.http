@@ -3,8 +3,8 @@
 
 GET https://api.cms-admin.local/sites/{{id}}/articles
 Accept: application/json
-#Accept-Language: en_GB
-Accept-Language: uk_UA
+Accept-Language: en_GB
+#Accept-Language: uk_UA
 Content-Type: application/json
 Authorization: Bearer {{token}}
 #{
@@ -18,5 +18,4 @@ Authorization: Bearer {{token}}
 #}
 
 {
-    "query": "article-1 article-3 page-2 page-3"
 }

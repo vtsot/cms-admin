@@ -9,7 +9,7 @@ use App\Contract\Dictionary\PageType;
 use App\ControllerRequest\Api\Site\GetSitePageCollectionRequest;
 use App\DTO\Collection\PageInfoCollectionDTO;
 use App\DTOFactory\Collection\PageCriteriaDTOFactory;
-use App\Message\Query\Site\GetSitePageCollectionQuery;
+use App\Message\Query\Site\Page\GetSiteArticleCollectionQuery;
 use App\Security\User\ApiSiteUser;
 use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
@@ -84,7 +84,7 @@ class GetSiteArticleCollectionController extends AbstractController
         LocaleSwitcher $localeSwitcher,
     ): JsonResponse {
         $dto = $messageBusHandler->handleQuery(
-            new GetSitePageCollectionQuery(
+            new GetSiteArticleCollectionQuery(
                 user: $user,
                 criteria: $factory->fromCollectionRequest(
                     LocaleVO::fromString($localeSwitcher->getLocale()),

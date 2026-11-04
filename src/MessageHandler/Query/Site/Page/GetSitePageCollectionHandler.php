@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler\Query\Site;
+namespace App\MessageHandler\Query\Site\Page;
 
 use App\Contract\MessageHandler\QueryHandlerInterface;
 use App\DTO\Collection\Meta\CollectionFiltersDTO;
@@ -13,7 +13,7 @@ use App\DTOFactory\Entity\Page\PageInfoDTOFactory;
 use App\Entity\Page\AbstractPage;
 use App\Exception\Security\AccessDeniedException;
 use App\Exception\Validation\EntityNotFoundException;
-use App\Message\Query\Site\GetSitePageCollectionQuery;
+use App\Message\Query\Site\Page\GetSitePageCollectionQuery;
 use App\Repository\Page\PageRepository;
 use App\Repository\Site\SiteRepository;
 use App\Security\Voter\ApiSite\PageVoter;
