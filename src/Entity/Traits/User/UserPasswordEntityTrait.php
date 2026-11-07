@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Traits\User;
 
+use Carbon\CarbonImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +23,7 @@ trait UserPasswordEntityTrait
     public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
+        $this->setUpdatedAt(new CarbonImmutable());
 
         return $this;
     }

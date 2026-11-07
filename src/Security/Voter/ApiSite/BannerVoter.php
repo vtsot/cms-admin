@@ -79,7 +79,7 @@ class BannerVoter extends Voter
         return $subject->siteId->equals($user->siteId)
             && ($site = $this->siteRepository->findOneActiveByApiSiteUser($user))
             && $site->getId()->equals($subject->siteId)
-             // and entry belongs to the site
+            // and entry belongs to the site
             && $subject->entry instanceof Banner
             && $site->getId()->equals($subject->entry->getSite()?->getId());
     }

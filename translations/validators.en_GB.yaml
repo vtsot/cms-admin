@@ -5,6 +5,12 @@ GENERAL:
 
 SITE:
     NOT_FOUND: 'Site Not Found'
+    CONTACT:
+        CONTEXT_REQUIRED: 'The context field is required.'
+        CONTEXT_MISSING_FIELD: 'The context is missing the required field: %MISSING-FIELDS%.'
+        CONTEXT_MISSING_FIELDS: 'The context is missing the required fields: %MISSING-FIELDS%.'
+        CONTEXT_REQUIRED_FIELD: 'The field %REQUIRED-FIELDS% is required.'
+        CONTEXT_REQUIRED_FIELDS: 'The fields %REQUIRED-FIELDS% are required.'
 
 PAGE:
     NOT_FOUND: 'Page Not Found'

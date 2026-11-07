@@ -6,7 +6,7 @@ namespace App\Controller\Api\Site;
 
 use App\Contract\Dictionary\ApiDocTag;
 use App\ControllerRequest\Api\Site\CreateSiteContactRequest;
-use App\Message\Command\Site\CreateContactCommand;
+use App\Message\Command\Site\CreateSiteContactCommand;
 use App\Security\User\ApiSiteUser;
 use App\Service\Log\AppLogger;
 use App\Service\MessageBusHandler;
@@ -57,11 +57,10 @@ class CreateContactController extends AbstractController
         }
 
         $messageBusHandler->handleCommand(
-            new CreateContactCommand(
+            new CreateSiteContactCommand(
                 user: $user,
-                name: $request->name,
-                email: $request->email,
-                message: $request->message,
+                fields: $request->fields,
+                context: $request->context,
             )
         );
 

@@ -9,11 +9,6 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20261102015338 extends AbstractMigration
 {
-    public function getDescription(): string
-    {
-        return '';
-    }
-
     public function up(Schema $schema): void
     {
         $this->addSql(
