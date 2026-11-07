@@ -6,7 +6,7 @@ namespace App\Security\Voter\Admin\Site;
 
 use App\Contract\Dictionary\User\UserRole;
 use App\Contract\Entity\UserInterface;
-use App\Entity\Contact;
+use App\Entity\Site\Contact;
 use App\Repository\Site\SiteRepository;
 use App\Security\Voter\VoterSubject;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

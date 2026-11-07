@@ -81,8 +81,10 @@ MENU:
     SITE_ARTICLE: 'Site Articles'
     SITE_PAGE_RELATED_ARTICLE: 'Related Articles'
     SITE_BANNER: 'Site Banners'
+    SITE_CONTACT: 'Site Contacts'
 
     SYSTEM_LOG: 'System Logs'
+    CONTACT: 'Contacts'
 
 FREQUENCY:
     LABEL: 'Frequency'
@@ -353,3 +355,10 @@ LOG_ENTITY:
         CONTENT: 'content'
         ENTRY_ID: 'Entry Id'
         PAYLOAD: 'Payload'
+
+CONTACT_ENTITY:
+    SECTION:
+        MAIN: 'Main'
+    LABEL:
+        SITE: 'Site'
+        CONTEXT: 'Context'

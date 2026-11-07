@@ -16,3 +16,16 @@ services:
                 manager_type: orm
                 group: MENU_GROUP.SYSTEM
                 label: MENU.SYSTEM_LOG
+
+    admin.system.contact:
+        class: 'App\Admin\ContactAdmin'
+        calls:
+            - [ setBaseRouteName,       ['admin.contact'] ]
+            - [ setBaseRoutePattern,    ['contact'] ]
+            # - [ setModelManager, [ '@sonata.admin.manager.orm' ] ]
+        tags:
+            -   name: sonata.admin
+                model_class: 'App\Entity\Site\Contact'
+                manager_type: orm
+                group: MENU_GROUP.SYSTEM
+                label: MENU.CONTACT

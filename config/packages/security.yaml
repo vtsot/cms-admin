@@ -18,7 +18,9 @@ security:
             - ROLE_ADMIN_SITE_PAGE_ARTICLE_RELATED_INLINE_ALL
             - ROLE_ADMIN_SITE_ARTICLE_ALL
             - ROLE_ADMIN_SITE_BANNER_ALL
+            - ROLE_ADMIN_SITE_CONTACT_ALL
             - ROLE_ADMIN_SYSTEM_LOG_ALL
+            - ROLE_ADMIN_SYSTEM_CONTACT_ALL
 
         ROLE_ADMIN:
             - ROLE_USER
@@ -33,6 +35,7 @@ security:
             - ROLE_ADMIN_SITE_PAGE_ARTICLE_RELATED_INLINE_ALL
             - ROLE_ADMIN_SITE_ARTICLE_ALL
             - ROLE_ADMIN_SITE_BANNER_ALL
+            - ROLE_ADMIN_SITE_CONTACT_ALL
             - ROLE_ADMIN_USER_ALL_ALL # autocomplete in edit/folters
             #- ROLE_ADMIN_USER_SUPERVISOR_ALL
             - ROLE_ADMIN_USER_ADMIN_ALL

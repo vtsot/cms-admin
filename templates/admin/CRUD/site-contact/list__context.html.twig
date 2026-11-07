@@ -1,0 +1,28 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+{# @var \App\Admin\LogAdmin admin #}
+{# @var \App\Entity\Site\Contact object #}
+
+{% block field %}
+
+    <div style="max-height: 200px; overflow-y: auto; white-space: nowrap;">
+        <table width="100%" border="0" cellpadding="5" cellspacing="5">
+
+            {% for key, value in object.context %}
+                <tr>
+                    <td valign="top"><strong>{{ key }}: </strong></td>
+                </tr>
+                <tr>
+                    <td style="max-width: 300px; overflow-wrap: break-word; white-space: normal;">
+                        {{ value|raw|nl2br }}
+                    </td>
+                </tr>
+                <tr style="height: 10px">
+                    <td></td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+{% endblock %}

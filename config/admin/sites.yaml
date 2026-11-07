@@ -15,6 +15,7 @@ services:
             - [ addChild,               [ '@admin.site.page', 'site' ] ]
             - [ addChild,               [ '@admin.site.article', 'site' ] ]
             - [ addChild,               [ '@admin.site.banner', 'site' ] ]
+            - [ addChild,               [ '@admin.site.contact', 'site' ] ]
 
         tags:
           - name: sonata.admin
@@ -151,4 +152,18 @@ services:
               manager_type: orm
               group: MENU_GROUP.SITE
               label: MENU.SITE_BANNER
+              show_in_dashboard: false
+
+    admin.site.contact:
+        class: 'App\Admin\Site\ContactAdmin'
+        calls:
+            - [ setBaseRouteName,       [ 'admin.site.contact' ] ]
+            - [ setBaseRoutePattern,    [ 'site-contact' ] ]
+        tags:
+            - name: sonata.admin
+              model_class: 'App\Entity\Site\Contact'
+              controller: 'App\Controller\Admin\Site\ContactCrudController'
+              manager_type: orm
+              group: MENU_GROUP.SITE
+              label: MENU.SITE_CONTACT
               show_in_dashboard: false
