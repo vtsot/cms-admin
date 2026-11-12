@@ -4,25 +4,25 @@ framework:
         # username + IP
         admin_login_local:
             policy: fixed_window
-            limit: '%env(int:RATE_LIMIT_ADMIN_MAX_ATTEMPTS)%'
-            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+            limit: '%env(int:RATE_LIMIT_ADMIN_LOGIN_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_LOGIN_INTERVAL)%'
         # IP only
         admin_login_global:
             policy: fixed_window
-            limit: '%env(int:RATE_LIMIT_ADMIN_GLOBAL_MAX_ATTEMPTS)%'
-            interval: '%env(string:RATE_LIMIT_ADMIN_INTERVAL)%'
+            limit: '%env(int:RATE_LIMIT_ADMIN_LOGIN_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_ADMIN_LOGIN_INTERVAL)%'
         # username + IP
         api_site_login_local:
             policy: fixed_window
-            limit: '%env(int:RATE_LIMIT_API_SITE_MAX_ATTEMPTS)%'
-            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+            limit: '%env(int:RATE_LIMIT_API_SITE_LOGIN_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_LOGIN_INTERVAL)%'
         # IP only
         api_site_login_global:
             policy: fixed_window
-            limit: '%env(int:RATE_LIMIT_API_SITE_GLOBAL_MAX_ATTEMPTS)%'
-            interval: '%env(string:RATE_LIMIT_API_SITE_INTERVAL)%'
+            limit: '%env(int:RATE_LIMIT_API_SITE_LOGIN_GLOBAL_MAX_ATTEMPTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_LOGIN_INTERVAL)%'
         # all requests to the api domain, per IP
         api_request:
             policy: sliding_window
-            limit: '%env(int:RATE_LIMIT_API_MAX_REQUESTS)%'
-            interval: '%env(string:RATE_LIMIT_API_INTERVAL)%'
+            limit: '%env(int:RATE_LIMIT_API_SITE_MAX_REQUESTS)%'
+            interval: '%env(string:RATE_LIMIT_API_SITE_REQUESTS_INTERVAL)%'
