@@ -11,11 +11,16 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Translation\LocaleSwitcher;
 
+use function in_array;
+use function is_string;
+
 readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         #[Autowire(param: 'default_locale')]
         private string $defaultLocale,
+        #[Autowire(param: 'locales')]
+        private array $locales,
         private LocaleSwitcher $localeSwitcher,
         private ApiRequestDetector $apiRequestDetector,
     ) {
@@ -23,9 +28,13 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
         $request = $event->getRequest();
         $locale  = $this->apiRequestDetector->isApiRequest($request)
-            ? $request->getPreferredLanguage()
+            ? $request->getPreferredLanguage($this->locales)
             : $request->attributes->get('_locale');
 
         // locale chosen with the admin global locale switcher, see sonata_translation.locale_switcher
@@ -33,7 +42,8 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
             $locale = $request->getSession()->get('_locale');
         }
 
-        if ($locale === null) {
+        // ignore unsupported or malformed values (e.g. a stale session locale or an arbitrary Accept-Language)
+        if (!is_string($locale) || !in_array($locale, $this->locales, true)) {
             $locale = $this->defaultLocale;
         }
 

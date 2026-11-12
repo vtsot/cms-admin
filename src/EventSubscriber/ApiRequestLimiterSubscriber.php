@@ -33,7 +33,7 @@ readonly class ApiRequestLimiterSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $limit = $this->apiRequestLimiter->create($request->getClientIp())->consume();
+        $limit = $this->apiRequestLimiter->create($request->getClientIp() ?? 'unknown')->consume();
 
         if (!$limit->isAccepted()) {
             throw new TooManyRequestsHttpException(max(1, $limit->getRetryAfter()->getTimestamp() - time()), 'Too many requests.');
